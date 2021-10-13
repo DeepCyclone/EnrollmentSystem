@@ -1,35 +1,25 @@
 package by.epamtc.enrollmentsystem.dao.impl;
 
-import by.epamtc.enrollmentsystem.dao.templates.DAOTemplate;
+import by.epamtc.enrollmentsystem.dao.AbstractDAO;
 import by.epamtc.enrollmentsystem.dao.templates.EnrollmentStatusTempl;
 import by.epamtc.enrollmentsystem.exception.DAOException;
 import by.epamtc.enrollmentsystem.model.EnrollmentStatus;
 
 import java.util.List;
 
-public class EnrollmentStatusMySQL implements EnrollmentStatusTempl {
+public class EnrollmentStatusMySQL extends AbstractDAO<EnrollmentStatus> implements EnrollmentStatusTempl {
     @Override
-    public EnrollmentStatus getByID(int id) {
+    public List<EnrollmentStatus> getAll() throws DAOException {
         return null;
     }
 
     @Override
-    public void insertInto(EnrollmentStatus object) throws DAOException {
-
+    public int getIdByName(String name) throws DAOException {
+        return 0;
     }
 
     @Override
-    public void deleteAll() {
-
-    }
-
-    @Override
-    public List<EnrollmentStatus> getAll() {
+    public EnrollmentStatus getByID(int id) throws DAOException {
         return null;
-    }
-
-    @Override
-    public void updateRowByID(EnrollmentStatus note, int id) {
-
     }
 }

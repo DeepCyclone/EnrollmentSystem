@@ -22,6 +22,7 @@ public class AuthenticationFilter implements Filter {
         else
             chain.doFilter(request, response);
 //        ((HttpServletRequest)request).getRequestDispatcher("controller?action=upload_userinfo").forward(request,response);
+
     }
 
     @Override

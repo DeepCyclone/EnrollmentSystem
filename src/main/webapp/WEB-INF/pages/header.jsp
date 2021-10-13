@@ -18,7 +18,17 @@
             <c:when test = "${sessionScope.get('login') != null}">
                 <ul class="nav justify-content-end">
                     <li class="nav-item">
-                        <a class="nav-link" href="/documents">Cabinet</a>
+                        <c:choose>
+                            <c:when test="${sessionScope.get('role') == '1'}">
+                                <a class="nav-link" href="controller?action=PRELOAD_ADMIN_PAGE">Cabinet</a>
+                            </c:when>
+                            <c:when test="${sessionScope.get('role') == '2'}">
+                                <a class="nav-link" href="controller?action=">Cabinet</a>
+                            </c:when>
+                            <c:when test="${sessionScope.get('role') == '3'}">
+                                <a class="nav-link" href="controller?action=PRELOAD_USERINFO_PAGE">Cabinet</a>
+                            </c:when>
+                        </c:choose>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="controller?action=logout">Logout</a>
@@ -33,23 +43,8 @@
                     <li class="nav-item">
                         <a class="nav-link" href="registration">Sign up</a>
                     </li>
-                    <li class="nav-item">
-                        <div class="dropdown">
-                            <button class="btn btn-secondary" type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
-                                <img src="/resources/images/ru.png"/>" alt="lang">
-                            </button>
-                            <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                                <li><button class="dropdown-item" type="button">
-
-                                </button></li>
-                                <li><button class="dropdown-item" type="button">
-
-                                </button></li>
-                            </ul>
-                        </div>
-                    </li>
                 </ul>
             </c:otherwise>
-        </c:choose>
+        </c:choose> 
     </div>
 </nav>

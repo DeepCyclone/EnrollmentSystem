@@ -1,35 +1,26 @@
 package by.epamtc.enrollmentsystem.dao.impl;
 
-import by.epamtc.enrollmentsystem.dao.templates.DAOTemplate;
+import by.epamtc.enrollmentsystem.dao.AbstractDAO;
 import by.epamtc.enrollmentsystem.dao.templates.RoleTempl;
 import by.epamtc.enrollmentsystem.exception.DAOException;
 import by.epamtc.enrollmentsystem.model.Role;
 
 import java.util.List;
 
-public class RoleMySQL implements RoleTempl {
+public class RoleMySQL extends AbstractDAO<Role> implements RoleTempl {
+
     @Override
-    public Role getByID(int id) {
+    public List<Role> getAll() throws DAOException {
         return null;
     }
 
     @Override
-    public void insertInto(Role object) throws DAOException {
-
+    public int getIdByName(String name) throws DAOException {
+        return 0;
     }
 
     @Override
-    public void deleteAll() {
-
-    }
-
-    @Override
-    public List<Role> getAll() {
+    public Role getByID(int id) throws DAOException {
         return null;
-    }
-
-    @Override
-    public void updateRowByID(Role note, int id) {
-
     }
 }

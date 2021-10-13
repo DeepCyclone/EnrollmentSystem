@@ -1,20 +1,19 @@
 package by.epamtc.enrollmentsystem.dao.impl;
 
-import by.epamtc.enrollmentsystem.dao.tables.fields.EducationFormFields;
-import by.epamtc.enrollmentsystem.dao.tables.fields.UserFields;
+import by.epamtc.enrollmentsystem.dao.AbstractDAO;
 import by.epamtc.enrollmentsystem.dao.tables.fields.UserInfoFields;
-import by.epamtc.enrollmentsystem.dao.templates.DAOTemplate;
 import by.epamtc.enrollmentsystem.dao.tables.TablesNames;
 import by.epamtc.enrollmentsystem.dao.connectionpool.ConnectionPool;
 import by.epamtc.enrollmentsystem.dao.templates.UserInfoTempl;
 import by.epamtc.enrollmentsystem.exception.DAOException;
 import by.epamtc.enrollmentsystem.model.UserInfo;
-import by.epamtc.enrollmentsystem.utils.ClassesComposer;
+import by.epamtc.enrollmentsystem.services.composers.builders.entity.UserInfoBuilder;
 
 import java.sql.*;
 import java.util.List;
 
-public class UserInfoMySQL implements UserInfoTempl {
+public class UserInfoMySQL extends AbstractDAO<UserInfo> implements UserInfoTempl {
+    private static final String tableName = TablesNames.user_info;
     private static final String INSERT_INTO = "INSERT INTO " + TablesNames.user_info +
                                 "(" + UserInfoFields.userId + "," + UserInfoFields.name + "," + UserInfoFields.surname + "," +
                                       UserInfoFields.patronymic + "," + UserInfoFields.photoAddress + "," +
@@ -28,31 +27,21 @@ public class UserInfoMySQL implements UserInfoTempl {
                                                 UserInfoFields.patronymic +" = ?," + UserInfoFields.photoAddress + " = ?," +
                                                 UserInfoFields.address +" = ?," + UserInfoFields.passport + " = ? " +
                                               " WHERE " + UserInfoFields.userId + " = ?";
-//    private static final String abc = SQLGenerator.generateQuery(UserInfoFields.name,UserInfoFields.name,
-//                                                                UserInfoFields.name,UserInfoFields.name,Table.userinfo,id)
+
+    @Override
+    public List<UserInfo> getAll() throws DAOException {
+        return super.getAll(tableName,new UserInfoBuilder());
+    }
+
+    @Override
+    public int getIdByName(String name) throws DAOException {
+        return 0;
+    }
 
     @Override
     public UserInfo getByID(int id) throws DAOException {
-        Connection conn = null;
-        PreparedStatement preparedStatement = null;
-        ResultSet rs = null;
-        try {
-            conn = ConnectionPool.getInstance().getConnection();
-            preparedStatement = conn.prepareStatement(GET_BY_ID);
-            preparedStatement.setInt(1, id);
-            rs = preparedStatement.executeQuery();
-            UserInfo ui = null;
-            while (rs.next()){
-                ui = ClassesComposer.composeUserInfo(rs);
-            }
-            return ui;
-        }
-        catch (SQLException e){
-            throw new DAOException(e.getMessage(),e);
-        }
-        finally {
-            ConnectionPool.getInstance().closeConnection(conn,preparedStatement,rs);
-        }
+        String idFieldName = UserInfoFields.userId;
+        return super.getByID(tableName,idFieldName,id,new UserInfoBuilder());
     }
 
     @Override
@@ -89,12 +78,6 @@ public class UserInfoMySQL implements UserInfoTempl {
     public void deleteAll() {
 
     }
-
-    @Override
-    public List<UserInfo> getAll() {
-        return null;
-    }
-
 
     @Override
     public void updateRowByID(UserInfo note, int id) throws DAOException {

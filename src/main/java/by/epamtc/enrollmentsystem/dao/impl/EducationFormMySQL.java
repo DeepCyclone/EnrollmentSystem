@@ -1,26 +1,23 @@
 package by.epamtc.enrollmentsystem.dao.impl;
 
+import by.epamtc.enrollmentsystem.dao.AbstractDAO;
 import by.epamtc.enrollmentsystem.dao.tables.TablesNames;
 import by.epamtc.enrollmentsystem.dao.connectionpool.ConnectionPool;
 import by.epamtc.enrollmentsystem.dao.tables.fields.EducationFormFields;
 import by.epamtc.enrollmentsystem.dao.templates.EducationFormTempl;
 import by.epamtc.enrollmentsystem.exception.DAOException;
 import by.epamtc.enrollmentsystem.model.EducationForm;
-import by.epamtc.enrollmentsystem.utils.ClassesComposer;
+import by.epamtc.enrollmentsystem.services.composers.builders.entity.EducationFormBuilder;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Statement;
-import java.util.ArrayList;
+import java.sql.*;
 import java.util.List;
 
-public class EducationFormMySQL implements EducationFormTempl {
+public class EducationFormMySQL extends AbstractDAO<EducationForm> implements EducationFormTempl {
+    private static final String tableName = TablesNames.education_form;
     private static final String DELETE_ALL = "DELETE * FROM " + TablesNames.education_form;
     private static final String SELECT_ALL = "SELECT * FROM " + TablesNames.education_form;
     private static final String UPDATE_NOTE = "UPDATE " + TablesNames.education_form +
                                               " SET ? WHERE " + EducationFormFields.id + " = ?";
-
 
     @Override
     public void insertInto(EducationForm object) throws DAOException {
@@ -52,33 +49,23 @@ public class EducationFormMySQL implements EducationFormTempl {
         }
     }
 
+    @Override
     public List<EducationForm> getAll() throws DAOException {
-
-        Connection conn = null;
-        Statement stmt = null;
-        ResultSet rs = null;
-
-        try {
-            conn = ConnectionPool.getInstance().getConnection();
-            stmt = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);
-            rs = stmt.executeQuery(SELECT_ALL);
-            List<EducationForm> allNotes = new ArrayList<>();
-            while(rs.next()){
-                EducationForm educationForm = ClassesComposer.composeEducationForm(rs);
-                allNotes.add(educationForm);
-            }
-            ConnectionPool.getInstance().closeConnection(conn,stmt,rs);
-            return allNotes;
-        }
-
-        catch (Exception e){
-            throw new DAOException(e.getMessage(),e.getCause());
-        }
+        return super.getAll(tableName,new EducationFormBuilder());
     }
 
     @Override
     public EducationForm getByID(int id) throws DAOException {
-        return null;
+        String idFieldName = EducationFormFields.id;
+        return super.getByID(tableName,idFieldName,id,new EducationFormBuilder());
+    }
+
+    @Override
+    public int getIdByName(String name) {
+        String tableName = TablesNames.education_form;
+        String nameField = EducationFormFields.name;
+        String idField = EducationFormFields.id;
+        return super.getIdByName(tableName,idField,nameField,name);
     }
 
 }

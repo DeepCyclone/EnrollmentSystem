@@ -14,6 +14,10 @@ public final class DAOProvider {
     private SystemInformationMySQL systemInformationMySQL = new SystemInformationMySQL();
     private UserMySQL userMySQL = new UserMySQL();
     private UserInfoMySQL userInfoMySQL = new UserInfoMySQL();
+    private ResultMySQL resultMySQL = new ResultMySQL();
+    private Subjectm2mFacultyMySQL subjectm2mFacultyMySQL = new Subjectm2mFacultyMySQL();
+    private ApplicantEnrollmentMySQL applicantEnrollmentMySQL = new ApplicantEnrollmentMySQL();
+    private Facilitym2mUserInfoMySQL facilitym2mUserInfoMySQL = new Facilitym2mUserInfoMySQL();
     private DAOProvider(){
 
     }
@@ -51,6 +55,22 @@ public final class DAOProvider {
 
     public UserInfoMySQL getUserInfoDAO() {
         return userInfoMySQL;
+    }
+
+    public ResultMySQL getResultDAO() {
+        return resultMySQL;
+    }
+
+    public ApplicantEnrollmentMySQL getApplicantEnrollmentDAO() {
+        return applicantEnrollmentMySQL;
+    }
+
+    public Subjectm2mFacultyMySQL getSubjectm2mFacultyMySQL() {
+        return subjectm2mFacultyMySQL;
+    }
+
+    public Facilitym2mUserInfoMySQL getFacilitym2mUserInfoMySQL() {
+        return facilitym2mUserInfoMySQL;
     }
 
     private static volatile DAOProvider instance;

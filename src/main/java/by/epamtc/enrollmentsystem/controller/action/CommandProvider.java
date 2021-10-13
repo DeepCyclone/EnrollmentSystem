@@ -1,20 +1,26 @@
 package by.epamtc.enrollmentsystem.controller.action;
 
-import by.epamtc.enrollmentsystem.controller.action.impl.*;
+import by.epamtc.enrollmentsystem.controller.action.impl.commands.*;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class CommandProvider {
-    private static Map<CommandType,Command> actions = new HashMap<>();
+    private static final Map<CommandType,Command> actions = new HashMap<>();
 
     private CommandProvider(){
         actions.put(CommandType.SIGN_UP,new SignupCommand());
         actions.put(CommandType.AUTHORIZATION,new LoginCommand());
         actions.put(CommandType.LOGOUT,new LogoutCommand());
-        actions.put(CommandType.UPDATE_INFO,new UpdateInfoCommand());
+        actions.put(CommandType.UPDATE_INFO,new UpdateUserInfoCommand());
+        actions.put(CommandType.UPDATE_STUDYING_INFO,new UpdateStudyingInfoCommand());
+        actions.put(CommandType.GET_USER_PROFILES,new GetUserProfilesCommand());
         actions.put(CommandType.PRELOAD_WELCOMEPAGE,new PreloadWelcomePageCommand());
-        actions.put(CommandType.UPLOAD_USERINFO,new UploadUserInfoCommand());
+        actions.put(CommandType.PRELOAD_USERINFO_PAGE,new PreloadUserInfoCommand());
+        actions.put(CommandType.PRELOAD_FACULTIES_PAGE,new PreloadFacultiesPageCommand());
+        actions.put(CommandType.PRELOAD_ADMIN_PAGE,new PreloadAdminPanelCommand());
+        actions.put(CommandType.PRELOAD_SELECTED_FACULTIES,new PreloadSelectedFacultiesCommand());
+        actions.put(CommandType.PRELOAD_FACILITIES_TAB,new PreloadFacilitiesTabCommand());
         actions.put(CommandType.EMPTY,new EmptyCommand());
     }
 
