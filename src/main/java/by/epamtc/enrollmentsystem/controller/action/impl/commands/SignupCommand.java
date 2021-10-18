@@ -3,6 +3,7 @@ package by.epamtc.enrollmentsystem.controller.action.impl.commands;
 import by.epamtc.enrollmentsystem.controller.action.Command;
 import by.epamtc.enrollmentsystem.dao.DAOProvider;
 import by.epamtc.enrollmentsystem.dao.impl.UserMySQL;
+import by.epamtc.enrollmentsystem.dao.templates.UserDAO;
 import by.epamtc.enrollmentsystem.exception.DAOException;
 import by.epamtc.enrollmentsystem.model.User;
 import by.epamtc.enrollmentsystem.utils.PasswordCodec;
@@ -22,7 +23,7 @@ public class SignupCommand implements Command {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
 
-        UserMySQL userMySQL = DAOProvider.getInstance().getUserDAO();
+        UserDAO userMySQL = DAOProvider.getInstance().getUserDAO();
 
         byte[] encodedPassword = PasswordCodec.generateEncodedPassword(password);
         User user = new User(0,username,encodedPassword,email,APPLICANT_ROLE);

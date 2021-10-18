@@ -2,6 +2,10 @@ package by.epamtc.enrollmentsystem.model;
 
 public class SystemInformation {
 
+    private long id;
+    private String name;
+    private String value;
+
     public SystemInformation() {
     }
 
@@ -11,15 +15,11 @@ public class SystemInformation {
         this.value = value;
     }
 
-    private int id;
-    private String name;
-    private String value;
-
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 

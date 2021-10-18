@@ -3,7 +3,8 @@ package by.epamtc.enrollmentsystem.dao.impl;
 import by.epamtc.enrollmentsystem.dao.AbstractDAO;
 import by.epamtc.enrollmentsystem.dao.tables.TablesNames;
 import by.epamtc.enrollmentsystem.dao.connectionpool.ConnectionPool;
-import by.epamtc.enrollmentsystem.dao.templates.SystemInformationTempl;
+import by.epamtc.enrollmentsystem.dao.tables.fields.SubjectFields;
+import by.epamtc.enrollmentsystem.dao.templates.SystemInformationDAO;
 import by.epamtc.enrollmentsystem.exception.DAOException;
 import by.epamtc.enrollmentsystem.model.SystemInformation;
 import by.epamtc.enrollmentsystem.dao.tables.fields.SystemInformationFields;
@@ -14,7 +15,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-public class SystemInformationMySQL extends AbstractDAO<SystemInformation> implements SystemInformationTempl {
+public class SystemInformationMySQL extends AbstractDAO<SystemInformation> implements SystemInformationDAO {
     private static final String GET_BY_NAME = "SELECT "+ SystemInformationFields.value +
                                               " FROM " + TablesNames.system_information +
                                               " WHERE " + SystemInformationFields.name +  "= ?";
@@ -31,7 +32,7 @@ public class SystemInformationMySQL extends AbstractDAO<SystemInformation> imple
     }
 
     @Override
-    public SystemInformation getByID(int id) throws DAOException {
+    public SystemInformation getByID(long id) throws DAOException {
         return null;
     }
 
@@ -72,7 +73,15 @@ public class SystemInformationMySQL extends AbstractDAO<SystemInformation> imple
 
 
     @Override
-    public void updateRowByID(SystemInformation note, int id) {
+    public void updateRowByID(SystemInformation note, long id) {
 
+    }
+
+    @Override
+    public String getNameById(long id) throws DAOException {
+        String tableName = TablesNames.system_information;
+        String nameField = SystemInformationFields.name;
+        String idField = SystemInformationFields.id;
+        return super.getNameById(tableName,idField,nameField,id);
     }
 }

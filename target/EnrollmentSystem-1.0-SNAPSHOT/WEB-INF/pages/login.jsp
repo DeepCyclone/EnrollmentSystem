@@ -1,8 +1,13 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
+<fmt:setLocale value="${sessionScope.locale}" scope="session"/>
+<fmt:setBundle basename="localization.language" var = "bundle"/>
+
 <html>
 <head>
-    <title>Authentication</title>
+    <title><fmt:message key="enrollmentsystem.pageTitle" bundle="${bundle}"/></title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
     <style>
         <%@include file="/resources/css/style.css"%>
@@ -10,31 +15,7 @@
     </style>
 </head>
 <body>
-<%--@elvariable id="contacts" type="java.util.Set<com.wrox.Contact>"--%>
 
-<%--<c:out value="" default="ABC"></c:out>--%>
-
-<%--<c:if test="${a == b}"></c:if> можно ещё засейвить одно значение через var и потом использовать в других проверках--%>
-
-<%--<c:choose>--%>
-<%--    <c:when test=""></c:when>--%>
-<%--    <c:when test=""></c:when>--%>
-<%--    <c:otherwise></c:otherwise>--%>
-<%--</c:choose>--%>
-
-<%--<c:forEach var="i" begin="0" end="100" step="3">--%>
-<%--    generated ${i}--%>
-<%--</c:forEach>--% также можно итерироваться по коллекциям и т.п. !!!>
-
-
-
-<%--<a href="<c:url value="/index.jsp" context="/EnrollmentSystem">--%>
-<%--<c:param name="forumId" value="12" />--%>
-<%--</c:url>">Product Forum</a>--%>
-
-
-<%--<c:set><c:remove var=""></c:remove></c:set>--% можно устанавливать свои переменные>
-<%--<jsp:forward> <c:redirect></c:redirect> --%>
 <jsp:include page="/WEB-INF/pages/header.jsp"/>
 
 <c:if test="${sessionScope.get('login') != null}">
@@ -43,10 +24,14 @@
 
 <div class = "auth">
 <form action = "controller" method = "post">
-    <label for = "login">Enter login</label>
+    <label for = "login">
+        <fmt:message key="enrollmentsystem.loginField" bundle="${bundle}"/>
+    </label>
     <input name = "login" id = "login" minlength="3" maxlength="30" size="15">
-        <br>
-    <label for = "password">Enter password</label>
+    <br>
+    <label for = "password">
+        <fmt:message key="enrollmentsystem.passwordField" bundle="${bundle}"/>
+    </label>
     <input type = "password" name = "password" id = "password" minlength="4" maxlength="10">
     <br>
     <input type="hidden" name="action" value="authorization">

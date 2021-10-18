@@ -1,6 +1,13 @@
 package by.epamtc.enrollmentsystem.model;
 
+
 public class ApplicantEnrollment {
+
+    private long userId;
+    private long facultyId;
+    private long educationFormId;
+    private long enrollmentStatusId;
+
     public ApplicantEnrollment(int userId, int facultyId, int educationFormId, int enrollmentStatusId) {
         this.userId = userId;
         this.facultyId = facultyId;
@@ -11,40 +18,35 @@ public class ApplicantEnrollment {
     public ApplicantEnrollment() {
     }
 
-    public int getUserId() {
+    public long getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(long userId) {
         this.userId = userId;
     }
 
-    public int getFacultyId() {
+    public long getFacultyId() {
         return facultyId;
     }
 
-    public void setFacultyId(int facultyId) {
+    public void setFacultyId(long facultyId) {
         this.facultyId = facultyId;
     }
 
-    public int getEducationFormId() {
+    public long getEducationFormId() {
         return educationFormId;
     }
 
-    public void setEducationFormId(int educationFormId) {
+    public void setEducationFormId(long educationFormId) {
         this.educationFormId = educationFormId;
     }
 
-    public int getEnrollmentStatusId() {
+    public long getEnrollmentStatusId() {
         return enrollmentStatusId;
     }
 
-    public void setEnrollmentStatusId(int enrollmentStatusId) {
+    public void setEnrollmentStatusId(long enrollmentStatusId) {
         this.enrollmentStatusId = enrollmentStatusId;
     }
-
-    private int userId;
-    private int facultyId;
-    private int educationFormId;
-    private int enrollmentStatusId;
 }

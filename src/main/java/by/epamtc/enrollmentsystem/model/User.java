@@ -3,11 +3,11 @@ package by.epamtc.enrollmentsystem.model;
 
 public class User {
 
-    private int id;
+    private long id;
     private String login;
     private byte[] password;
     private String email;
-    private int roleId;
+    private long roleId;
 
     public User() {
     }
@@ -24,11 +24,11 @@ public class User {
         return login;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -52,11 +52,11 @@ public class User {
         this.email = email;
     }
 
-    public int getRoleId() {
+    public long getRoleId() {
         return roleId;
     }
 
-    public void setRoleId(int roleId) {
+    public void setRoleId(long roleId) {
         this.roleId = roleId;
     }
 }

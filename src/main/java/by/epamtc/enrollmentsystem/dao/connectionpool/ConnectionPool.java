@@ -12,6 +12,7 @@ import java.util.concurrent.Executor;
 
     public final class ConnectionPool {
 
+
         private BlockingQueue<Connection> connectionQueue;
         private BlockingQueue<Connection> givenAwayConQueue;
 
@@ -25,20 +26,16 @@ import java.util.concurrent.Executor;
         try {
             con.close();
         } catch (SQLException e) {
-            // logger.log(Level.ERROR, "Connection isn't return to the
-            //pool.");
         }
 
         try {
             rs.close();
         } catch (SQLException e) {
-            // logger.log(Level.ERROR, "ResultSet isn't closed.");
         }
 
         try {
             st.close();
         } catch (SQLException e) {
-            // logger.log(Level.ERROR, "Statement isn't closed.");
         }
     }
 
@@ -46,14 +43,11 @@ import java.util.concurrent.Executor;
         try {
             con.close();
         } catch (SQLException e) {
-            // logger.log(Level.ERROR, "Connection isn't return to the
-            //pool.");
         }
 
         try {
             st.close();
         } catch (SQLException e) {
-            // logger.log(Level.ERROR, "Statement isn't closed.");
         }
     }
 
@@ -88,7 +82,7 @@ import java.util.concurrent.Executor;
             return localInstance;
         }
 
-    public void initPoolData() //throws ConnectionPoolException
+    public void initPoolData()
         {
         Locale.setDefault(Locale.ENGLISH);
 
@@ -106,12 +100,7 @@ import java.util.concurrent.Executor;
                 connectionQueue.add(pooledConnection);
             }
         } catch (SQLException e) {
-//            throw new ConnectionPoolException("SQLException in
-//                    ConnectionPool",
-//                    e);
         } catch (ClassNotFoundException e) {
-//            throw new ConnectionPoolException(
-//                    "Can't find database driver class", e);
         }
 
     }
@@ -125,19 +114,16 @@ import java.util.concurrent.Executor;
             closeConnectionsQueue(givenAwayConQueue);
             closeConnectionsQueue(connectionQueue);
         } catch (SQLException e) {
-            // logger.log(Level.ERROR, "Error closing the connection.", e);
         }
     }
 
-    public Connection getConnection() //throws ConnectionPoolException
+    public Connection getConnection()
     {
         Connection connection = null;
         try {
             connection = connectionQueue.take();
             givenAwayConQueue.add(connection);
         } catch (InterruptedException e) {
-//            throw new ConnectionPoolException(
-//                    "Error connecting to the data source.", e);
         }
         return connection;
     }

@@ -3,18 +3,20 @@ package by.epamtc.enrollmentsystem.dao.impl;
 import by.epamtc.enrollmentsystem.dao.AbstractDAO;
 import by.epamtc.enrollmentsystem.dao.connectionpool.ConnectionPool;
 import by.epamtc.enrollmentsystem.dao.tables.TablesNames;
+import by.epamtc.enrollmentsystem.dao.tables.fields.EducationFormFields;
 import by.epamtc.enrollmentsystem.dao.tables.fields.SubjectFields;
-import by.epamtc.enrollmentsystem.dao.templates.SubjectTempl;
+import by.epamtc.enrollmentsystem.dao.templates.SubjectDAO;
 import by.epamtc.enrollmentsystem.exception.DAOException;
 import by.epamtc.enrollmentsystem.model.Subject;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SubjectMySQL extends AbstractDAO<Subject> implements SubjectTempl {
+public class SubjectMySQL extends AbstractDAO<Subject> implements SubjectDAO {
 
     private static final String SELECT_NAMES = "SELECT " + SubjectFields.name + " FROM " + TablesNames.education_form;
     private static final String SELECT_ALL = "SELECT * FROM " + TablesNames.education_form;
@@ -31,7 +33,7 @@ public class SubjectMySQL extends AbstractDAO<Subject> implements SubjectTempl {
     }
 
     @Override
-    public Subject getByID(int id) throws DAOException {
+    public Subject getByID(long id) throws DAOException {
         return null;
     }
 
@@ -47,12 +49,12 @@ public class SubjectMySQL extends AbstractDAO<Subject> implements SubjectTempl {
     }
 
     @Override
-    public void updateRowByID(Subject note, int id) {
+    public void updateRowByID(Subject note, long id) {
 
     }
 
     @Override
-    public List<String> getSubjectsNames() {
+    public List<String> getSubjectsNames() throws DAOException {
         Connection conn = null;
         Statement stmt = null;
         ResultSet rs = null;
@@ -65,8 +67,8 @@ public class SubjectMySQL extends AbstractDAO<Subject> implements SubjectTempl {
                 names.add(rs.getString(SubjectFields.name));
             }
         }
-        catch (Exception ignored){
-
+        catch (SQLException exception){
+            throw new DAOException(exception.getMessage(),exception);
         }
         finally {
             if(conn !=null){
@@ -74,5 +76,13 @@ public class SubjectMySQL extends AbstractDAO<Subject> implements SubjectTempl {
             }
         }
         return names;
+    }
+
+    @Override
+    public String getNameById(long id) throws DAOException {
+        String tableName = TablesNames.subject;
+        String nameField = SubjectFields.name;
+        String idField = SubjectFields.id;
+        return super.getNameById(tableName,idField,nameField,id);
     }
 }

@@ -1,7 +1,10 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
+<fmt:setLocale value="${sessionScope.locale}" scope="session"/>
+<fmt:setBundle basename="localization.language" var = "bundle"/>
+
 <script>
-    <%@include file="dropdownsUploader.js"%>
+    <%@include file="applicantPageLogic.js"%>
 </script>
 
 <nav>
@@ -18,40 +21,40 @@
             <table class="table table-bordered border-primary">
                 <tr>
                     <td>
-                        <label for="name">name</label>
+                        <label for="name"><fmt:message key="enrollmentsystem.name" bundle="${bundle}"/></label>
                         <input name = "name" id = "name" type="text" value="${requestScope.get('userinfo').name}">
-                        <label for="surname">surname</label>
+                        <label for="surname"><fmt:message key="enrollmentsystem.surnameField" bundle="${bundle}"/></label>
                         <input name = "surname" id="surname" type="text" value="${requestScope.get('userinfo').surname}"/>
-                        <label for="patronymic">patronymic</label>
+                        <label for="patronymic"><fmt:message key="enrollmentsystem.patronymic" bundle="${bundle}"/></label>
                         <input name = "patronymic" id="patronymic" type="text" value="${requestScope.get('userinfo').patronymic}"/>
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        <label for="passport">passport</label>
+                        <label for="passport"><fmt:message key="enrollmentsystem.passport" bundle="${bundle}"/></label>
                         <input name = "passport" id = "passport" type="text" value="${requestScope.get('userinfo').passport}"/>
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        <label for="address">address</label>
+                        <label for="address"><fmt:message key="enrollmentsystem.address" bundle="${bundle}"/></label>
                         <input name = "address" id = "address" type="text" value="${requestScope.get('userinfo').address}"/>
                     </td>
                 </tr>
             </table>
-            <label for = "facilities-selector">Choose facilities you have</label>
+            <label for = "facilities-selector"><fmt:message key="enrollmentsystem.facilitiesSelector" bundle="${bundle}"/></label>
             <div class= "facilities-selector" id = "facilities-selector">
                     <div class="form-check form-switch">
-                        <label class="form-check-label" for="goldmedalFacility">Gold Medal</label>
+                        <label class="form-check-label" for="goldmedalFacility"><fmt:message key="enrollmentsystem.goldMedalFacility" bundle="${bundle}"/></label>
                         <input class="form-check-input" type="checkbox" id="goldmedalFacility" name="goldmedalFacility">
                     </div>
                     <div class="form-check form-switch">
-                        <label class="form-check-label" for="orphanFacility">is Orphan</label>
+                        <label class="form-check-label" for="orphanFacility"><fmt:message key="enrollmentsystem.orphanFacility" bundle="${bundle}"/></label>
                         <input class="form-check-input" type="checkbox" id="orphanFacility" name="orphanFacility">
                     </div>
             </div>
             <input type = "hidden" name="action" value="update_info">
-            <input type = "submit" value="submit">
+            <input type = "submit" value="<fmt:message key="enrollmentsystem.submittingButton" bundle="${bundle}"/>">
             <%--Выше подгружается из БД--%>
         </form>
 
@@ -61,6 +64,11 @@
         <form name="faculties-tab" method="post" action="controller">
             <div class = "education-form-selector" id = "education-form-selector"></div>
             <div class = "marks-input" id = "marks-input">
+                <div onload = "preloadFacultiesMap()">
+                    <label for = "${mark.name}">${mark.name}</label>
+                    <input class = "mark-cell" type="text" oninput="{marksSelectorListener(this)}" value="${mark.value}" name="mark:Biology" id = "Biology">
+                </div>
+
                 <c:forEach var = "mark" items="${requestScope.get('marksValues')}">
                     <div onload = "preloadFacultiesMap()">
                         <label for = "${mark.name}">${mark.name}</label>
@@ -73,13 +81,12 @@
 
             </table>
             <input type="hidden" name = "action" value="UPDATE_STUDYING_INFO">
-            <input type="submit" value="save"/>
+            <input type="submit" value="<fmt:message key="enrollmentsystem.submittingButton" bundle="${bundle}"/>"/>
         </form>
     </div>
 </div>
 
 <c:out value="Статус: ${requestScope.get('enrollmentStatus')}"/>
-</div>
 
 
 

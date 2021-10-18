@@ -1,20 +1,21 @@
 package by.epamtc.enrollmentsystem.dao.impl;
 
 import by.epamtc.enrollmentsystem.dao.AbstractDAO;
+import by.epamtc.enrollmentsystem.dao.tables.fields.SubjectFields;
 import by.epamtc.enrollmentsystem.dao.tables.fields.UserFields;
 import by.epamtc.enrollmentsystem.dao.tables.TablesNames;
 import by.epamtc.enrollmentsystem.dao.connectionpool.ConnectionPool;
-import by.epamtc.enrollmentsystem.dao.templates.UserTempl;
+import by.epamtc.enrollmentsystem.dao.templates.UserDAO;
 import by.epamtc.enrollmentsystem.exception.DAOException;
 import by.epamtc.enrollmentsystem.model.User;
 import by.epamtc.enrollmentsystem.model.dto.UserCredentials;
-import by.epamtc.enrollmentsystem.services.composers.builders.entity.UserBuilder;
+import by.epamtc.enrollmentsystem.dao.composers.builders.entity.UserBuilder;
 
 import java.nio.charset.StandardCharsets;
 import java.sql.*;
 import java.util.List;
 
-public class UserMySQL extends AbstractDAO<User> implements UserTempl {
+public class UserMySQL extends AbstractDAO<User> implements UserDAO {
     private static final String GET_ALL_USERS = "SELECT * FROM " + TablesNames.user;
     private static final String GET_ALL_APPLICANTS = "SELECT * FROM " + TablesNames.user +
                                                      " WHERE ";
@@ -34,7 +35,7 @@ public class UserMySQL extends AbstractDAO<User> implements UserTempl {
 
 
     @Override
-    public User getByID(int id) throws DAOException {
+    public User getByID(long id) throws DAOException {
         String tableName = TablesNames.user;
         String idFieldName = UserFields.id;
         return super.getByID(tableName,idFieldName,id,new UserBuilder());
@@ -48,7 +49,7 @@ public class UserMySQL extends AbstractDAO<User> implements UserTempl {
             stmt.setString(1,object.getLogin());
             stmt.setString(2, new String(object.getPassword(), StandardCharsets.UTF_8));
             stmt.setString(3,object.getEmail());
-            stmt.setInt(4,object.getRoleId());
+            stmt.setLong(4,object.getRoleId());
             stmt.executeUpdate();
         }
         catch (SQLException e){
@@ -57,7 +58,7 @@ public class UserMySQL extends AbstractDAO<User> implements UserTempl {
     }
 
     @Override
-    public int getRoleByLogin(String login){
+    public int getRoleByLogin(String login) throws DAOException {
         try {
             Connection conn = ConnectionPool.getInstance().getConnection();
             PreparedStatement stmt = conn.prepareStatement(GET_ROLE);
@@ -66,10 +67,9 @@ public class UserMySQL extends AbstractDAO<User> implements UserTempl {
             rs.next();
             return rs.getInt("u_r_id");
         }
-        catch (Exception e){
-
+        catch (SQLException e){
+            throw new DAOException(e.getMessage(),e);
         }
-        return 1;
     }
 
     @Override
@@ -84,12 +84,12 @@ public class UserMySQL extends AbstractDAO<User> implements UserTempl {
     }
 
     @Override
-    public int getIdByName(String name) throws DAOException {
-        throw new DAOException();//TODO вместо возврата норм exception
+    public int getIdByName(String name) {
+        throw new UnsupportedOperationException();
     }
 
     @Override
-    public void updateRowByID(User note, int id) {
+    public void updateRowByID(User note, long id) {
 
     }
 
@@ -133,5 +133,13 @@ public class UserMySQL extends AbstractDAO<User> implements UserTempl {
         String nameField = UserFields.login;
         String idField = UserFields.id;
         return super.getIdByName(tableName,idField,nameField,login);
+    }
+
+    @Override
+    public String getNameById(long id) throws DAOException {
+        String tableName = TablesNames.user;
+        String nameField = UserFields.login;
+        String idField = UserFields.id;
+        return super.getNameById(tableName,idField,nameField,id);
     }
 }

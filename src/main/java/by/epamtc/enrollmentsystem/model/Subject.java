@@ -1,6 +1,10 @@
 package by.epamtc.enrollmentsystem.model;
 
 public class Subject {
+
+    private long id;
+    private String name;
+
     public Subject() {
     }
 
@@ -9,11 +13,11 @@ public class Subject {
         this.name = name;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -24,7 +28,4 @@ public class Subject {
     public void setName(String name) {
         this.name = name;
     }
-
-    private int id;
-    private String name;
 }

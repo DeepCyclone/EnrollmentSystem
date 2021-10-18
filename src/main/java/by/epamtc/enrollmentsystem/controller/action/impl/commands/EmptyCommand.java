@@ -11,6 +11,6 @@ public class EmptyCommand implements Command {
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        request.getRequestDispatcher("page404");
     }
 }

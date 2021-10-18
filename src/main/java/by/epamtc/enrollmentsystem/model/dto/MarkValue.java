@@ -1,13 +1,18 @@
 package by.epamtc.enrollmentsystem.model.dto;
 
 public class MarkValue {
+
+    private long id;
+    private String name;
+    private int value;
+
+    public MarkValue() {
+    }
+
     public MarkValue(int id,String name, int value) {
         this.id = id;
         this.name = name;
         this.value = value;
-    }
-
-    public MarkValue() {
     }
 
     public String getName() {
@@ -26,15 +31,11 @@ public class MarkValue {
         this.value = value;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
-
-    private int id;
-    private String name;
-    private int value;
 }

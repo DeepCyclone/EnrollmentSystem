@@ -1,30 +1,30 @@
 package by.epamtc.enrollmentsystem.model;
 
 public class Facilitym2mUserInfo {
-    private int facilityId;
-    private int userInfoUserId;
+    private long facilityId;
+    private long userInfoUserId;
+
+    public Facilitym2mUserInfo() {
+    }
 
     public Facilitym2mUserInfo(int facilityId, int userInfoUserId) {
         this.facilityId = facilityId;
         this.userInfoUserId = userInfoUserId;
     }
 
-    public Facilitym2mUserInfo() {
-    }
-
-    public int getFacilityId() {
+    public long getFacilityId() {
         return facilityId;
     }
 
-    public void setFacilityId(int facultyId) {
+    public void setFacilityId(long facultyId) {
         this.facilityId = facultyId;
     }
 
-    public int getUserInfoUserId() {
+    public long getUserInfoUserId() {
         return userInfoUserId;
     }
 
-    public void setUserInfoUserId(int userInfoUserId) {
+    public void setUserInfoUserId(long userInfoUserId) {
         this.userInfoUserId = userInfoUserId;
     }
 }

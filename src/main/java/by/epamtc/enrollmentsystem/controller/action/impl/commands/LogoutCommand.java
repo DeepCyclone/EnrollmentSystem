@@ -9,7 +9,7 @@ import java.io.IOException;
 
 public class LogoutCommand implements Command {
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        HttpSession httpSession = request.getSession();
+        HttpSession httpSession = request.getSession(false);
         httpSession.invalidate();
         response.sendRedirect(request.getContextPath());
     }

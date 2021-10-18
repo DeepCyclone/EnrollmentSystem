@@ -4,20 +4,22 @@ import by.epamtc.enrollmentsystem.dao.AbstractDAO;
 import by.epamtc.enrollmentsystem.dao.connectionpool.ConnectionPool;
 import by.epamtc.enrollmentsystem.dao.tables.TablesNames;
 import by.epamtc.enrollmentsystem.dao.tables.fields.ApplicantEnrollmentFields;
-import by.epamtc.enrollmentsystem.dao.templates.ApplicantEnrollmentTempl;
+import by.epamtc.enrollmentsystem.dao.templates.ApplicantEnrollmentDAO;
 import by.epamtc.enrollmentsystem.exception.DAOException;
+import by.epamtc.enrollmentsystem.exception.ServiceException;
 import by.epamtc.enrollmentsystem.model.ApplicantEnrollment;
-import by.epamtc.enrollmentsystem.services.composers.builders.entity.ApplicantEnrollmentBuilder;
+import by.epamtc.enrollmentsystem.dao.composers.builders.entity.ApplicantEnrollmentBuilder;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ApplicantEnrollmentMySQL extends AbstractDAO<ApplicantEnrollment> implements ApplicantEnrollmentTempl {
+public final class ApplicantEnrollmentMySQL extends AbstractDAO<ApplicantEnrollment> implements ApplicantEnrollmentDAO {
 
     private static final String INSERT_INTO = "INSERT INTO " + TablesNames.applicant_enrollment +
                                               " VALUES (?,?,?,?)";
@@ -38,6 +40,16 @@ public class ApplicantEnrollmentMySQL extends AbstractDAO<ApplicantEnrollment> i
     private static final String DELETE_FACULTIES_BY_USER_ID = "DELETE FROM " + TablesNames.applicant_enrollment +
                                                             " WHERE " + ApplicantEnrollmentFields.userId + " = ?";
 
+    private static final String GET_TABLE_INFO_BY_USER_ID = "SELECT * FROM " + TablesNames.applicant_enrollment +
+                                                           " WHERE " + ApplicantEnrollmentFields.userId + " = ?";
+
+    private static final String UPDATE_ENROLLMENT_STATUS = "UPDATE " + TablesNames.applicant_enrollment +
+                                                        " SET " + ApplicantEnrollmentFields.enrollmentStatusId + " = ?" +
+                                                        " WHERE " + ApplicantEnrollmentFields.userId + " = ? " +
+                                                        " AND " + ApplicantEnrollmentFields.facultyId + " = ?" +
+                                                        " AND " + ApplicantEnrollmentFields.educationFormId + " = ?";
+
+
 
 
     @Override
@@ -47,30 +59,35 @@ public class ApplicantEnrollmentMySQL extends AbstractDAO<ApplicantEnrollment> i
     }
 
     @Override
-    public int getIdByName(String name) throws DAOException {
-        return 1;//TODO Throw unsupported operation
+    public int getIdByName(String name){
+        throw new UnsupportedOperationException();
     }
 
     @Override
-    public ApplicantEnrollment getByID(int id) throws DAOException {
-        return null;//TODO Throw unsupported operation
+    public String getNameById(long id){
+        throw new UnsupportedOperationException();
     }
 
     @Override
-    public void insertInto(ApplicantEnrollment object) {
+    public ApplicantEnrollment getByID(long id){
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void insertInto(ApplicantEnrollment object) throws DAOException {
         Connection conn = null;
         PreparedStatement stmt = null;
         try{
             conn = ConnectionPool.getInstance().getConnection();
             stmt = conn.prepareStatement(INSERT_INTO);
-            stmt.setInt(1,object.getUserId());
-            stmt.setInt(2,object.getFacultyId());
-            stmt.setInt(3,object.getEducationFormId());
-            stmt.setInt(4,object.getEnrollmentStatusId());
+            stmt.setLong(1,object.getUserId());
+            stmt.setLong(2,object.getFacultyId());
+            stmt.setLong(3,object.getEducationFormId());
+            stmt.setLong(4,object.getEnrollmentStatusId());
             stmt.executeUpdate();
         }
-        catch (Exception ignored){
-
+        catch (SQLException exception){
+            throw new DAOException(exception.getMessage(),exception);
         }
         finally {
             if(conn !=null){
@@ -80,8 +97,24 @@ public class ApplicantEnrollmentMySQL extends AbstractDAO<ApplicantEnrollment> i
     }
 
     @Override
-    public void updateRowByID(ApplicantEnrollment note, int id) throws DAOException {
-
+    public void updateRowByID(ApplicantEnrollment note, long id) throws DAOException {
+        Connection conn = null;
+        PreparedStatement preparedStatement = null;
+        try {
+            conn = ConnectionPool.getInstance().getConnection();
+            preparedStatement = conn.prepareStatement(UPDATE_ENROLLMENT_STATUS);
+            preparedStatement.setLong(1,note.getEnrollmentStatusId());
+            preparedStatement.setLong(2,note.getUserId());
+            preparedStatement.setLong(3,note.getFacultyId());
+            preparedStatement.setLong(4,note.getEducationFormId());
+            preparedStatement.executeUpdate();
+        }
+        catch (SQLException exception){
+            throw new DAOException(exception.getMessage(),exception);
+        }
+        finally {
+            ConnectionPool.getInstance().closeConnection(conn,preparedStatement);
+        }
     }
 
     @Override
@@ -90,29 +123,29 @@ public class ApplicantEnrollmentMySQL extends AbstractDAO<ApplicantEnrollment> i
     }
 
     @Override
-    public Map<Integer,List<Integer>> getSelectedFacultiesByUserId(int userId){
+    public Map<Long,List<Long>> getFacultiesWithFormsByUserId(long userId) throws DAOException {//TODO убрать
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
-        Map<Integer,List<Integer>> facultyForms = null;
+        Map<Long,List<Long>> facultyForms = null;
         try{
             facultyForms = new HashMap<>();
             conn = ConnectionPool.getInstance().getConnection();
             stmt = conn.prepareStatement(GET_INFO_BY_USER_ID);
-            stmt.setInt(1,userId);
+            stmt.setLong(1,userId);
             rs = stmt.executeQuery();
             while(rs.next()){
-                int key = rs.getInt(ApplicantEnrollmentFields.facultyId);
+                long key = rs.getInt(ApplicantEnrollmentFields.facultyId);
                 if(!facultyForms.containsKey(key)) {
                     facultyForms.put(key,new ArrayList<>());
                 }
-                int value = rs.getInt(ApplicantEnrollmentFields.educationFormId);
+                long value = rs.getInt(ApplicantEnrollmentFields.educationFormId);
                 facultyForms.get(key).add(value);
             }
 
         }
-        catch (Exception ignored){
-
+        catch (SQLException exception){
+            throw new DAOException(exception.getMessage(),exception);
         }
         finally {
             if(conn !=null){
@@ -123,20 +156,20 @@ public class ApplicantEnrollmentMySQL extends AbstractDAO<ApplicantEnrollment> i
     }
 
     @Override
-    public void updateEducationForm(int userId, int facultyId,int educationFormId) {
+    public void updateEducationForm(long userId, long facultyId,long educationFormId) throws DAOException {
         Connection conn = null;
         PreparedStatement preparedStatement = null;
 
         try {
             conn = ConnectionPool.getInstance().getConnection();
             preparedStatement = conn.prepareStatement(UPDATE_EDUCATION_FORM);
-            preparedStatement.setInt(1,educationFormId);
-            preparedStatement.setInt(1,userId);
-            preparedStatement.setInt(1,facultyId);
+            preparedStatement.setLong(1,educationFormId);
+            preparedStatement.setLong(2,userId);
+            preparedStatement.setLong(3,facultyId);
             preparedStatement.executeUpdate();
         }
-        catch (Exception e){
-//            throw new DAOException(e.getMessage(),e.getCause());
+        catch (SQLException exception){
+            throw new DAOException(exception.getMessage(),exception);
         }
         finally {
             ConnectionPool.getInstance().closeConnection(conn,preparedStatement);
@@ -144,19 +177,18 @@ public class ApplicantEnrollmentMySQL extends AbstractDAO<ApplicantEnrollment> i
     }
 
     @Override
-    public void deleteFacultiesByUserId(int userId) {
+    public void deleteFacultiesByUserId(long userId) throws DAOException {
         Connection conn = null;
         PreparedStatement preparedStatement = null;
 
         try {
             conn = ConnectionPool.getInstance().getConnection();
             preparedStatement = conn.prepareStatement(DELETE_FACULTIES_BY_USER_ID);
-            preparedStatement.setInt(1,userId);
+            preparedStatement.setLong(1,userId);
             preparedStatement.executeUpdate();
         }
-        catch (Exception e){
-            System.err.println("Exception");
-//            throw new DAOException(e.getMessage(),e.getCause());
+        catch (SQLException exception){
+            throw new DAOException(exception.getMessage(),exception);
         }
         finally {
             ConnectionPool.getInstance().closeConnection(conn,preparedStatement);
@@ -164,7 +196,64 @@ public class ApplicantEnrollmentMySQL extends AbstractDAO<ApplicantEnrollment> i
     }
 
     @Override
-    public boolean userHasFaculty(int userId, int facultyId) {
+    public List<ApplicantEnrollment> getByUserId(long userId) throws DAOException {//TODO исключения вылетает от абстрактного класса. Здесь нужно делать новое DAO исключение и оборачивать в него старое или просто пробрасывать? А ещё этот метод можно отдельно куда-то вынести
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        List<ApplicantEnrollment> applicantEnrollmentList = new ArrayList<>();
+        try{
+            conn = ConnectionPool.getInstance().getConnection();
+            stmt = conn.prepareStatement(GET_TABLE_INFO_BY_USER_ID);
+            stmt.setLong(1,userId);
+            rs = stmt.executeQuery();
+
+            while (rs.next()){
+                int facultyId = rs.getInt(ApplicantEnrollmentFields.facultyId);
+                int educationFormId = rs.getInt(ApplicantEnrollmentFields.educationFormId);
+                int enrollmentStatusId = rs.getInt(ApplicantEnrollmentFields.enrollmentStatusId);
+                ApplicantEnrollment applicantEnrollment = new ApplicantEnrollment();
+                applicantEnrollment.setFacultyId(facultyId);
+                applicantEnrollment.setEducationFormId(educationFormId);
+                applicantEnrollment.setEnrollmentStatusId(enrollmentStatusId);
+                applicantEnrollmentList.add(applicantEnrollment);
+            }
+
+        }
+        catch (SQLException exception){
+            throw new DAOException(exception.getMessage(),exception);
+        }
+        finally {
+            if(conn !=null){
+                ConnectionPool.getInstance().closeConnection(conn,stmt);
+            }
+        }
+        return applicantEnrollmentList;
+    }
+
+    @Override
+    public void updateRowByUserId(long userId, ApplicantEnrollment note) throws DAOException {
+        Connection conn = null;
+        PreparedStatement preparedStatement = null;
+
+        try {
+            conn = ConnectionPool.getInstance().getConnection();
+            preparedStatement = conn.prepareStatement(UPDATE_ENROLLMENT_STATUS);
+            preparedStatement.setLong(1,note.getEnrollmentStatusId());
+            preparedStatement.setLong(2,note.getUserId());
+            preparedStatement.setLong(3,note.getFacultyId());
+            preparedStatement.setLong(4,note.getEducationFormId());
+            preparedStatement.executeUpdate();
+        }
+        catch (SQLException exception){
+            throw new DAOException(exception.getMessage(),exception);
+        }
+        finally {
+            ConnectionPool.getInstance().closeConnection(conn,preparedStatement);
+        }
+    }
+
+    @Override
+    public boolean userHasFaculty(long userId, long facultyId) throws DAOException {//TODO скорее всего это бизнес логика - перенести
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -173,8 +262,8 @@ public class ApplicantEnrollmentMySQL extends AbstractDAO<ApplicantEnrollment> i
 
             conn = ConnectionPool.getInstance().getConnection();
             stmt = conn.prepareStatement(GET_FACULTY_BY_USER_ID);
-            stmt.setInt(1,userId);
-            stmt.setInt(2,facultyId);
+            stmt.setLong(1,userId);
+            stmt.setLong(2,facultyId);
             rs = stmt.executeQuery();
 
             if(rs.next()){//TODO check it
@@ -182,8 +271,8 @@ public class ApplicantEnrollmentMySQL extends AbstractDAO<ApplicantEnrollment> i
             }
 
         }
-        catch (Exception ignored){
-
+        catch (SQLException exception){
+            throw new DAOException(exception.getMessage(),exception);
         }
         finally {
             if(conn !=null){

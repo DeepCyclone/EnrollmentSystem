@@ -1,5 +1,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<fmt:setLocale value="${sessionScope.locale}" scope="session"/>
+<fmt:setBundle basename="localization.language" var = "bundle"/>
+
 <html>
 <head>
     <title>Title</title>
@@ -14,8 +18,29 @@
 <div class="d-flex align-items-start">
 
     <div class="nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-        <button class="nav-link active" id="v-pills-data-tab" data-bs-toggle="pill" data-bs-target="#v-pills-data" type="button" role="tab" aria-controls="v-pills-data" aria-selected="true">Applicant data</button>
-        <button class="nav-link" id="v-pills-settings-tab" data-bs-toggle="pill" data-bs-target="#v-pills-settings" type="button" role="tab" aria-controls="v-pills-settings" aria-selected="false">Account settings</button>
+        <button class="nav-link active" id="v-pills-data-tab" data-bs-toggle="pill" data-bs-target="#v-pills-data" type="button" role="tab" aria-controls="v-pills-data" aria-selected="true">
+            <c:choose>
+                <c:when test="${sessionScope.get('role') == '1'}">
+                    <th><fmt:message key="enrollmentsystem.managingPanel" bundle="${bundle}"/></th>
+                </c:when>
+                <c:when test="${sessionScope.get('role') == '2'}">
+                    <th><fmt:message key="enrollmentsystem.enrollmentPanel" bundle="${bundle}"/></th>
+                </c:when>
+                <c:when test="${sessionScope.get('role') == '3'}">
+                    <th><fmt:message key="enrollmentsystem.applicantPanel" bundle="${bundle}"/></th>
+                </c:when>
+            </c:choose>
+        </button>
+        <button class="nav-link" id="v-pills-settings-tab" data-bs-toggle="pill" data-bs-target="#v-pills-settings" type="button" role="tab" aria-controls="v-pills-settings" aria-selected="false">
+            <fmt:message key="enrollmentsystem.accountSettingsTab" bundle="${bundle}"/>
+        </button>
+
+        <c:if test="${sessionScope.get('role') == '1'}">
+        <button class="nav-link" id="v-pills-management-tab" data-bs-toggle="pill" data-bs-target="#v-pills-management" type="button" role="tab" aria-controls="v-pills-management" aria-selected="true">
+            <th><fmt:message key="enrollmentsystem.systemManagementPanel" bundle="${bundle}"/></th>
+        </button>
+        </c:if>
+
     </div>
 
 
@@ -32,25 +57,57 @@
                     <%@include file="fragments/applicantsDocuments.jsp"%>
                 </c:when>
             </c:choose>
+        </div>
 
             <div class="tab-pane fade" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab">
                 <form action="controller" method="post" id="settings">
                     <table class="table table-bordered border-primary">
                         <tr>
                             <td>
-                                <label for="login">login</label>
+                                <label for="login">
+                                    <fmt:message key="enrollmentsystem.loginData" bundle="${bundle}"/>
+                                </label>
                                 <input name = "login" id = "login" type="text">
-                                <label for="password">password</label>
-                                <input name = "password" id="password" type="text"/>
-                                <label for="email">email</label>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <label for="oldPassword">
+                                    <fmt:message key="enrollmentsystem.oldPassword" bundle="${bundle}"/>
+                                </label>
+                                <input name = "oldPassword" id="oldPassword" type="text"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label for="newPassword">
+                                    <fmt:message key="enrollmentsystem.newPassword" bundle="${bundle}"/>
+                                </label>
+                                <input name = "newPassword" id="newPassword" type="text"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label for="email">
+                                    <fmt:message key="enrollmentsystem.emailData" bundle="${bundle}"/>
+                                </label>
                                 <input name = "email" id="email" type="text"/>
                             </td>
                         </tr>
                     </table>
                     <input type = "hidden" name="action" value="update_info">
-                    <input type = "submit" value="submit">
+                    <input type = "submit" value = <fmt:message key="enrollmentsystem.processInfo" bundle="${bundle}"/>>
                 </form>
             </div>
+            <c:if test="${sessionScope.get('role') == '1'}">
+                <div class="tab-pane fade" id="v-pills-management" role="tabpanel" aria-labelledby="v-pills-management-tab">
+                    <form method="post" name="enrollStart" action="controller">
+                        <input type="hidden" name="action" value="start_Enrollment">
+                        <button type="submit">Enroll</button>
+                    </form>
+                </div>
+            </c:if>
         </div>
     </div>
 <jsp:include page="/WEB-INF/pages/footer.jsp"/>

@@ -5,12 +5,16 @@ import by.epamtc.enrollmentsystem.dao.DAOProvider;
 import by.epamtc.enrollmentsystem.dao.impl.FacilityMySQL;
 import by.epamtc.enrollmentsystem.dao.impl.Facilitym2mUserInfoMySQL;
 import by.epamtc.enrollmentsystem.dao.impl.Subjectm2mFacultyMySQL;
+import by.epamtc.enrollmentsystem.dao.templates.Facilitym2mUserInfoDAO;
 import by.epamtc.enrollmentsystem.model.Facilitym2mUserInfo;
+import by.epamtc.enrollmentsystem.service.Facilitym2mUserInfoService;
+import by.epamtc.enrollmentsystem.service.ServiceProvider;
 import com.google.gson.Gson;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,14 +25,10 @@ public class PreloadFacilitiesTabCommand implements Command {
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             response.setContentType("text/plain; charset=UTF-8");
-            DAOProvider daoProvider = DAOProvider.getInstance();
-            Facilitym2mUserInfoMySQL facm2mUi = daoProvider.getFacilitym2mUserInfoMySQL();
-            FacilityMySQL facilityMySQL = daoProvider.getFacilityDAO();
-            List<Facilitym2mUserInfo> facilityList = facm2mUi.getAll();
-            List<String> facilities = new ArrayList<>();
-            for (Facilitym2mUserInfo facilitym2mUserInfo : facilityList) {
-                facilities.add(facilityMySQL.getByID(facilitym2mUserInfo.getUserInfoUserId()).getName());//TODO fix
-            }
+            HttpSession session = request.getSession(false);
+            int userID = (int)session.getAttribute("id");
+            Facilitym2mUserInfoService service = ServiceProvider.getInstance().getFacilitym2mUserInfoService();
+            List<String> facilities = service.getUserFacilitiesNames(userID);
             Gson gson = new Gson();
             String json = gson.toJson(facilities);
             System.out.println(json);

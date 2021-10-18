@@ -4,20 +4,19 @@ import by.epamtc.enrollmentsystem.controller.action.CommandProvider;
 import by.epamtc.enrollmentsystem.dao.impl.*;
 
 public final class DAOProvider {
-    private EducationFormMySQL educationFormMySQL = new EducationFormMySQL();
-
-    private EnrollmentStatusMySQL enrollmentStatusMySQL = new EnrollmentStatusMySQL();
-    private FacultyMySQL facultyMySQL = new FacultyMySQL();
-    private FacilityMySQL facilityMySQL = new FacilityMySQL();
-    private RoleMySQL roleMySQL = new RoleMySQL();
-    private SubjectMySQL subjectMySQL = new SubjectMySQL();
-    private SystemInformationMySQL systemInformationMySQL = new SystemInformationMySQL();
-    private UserMySQL userMySQL = new UserMySQL();
-    private UserInfoMySQL userInfoMySQL = new UserInfoMySQL();
-    private ResultMySQL resultMySQL = new ResultMySQL();
-    private Subjectm2mFacultyMySQL subjectm2mFacultyMySQL = new Subjectm2mFacultyMySQL();
-    private ApplicantEnrollmentMySQL applicantEnrollmentMySQL = new ApplicantEnrollmentMySQL();
-    private Facilitym2mUserInfoMySQL facilitym2mUserInfoMySQL = new Facilitym2mUserInfoMySQL();
+    private final EducationFormMySQL educationFormMySQL = new EducationFormMySQL();
+    private final EnrollmentStatusMySQL enrollmentStatusMySQL = new EnrollmentStatusMySQL();
+    private final FacultyMySQL facultyMySQL = new FacultyMySQL();
+    private final FacilityMySQL facilityMySQL = new FacilityMySQL();
+    private final RoleMySQL roleMySQL = new RoleMySQL();
+    private final SubjectMySQL subjectMySQL = new SubjectMySQL();
+    private final SystemInformationMySQL systemInformationMySQL = new SystemInformationMySQL();
+    private final UserMySQL userMySQL = new UserMySQL();
+    private final UserInfoMySQL userInfoMySQL = new UserInfoMySQL();
+    private final ResultMySQL resultMySQL = new ResultMySQL();
+    private final Subjectm2mFacultyMySQL subjectm2mFacultyMySQL = new Subjectm2mFacultyMySQL();
+    private final ApplicantEnrollmentMySQL applicantEnrollmentMySQL = new ApplicantEnrollmentMySQL();
+    private final Facilitym2mUserInfoMySQL facilitym2mUserInfoMySQL = new Facilitym2mUserInfoMySQL();
     private DAOProvider(){
 
     }

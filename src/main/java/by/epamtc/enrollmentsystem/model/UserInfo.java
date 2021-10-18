@@ -1,6 +1,18 @@
 package by.epamtc.enrollmentsystem.model;
 
 public class UserInfo {
+
+    private long id;
+    private String name;
+    private String surname;
+    private String patronymic;
+    private String photoPath;
+    private String address;
+    private String passport;
+
+    public UserInfo() {
+    }
+
     public UserInfo(int id,String name, String surname, String patronymic, String photoPath, String address, String passport) {
         this.id = id;
         this.name = name;
@@ -59,22 +71,12 @@ public class UserInfo {
         this.passport = passport;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
-    public UserInfo() {
-    }
-
-    private int id;
-    private String name;
-    private String surname;
-    private String patronymic;
-    private String photoPath;
-    private String address;
-    private String passport;
 }

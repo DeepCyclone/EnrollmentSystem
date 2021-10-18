@@ -1,12 +1,8 @@
 package by.epamtc.enrollmentsystem.controller.action.impl.commands;
 
 import by.epamtc.enrollmentsystem.controller.action.Command;
-import by.epamtc.enrollmentsystem.dao.DAOProvider;
-import by.epamtc.enrollmentsystem.dao.impl.ApplicantEnrollmentMySQL;
-import by.epamtc.enrollmentsystem.dao.impl.EducationFormMySQL;
-import by.epamtc.enrollmentsystem.dao.impl.FacultyMySQL;
-import by.epamtc.enrollmentsystem.model.dto.FacultyForms;
-import by.epamtc.enrollmentsystem.services.UserStudyingInfoBuilder;
+import by.epamtc.enrollmentsystem.model.dto.StringifiedApplicantEnrollment;
+import by.epamtc.enrollmentsystem.service.impl.UserStudyingInfoBuilder;
 import com.google.gson.Gson;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,9 +18,9 @@ public class PreloadSelectedFacultiesCommand implements Command {
         HttpSession session = request.getSession(false);
         int id = (int)session.getAttribute("id");
         try{
-            Set<FacultyForms> facultyFormsSet = UserStudyingInfoBuilder.buildFacultiesAndEducationForms(id);
+            Set<StringifiedApplicantEnrollment> stringifiedApplicantEnrollmentSet = UserStudyingInfoBuilder.buildFacultiesAndEducationForms(id);
             Gson gson = new Gson();
-            String json = gson.toJson(facultyFormsSet);
+            String json = gson.toJson(stringifiedApplicantEnrollmentSet);
             response.getWriter().write(json);
         }
         catch (Exception e){

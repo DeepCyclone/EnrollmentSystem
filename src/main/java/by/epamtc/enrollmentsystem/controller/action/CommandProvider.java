@@ -10,7 +10,7 @@ public class CommandProvider {
 
     private CommandProvider(){
         actions.put(CommandType.SIGN_UP,new SignupCommand());
-        actions.put(CommandType.AUTHORIZATION,new LoginCommand());
+        actions.put(CommandType.AUTHORIZATION,new AuthenticationCommand());
         actions.put(CommandType.LOGOUT,new LogoutCommand());
         actions.put(CommandType.UPDATE_INFO,new UpdateUserInfoCommand());
         actions.put(CommandType.UPDATE_STUDYING_INFO,new UpdateStudyingInfoCommand());
@@ -21,6 +21,9 @@ public class CommandProvider {
         actions.put(CommandType.PRELOAD_ADMIN_PAGE,new PreloadAdminPanelCommand());
         actions.put(CommandType.PRELOAD_SELECTED_FACULTIES,new PreloadSelectedFacultiesCommand());
         actions.put(CommandType.PRELOAD_FACILITIES_TAB,new PreloadFacilitiesTabCommand());
+        actions.put(CommandType.CHANGE_LANGUAGE,new LanguageChangerCommand());
+        actions.put(CommandType.UPDATE_ENROLLMENT_STATUS,new EnrollmentStatusUpdateCommand());
+        actions.put(CommandType.START_ENROLLMENT,new StartEnrollmentCommand());
         actions.put(CommandType.EMPTY,new EmptyCommand());
     }
 

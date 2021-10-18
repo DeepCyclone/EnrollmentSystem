@@ -1,15 +1,22 @@
 package by.epamtc.enrollmentsystem.model;
 
 public class Faculty {
+
+    private long id;
+    private String name;
+    private int budgetAdmissionPlan;
+    private int paidAdmissionPlan;
+    private String description;
+
+    public Faculty() {
+    }
+
     public Faculty(int id,String name, int budgetAdmissionPlan, int paidAdmissionPlan, String description) {
         this.id = id;
         this.name = name;
         this.budgetAdmissionPlan = budgetAdmissionPlan;
         this.paidAdmissionPlan = paidAdmissionPlan;
         this.description = description;
-    }
-
-    public Faculty() {
     }
 
     public String getName() {
@@ -44,17 +51,11 @@ public class Faculty {
         this.description = description;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
-
-    private int id;
-    private String name;
-    private int budgetAdmissionPlan;
-    private int paidAdmissionPlan;
-    private String description;
 }

@@ -4,16 +4,15 @@ import by.epamtc.enrollmentsystem.dao.AbstractDAO;
 import by.epamtc.enrollmentsystem.dao.tables.TablesNames;
 import by.epamtc.enrollmentsystem.dao.connectionpool.ConnectionPool;
 import by.epamtc.enrollmentsystem.dao.tables.fields.EducationFormFields;
-import by.epamtc.enrollmentsystem.dao.templates.EducationFormTempl;
+import by.epamtc.enrollmentsystem.dao.templates.EducationFormDAO;
 import by.epamtc.enrollmentsystem.exception.DAOException;
 import by.epamtc.enrollmentsystem.model.EducationForm;
-import by.epamtc.enrollmentsystem.services.composers.builders.entity.EducationFormBuilder;
+import by.epamtc.enrollmentsystem.dao.composers.builders.entity.EducationFormBuilder;
 
 import java.sql.*;
 import java.util.List;
 
-public class EducationFormMySQL extends AbstractDAO<EducationForm> implements EducationFormTempl {
-    private static final String tableName = TablesNames.education_form;
+public class EducationFormMySQL extends AbstractDAO<EducationForm> implements EducationFormDAO {
     private static final String DELETE_ALL = "DELETE * FROM " + TablesNames.education_form;
     private static final String SELECT_ALL = "SELECT * FROM " + TablesNames.education_form;
     private static final String UPDATE_NOTE = "UPDATE " + TablesNames.education_form +
@@ -29,7 +28,7 @@ public class EducationFormMySQL extends AbstractDAO<EducationForm> implements Ed
     }
 
     @Override
-    public void updateRowByID(EducationForm note,int id) throws DAOException {
+    public void updateRowByID(EducationForm note,long id) throws DAOException {
 
         Connection conn = null;
         PreparedStatement preparedStatement = null;
@@ -38,10 +37,10 @@ public class EducationFormMySQL extends AbstractDAO<EducationForm> implements Ed
             conn = ConnectionPool.getInstance().getConnection();
             preparedStatement = conn.prepareStatement(UPDATE_NOTE);
             preparedStatement.setString(0,note.getName());
-            preparedStatement.setInt(1,id);
+            preparedStatement.setLong(1,id);
             preparedStatement.executeUpdate();
         }
-        catch (Exception e){
+        catch (SQLException e){
             throw new DAOException(e.getMessage(),e.getCause());
         }
         finally {
@@ -51,21 +50,31 @@ public class EducationFormMySQL extends AbstractDAO<EducationForm> implements Ed
 
     @Override
     public List<EducationForm> getAll() throws DAOException {
+        String tableName = TablesNames.education_form;
         return super.getAll(tableName,new EducationFormBuilder());
     }
 
     @Override
-    public EducationForm getByID(int id) throws DAOException {
+    public EducationForm getByID(long id) throws DAOException {
+        String tableName = TablesNames.education_form;
         String idFieldName = EducationFormFields.id;
         return super.getByID(tableName,idFieldName,id,new EducationFormBuilder());
     }
 
     @Override
-    public int getIdByName(String name) {
+    public int getIdByName(String name) throws DAOException {
         String tableName = TablesNames.education_form;
         String nameField = EducationFormFields.name;
         String idField = EducationFormFields.id;
         return super.getIdByName(tableName,idField,nameField,name);
+    }
+
+    @Override
+    public String getNameById(long id) throws DAOException {
+        String tableName = TablesNames.education_form;
+        String nameField = EducationFormFields.name;
+        String idField = EducationFormFields.id;
+        return super.getNameById(tableName,idField,nameField,id);
     }
 
 }

@@ -1,8 +1,11 @@
 package by.epamtc.enrollmentsystem.model.dto;
 
-public class UserCredentials { //TODO это dto?
+public class UserCredentials {
+
     private String login;
     private String password;
+
+
 
     public String getLogin() {
         return login;

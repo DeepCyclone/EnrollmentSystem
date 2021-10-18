@@ -1,6 +1,6 @@
 package by.epamtc.enrollmentsystem.dao;
 
-import by.epamtc.enrollmentsystem.services.composers.builders.entity.EntityBuilder;
+import by.epamtc.enrollmentsystem.dao.composers.builders.entity.EntityBuilder;
 import by.epamtc.enrollmentsystem.dao.connectionpool.ConnectionPool;
 import by.epamtc.enrollmentsystem.exception.DAOException;
 import by.epamtc.enrollmentsystem.utils.SQLGenerator;
@@ -10,8 +10,7 @@ import java.util.List;
 
 public abstract class AbstractDAO<T> implements DAOTemplate<T>{
 
-    @Override
-    public List<T> getAll(String tableName,EntityBuilder<T> entityBuilder) throws DAOException {//можно через composeSingle и composeList,но ещё один параметр передавать как-то...
+    protected List<T> getAll(String tableName, EntityBuilder<T> entityBuilder) throws DAOException {
         Connection conn = null;
         Statement stmt = null;
         ResultSet rs = null;
@@ -32,11 +31,7 @@ public abstract class AbstractDAO<T> implements DAOTemplate<T>{
         return entities;
     }
 
-    public abstract List<T> getAll() throws DAOException;
-
-
-    @Override
-    public T getByID(String tableName,String idField,int id,EntityBuilder<T> entityBuilder) throws DAOException {
+    protected T getByID(String tableName,String idField,long id,EntityBuilder<T> entityBuilder) throws DAOException {
         Connection conn = null;
         Statement stmt = null;
         ResultSet rs = null;
@@ -57,10 +52,9 @@ public abstract class AbstractDAO<T> implements DAOTemplate<T>{
         return entity;
     }
 
-    public abstract int getIdByName(String name) throws DAOException;
+//    public abstract int getIdByName(String name) throws DAOException;
 
-    @Override
-    public int getIdByName(String tableName,String idField,String nameField,String nameValue){
+    protected int getIdByName(String tableName,String idField,String nameField,String nameValue) throws DAOException {
         Connection conn = null;
         Statement stmt = null;
         ResultSet rs = null;
@@ -75,7 +69,7 @@ public abstract class AbstractDAO<T> implements DAOTemplate<T>{
             }
         }
         catch (SQLException e){
-            //throw new DAOException(e.getMessage(),e);
+            throw new DAOException(e.getMessage(),e);
         }
         finally {
             ConnectionPool.getInstance().closeConnection(conn,stmt,rs);
@@ -83,7 +77,30 @@ public abstract class AbstractDAO<T> implements DAOTemplate<T>{
         return id;
     }
 
-    public abstract T getByID(int id) throws DAOException;
+    protected String getNameById(String tableName,String idField,String nameField,long idValue) throws DAOException {
+        Connection conn = null;
+        Statement stmt = null;
+        ResultSet rs = null;
+        String name = null;
+        try{
+            conn = ConnectionPool.getInstance().getConnection();
+            stmt = conn.createStatement();
+            String query = SQLGenerator.getNameByIdQuery(tableName, idField, nameField, idValue);
+            rs = stmt.executeQuery(query);
+            while(rs.next()){
+                name = rs.getString(nameField);
+            }
+        }
+        catch (SQLException e){
+            throw new DAOException(e.getMessage(),e);
+        }
+        finally {
+            ConnectionPool.getInstance().closeConnection(conn,stmt,rs);
+        }
+        return name;
+    }
+
+//    public abstract T getByID(int id) throws DAOException;
 
     @Override
     public void insertInto(T object) throws DAOException {
@@ -91,7 +108,7 @@ public abstract class AbstractDAO<T> implements DAOTemplate<T>{
     }
 
     @Override
-    public void updateRowByID(T note, int id) throws DAOException {
+    public void updateRowByID(T note, long id) throws DAOException {
 
     }
 

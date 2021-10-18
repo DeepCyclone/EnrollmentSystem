@@ -1,19 +1,23 @@
 package by.epamtc.enrollmentsystem.model;
 
 public class Role {
+
+    private long id;
+    private String name;
+
+    public Role() {
+    }
+
     public Role(int id, String name) {
         this.id = id;
         this.name = name;
     }
 
-    public Role() {
-    }
-
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -24,7 +28,4 @@ public class Role {
     public void setName(String name) {
         this.name = name;
     }
-
-    private int id;
-    private String name;
 }

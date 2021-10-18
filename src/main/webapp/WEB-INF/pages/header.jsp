@@ -1,4 +1,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
+<fmt:setLocale value="${sessionScope.locale}" scope="session"/>
+<fmt:setBundle basename="localization.language" var = "bundle"/>
+
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
         <ul class="nav">
@@ -10,41 +15,64 @@
                     EnrollmentSystem
                 </a>
                 <c:if test="${sessionScope.get('login') != null}">
-                    <i>Hi,${sessionScope.get('login')}</i>
+                        <fmt:message key="enrollmentsystem.greeting" bundle="${bundle}">
+                            <fmt:param>${sessionScope.get('login')}</fmt:param>
+                        </fmt:message>
                 </c:if>
             </li>
         </ul>
-        <c:choose>
+        <ul class="nav justify-content-end">
+            <li class = "nav-item">
+                <div class="btn-group">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuClickableInside" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
+                        <fmt:message key="enrollmentsystem.languagebutton" bundle="${bundle}"/>
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuClickableInside">
+                        <li><a class="dropdown-item" href="controller?action=change_language&locale=ru_RU">Ru</a></li>
+                        <li><a class="dropdown-item" href="controller?action=change_language&locale=en_US">En</a></li>
+                    </ul>
+                </div>
+            </li>
+            <c:choose>
             <c:when test = "${sessionScope.get('login') != null}">
-                <ul class="nav justify-content-end">
                     <li class="nav-item">
                         <c:choose>
                             <c:when test="${sessionScope.get('role') == '1'}">
-                                <a class="nav-link" href="controller?action=PRELOAD_ADMIN_PAGE">Cabinet</a>
+                                <a class="nav-link" href="controller?action=PRELOAD_ADMIN_PAGE">
+                                    <fmt:message key="enrollmentsystem.cabinet" bundle="${bundle}"/>
+                                </a>
                             </c:when>
                             <c:when test="${sessionScope.get('role') == '2'}">
-                                <a class="nav-link" href="controller?action=">Cabinet</a>
+                                <a class="nav-link" href="controller?action=">
+                                    <fmt:message key="enrollmentsystem.cabinet" bundle="${bundle}"/>
+                                </a>
                             </c:when>
                             <c:when test="${sessionScope.get('role') == '3'}">
-                                <a class="nav-link" href="controller?action=PRELOAD_USERINFO_PAGE">Cabinet</a>
+                                <a class="nav-link" href="controller?action=PRELOAD_USERINFO_PAGE">
+                                    <fmt:message key="enrollmentsystem.cabinet" bundle="${bundle}"/>
+                                </a>
                             </c:when>
                         </c:choose>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="controller?action=logout">Logout</a>
+                        <a class="nav-link" href="controller?action=logout">
+                            <fmt:message key="enrollmentsystem.logout" bundle="${bundle}"/>
+                        </a>
                     </li>
-                </ul>
             </c:when>
             <c:otherwise>
-                <ul class="nav justify-content-end">
                     <li class="nav-item">
-                        <a class="nav-link" href="login">Login</a>
+                        <a class="nav-link" href="login">
+                            <fmt:message key="enrollmentsystem.login" bundle="${bundle}"/>
+                        </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="registration">Sign up</a>
+                        <a class="nav-link" href="registration">
+                            <fmt:message key="enrollmentsystem.signUp" bundle="${bundle}"/>
+                        </a>
                     </li>
-                </ul>
             </c:otherwise>
-        </c:choose> 
+        </c:choose>
+        </ul>
     </div>
 </nav>

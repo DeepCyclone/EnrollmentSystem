@@ -1,6 +1,11 @@
 package by.epamtc.enrollmentsystem.model;
 
 public class Facility {
+
+    private long id;
+    private String name;
+    private boolean isExtraordinary;
+
     public Facility() {
     }
 
@@ -10,11 +15,11 @@ public class Facility {
         this.isExtraordinary = isExtraordinary;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -33,8 +38,4 @@ public class Facility {
     public void setExtraordinary(boolean extraordinary) {
         isExtraordinary = extraordinary;
     }
-
-    private int id;
-    private String name;
-    private boolean isExtraordinary;
 }

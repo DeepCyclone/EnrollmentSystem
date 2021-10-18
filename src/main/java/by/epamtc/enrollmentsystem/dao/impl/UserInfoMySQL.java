@@ -1,18 +1,20 @@
 package by.epamtc.enrollmentsystem.dao.impl;
 
 import by.epamtc.enrollmentsystem.dao.AbstractDAO;
+import by.epamtc.enrollmentsystem.dao.tables.fields.SubjectFields;
 import by.epamtc.enrollmentsystem.dao.tables.fields.UserInfoFields;
 import by.epamtc.enrollmentsystem.dao.tables.TablesNames;
 import by.epamtc.enrollmentsystem.dao.connectionpool.ConnectionPool;
-import by.epamtc.enrollmentsystem.dao.templates.UserInfoTempl;
+import by.epamtc.enrollmentsystem.dao.templates.UserInfoDAO;
 import by.epamtc.enrollmentsystem.exception.DAOException;
+import by.epamtc.enrollmentsystem.model.User;
 import by.epamtc.enrollmentsystem.model.UserInfo;
-import by.epamtc.enrollmentsystem.services.composers.builders.entity.UserInfoBuilder;
+import by.epamtc.enrollmentsystem.dao.composers.builders.entity.UserInfoBuilder;
 
 import java.sql.*;
 import java.util.List;
 
-public class UserInfoMySQL extends AbstractDAO<UserInfo> implements UserInfoTempl {
+public class UserInfoMySQL extends AbstractDAO<UserInfo> implements UserInfoDAO {
     private static final String tableName = TablesNames.user_info;
     private static final String INSERT_INTO = "INSERT INTO " + TablesNames.user_info +
                                 "(" + UserInfoFields.userId + "," + UserInfoFields.name + "," + UserInfoFields.surname + "," +
@@ -39,7 +41,7 @@ public class UserInfoMySQL extends AbstractDAO<UserInfo> implements UserInfoTemp
     }
 
     @Override
-    public UserInfo getByID(int id) throws DAOException {
+    public UserInfo getByID(long id) throws DAOException {
         String idFieldName = UserInfoFields.userId;
         return super.getByID(tableName,idFieldName,id,new UserInfoBuilder());
     }
@@ -51,18 +53,13 @@ public class UserInfoMySQL extends AbstractDAO<UserInfo> implements UserInfoTemp
         try {
             conn = ConnectionPool.getInstance().getConnection();
             preparedStatement = conn.prepareStatement(INSERT_INTO);
-            preparedStatement.setInt(1,object.getId());
+            preparedStatement.setLong(1,object.getId());
             preparedStatement.setString(2, object.getName());
             preparedStatement.setString(3, object.getSurname());
             preparedStatement.setString(4, object.getPatronymic());
             preparedStatement.setString(5, object.getPhotoPath());
             preparedStatement.setString(6, object.getAddress());
             preparedStatement.setString(7, object.getPassport());
-
-//
-//            for(int i = 1;i<=7;i++) {
-//                preparedStatement.setObject(i, );
-//            }
 
             preparedStatement.executeUpdate();
         }
@@ -80,7 +77,7 @@ public class UserInfoMySQL extends AbstractDAO<UserInfo> implements UserInfoTemp
     }
 
     @Override
-    public void updateRowByID(UserInfo note, int id) throws DAOException {
+    public void updateRowByID(UserInfo note, long id) throws DAOException {
         Connection conn = null;
         PreparedStatement preparedStatement = null;
         try {
@@ -92,7 +89,7 @@ public class UserInfoMySQL extends AbstractDAO<UserInfo> implements UserInfoTemp
             preparedStatement.setString(4, note.getPhotoPath());
             preparedStatement.setString(5, note.getAddress());
             preparedStatement.setString(6, note.getPassport());
-            preparedStatement.setInt(7,note.getId());
+            preparedStatement.setLong(7,note.getId());
             preparedStatement.executeUpdate();
         }
         catch (SQLException e){
@@ -104,14 +101,14 @@ public class UserInfoMySQL extends AbstractDAO<UserInfo> implements UserInfoTemp
     }
 
     @Override
-    public boolean hasNoteWithId(int id) throws DAOException {
+    public boolean hasNoteWithId(long id) throws DAOException {
         Connection conn = null;
         PreparedStatement preparedStatement = null;
         ResultSet rs = null;
         try {
             conn = ConnectionPool.getInstance().getConnection();
             preparedStatement = conn.prepareStatement(GET_BY_ID);
-            preparedStatement.setInt(1, id);
+            preparedStatement.setLong(1, id);
             rs = preparedStatement.executeQuery();
             boolean result = false;
             if(rs.next()){
@@ -125,5 +122,13 @@ public class UserInfoMySQL extends AbstractDAO<UserInfo> implements UserInfoTemp
         finally {
             ConnectionPool.getInstance().closeConnection(conn,preparedStatement,rs);
         }
+    }
+
+    @Override
+    public String getNameById(long userId) throws DAOException {
+        String tableName = TablesNames.user_info;
+        String nameField = UserInfoFields.name;
+        String idField = UserInfoFields.userId;
+        return super.getNameById(tableName,idField,nameField,userId);
     }
 }

@@ -1,12 +1,14 @@
-    package by.epamtc.enrollmentsystem.controller.action.impl.commands;
+package by.epamtc.enrollmentsystem.controller.action.impl.commands;
 
 import by.epamtc.enrollmentsystem.controller.action.Command;
 import by.epamtc.enrollmentsystem.dao.DAOProvider;
 import by.epamtc.enrollmentsystem.dao.impl.FacilityMySQL;
 import by.epamtc.enrollmentsystem.dao.impl.Facilitym2mUserInfoMySQL;
 import by.epamtc.enrollmentsystem.dao.impl.UserInfoMySQL;
+import by.epamtc.enrollmentsystem.exception.ServiceException;
 import by.epamtc.enrollmentsystem.model.Facilitym2mUserInfo;
 import by.epamtc.enrollmentsystem.model.UserInfo;
+import by.epamtc.enrollmentsystem.service.ServiceProvider;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,7 +18,6 @@ public class UpdateUserInfoCommand implements Command {
     public void execute(HttpServletRequest request, HttpServletResponse response){
         HttpSession session = request.getSession(false);
         int id = (int) session.getAttribute("id");
-        //TODO deny update flooding
         String name = request.getParameter("name");
         String surname = request.getParameter("surname");
         String patronymic = request.getParameter("patronymic");
@@ -25,7 +26,7 @@ public class UpdateUserInfoCommand implements Command {
         String passport = request.getParameter("passport");
         String orphan = request.getParameter("orphanFacility");
         String goldMedal = request.getParameter("goldmedalFacility");
-        UserInfo ui = new UserInfo(id,name,surname,patronymic,photo,address,passport);
+        UserInfo ui = new UserInfo(id,name,surname,patronymic,photo,address,passport);//TODO nulls?
         try {
             DAOProvider daoProvider = DAOProvider.getInstance();
             UserInfoMySQL dao = daoProvider.getUserInfoDAO();

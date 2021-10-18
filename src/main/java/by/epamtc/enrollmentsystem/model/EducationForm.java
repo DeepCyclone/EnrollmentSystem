@@ -1,12 +1,16 @@
 package by.epamtc.enrollmentsystem.model;
 
 public class EducationForm {
+
+    private long id;
+    private String name;
+
+    public EducationForm() {
+    }
+
     public EducationForm(int id, String name) {
         this.id = id;
         this.name = name;
-    }
-
-    public EducationForm() {
     }
 
     public String getName() {
@@ -17,14 +21,11 @@ public class EducationForm {
         this.name = name;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
-
-    private int id;
-    private String name;
 }

@@ -2,6 +2,10 @@ package by.epamtc.enrollmentsystem.model;
 
 public class Result {
 
+    private long subjectId;
+    private long userInfoUserId;
+    private int resultValue;
+
     public Result() {
     }
 
@@ -11,19 +15,19 @@ public class Result {
         this.resultValue = resultValue;
     }
 
-    public int getSubjectId() {
+    public long getSubjectId() {
         return subjectId;
     }
 
-    public void setSubjectId(int subjectId) {
+    public void setSubjectId(long subjectId) {
         this.subjectId = subjectId;
     }
 
-    public int getUserInfoUserId() {
+    public long getUserInfoUserId() {
         return userInfoUserId;
     }
 
-    public void setUserInfoUserId(int userInfoUserId) {
+    public void setUserInfoUserId(long userInfoUserId) {
         this.userInfoUserId = userInfoUserId;
     }
 
@@ -34,9 +38,5 @@ public class Result {
     public void setResultValue(int resultValue) {
         this.resultValue = resultValue;
     }
-
-    private int subjectId;
-    private int userInfoUserId;
-    private int resultValue;
 
 }

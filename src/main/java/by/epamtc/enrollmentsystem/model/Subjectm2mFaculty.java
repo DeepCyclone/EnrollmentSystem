@@ -2,28 +2,32 @@ package by.epamtc.enrollmentsystem.model;
 
 public class Subjectm2mFaculty {
 
+    private long subjectId;
+    private long facultyId;
+    private int subjectUrgency;
+
+    public Subjectm2mFaculty() {
+    }
+
     public Subjectm2mFaculty(int subjectId, int facultyId, int subjectUrgency) {
         this.subjectId = subjectId;
         this.facultyId = facultyId;
         this.subjectUrgency = subjectUrgency;
     }
 
-    public Subjectm2mFaculty() {
-    }
-
-    public int getSubjectId() {
+    public long getSubjectId() {
         return subjectId;
     }
 
-    public void setSubjectId(int subjectId) {
+    public void setSubjectId(long subjectId) {
         this.subjectId = subjectId;
     }
 
-    public int getFacultyId() {
+    public long getFacultyId() {
         return facultyId;
     }
 
-    public void setFacultyId(int facultyId) {
+    public void setFacultyId(long facultyId) {
         this.facultyId = facultyId;
     }
 
@@ -34,8 +38,4 @@ public class Subjectm2mFaculty {
     public void setSubjectUrgency(int subjectUrgency) {
         this.subjectUrgency = subjectUrgency;
     }
-
-    private int subjectId;
-    private int facultyId;
-    private int subjectUrgency;
 }
