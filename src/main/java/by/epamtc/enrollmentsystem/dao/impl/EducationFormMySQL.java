@@ -11,10 +11,9 @@ import by.epamtc.enrollmentsystem.dao.composers.builders.entity.EducationFormBui
 
 import java.sql.*;
 import java.util.List;
+import java.util.Optional;
 
 public class EducationFormMySQL extends AbstractDAO<EducationForm> implements EducationFormDAO {
-    private static final String DELETE_ALL = "DELETE * FROM " + TablesNames.education_form;
-    private static final String SELECT_ALL = "SELECT * FROM " + TablesNames.education_form;
     private static final String UPDATE_NOTE = "UPDATE " + TablesNames.education_form +
                                               " SET ? WHERE " + EducationFormFields.id + " = ?";
 
@@ -55,7 +54,7 @@ public class EducationFormMySQL extends AbstractDAO<EducationForm> implements Ed
     }
 
     @Override
-    public EducationForm getByID(long id) throws DAOException {
+    public Optional<EducationForm> getByID(long id) throws DAOException {
         String tableName = TablesNames.education_form;
         String idFieldName = EducationFormFields.id;
         return super.getByID(tableName,idFieldName,id,new EducationFormBuilder());

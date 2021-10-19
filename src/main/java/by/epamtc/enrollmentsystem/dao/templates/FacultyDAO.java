@@ -8,5 +8,7 @@ import by.epamtc.enrollmentsystem.model.Faculty;
 import java.util.List;
 
 public interface FacultyDAO extends DAOTemplate<Faculty> {
-    List<Faculty> getFacultiesRange(int from, int offset) throws DAOException;
+    List<Faculty> getFacultiesRange(int from, int offset) throws DAOException;//TODO вынести в abstract
+    int getRecordsNumber() throws DAOException;
+
 }

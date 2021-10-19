@@ -7,8 +7,13 @@ import by.epamtc.enrollmentsystem.utils.SQLGenerator;
 
 import java.sql.*;
 import java.util.List;
+import java.util.Optional;
 
-public abstract class AbstractDAO<T> implements DAOTemplate<T>{
+public abstract class AbstractDAO<T> extends QueryExecutor<T> implements DAOTemplate<T>{
+
+    private static final String SELECT_ALL = "SELECT * FROM ";
+
+    private static final String GET_NUMBER_OF_RECORDS = "SELECT COUNT(*) FROM ";
 
     protected List<T> getAll(String tableName, EntityBuilder<T> entityBuilder) throws DAOException {
         Connection conn = null;
@@ -31,38 +36,42 @@ public abstract class AbstractDAO<T> implements DAOTemplate<T>{
         return entities;
     }
 
-    protected T getByID(String tableName,String idField,long id,EntityBuilder<T> entityBuilder) throws DAOException {
-        Connection conn = null;
-        Statement stmt = null;
-        ResultSet rs = null;
-        T entity = null;
-        try{
-            conn = ConnectionPool.getInstance().getConnection();
-            String query = SQLGenerator.generateGetByIdQuery(tableName,idField,id);
-            stmt = conn.createStatement();
-            rs = stmt.executeQuery(query);
-            entity = entityBuilder.singleObjectBuilder(rs,entityBuilder);
-        }
-        catch (SQLException e){
-            throw new DAOException(e.getMessage(),e);
-        }
-        finally {
-            ConnectionPool.getInstance().closeConnection(conn,stmt,rs);
-        }
-        return entity;
+    protected Optional<T> getByID(String tableName, String idField, long id, EntityBuilder<T> entityBuilder) throws DAOException {
+        String query = SQLGenerator.generateGetByIdPreparedQuery(tableName,idField);
+        return executeSingleResultQuery(query,entityBuilder,id);
+//        Connection conn = null;
+//        PreparedStatement stmt = null;
+//        ResultSet rs = null;
+//        T entity = null;
+//        try{
+//            conn = ConnectionPool.getInstance().getConnection();
+//
+//            stmt = conn.prepareStatement(query);
+//            stmt.setLong(1,id);
+//            rs = stmt.executeQuery(query);
+//            entity = entityBuilder.singleObjectBuilder(rs,entityBuilder);
+//        }
+//        catch (SQLException e){
+//            throw new DAOException(e.getMessage(),e);
+//        }
+//        finally {
+//            ConnectionPool.getInstance().closeConnection(conn,stmt,rs);
+//        }
+//        return entity;
     }
 
 //    public abstract int getIdByName(String name) throws DAOException;
 
     protected int getIdByName(String tableName,String idField,String nameField,String nameValue) throws DAOException {
         Connection conn = null;
-        Statement stmt = null;
+        PreparedStatement stmt = null;
         ResultSet rs = null;
         int id = 0;
         try{
             conn = ConnectionPool.getInstance().getConnection();
-            stmt = conn.createStatement();
-            String query = SQLGenerator.getIdByNameQuery(tableName, idField, nameField, nameValue);
+            String query = SQLGenerator.getIdByNamePreparedQuery(tableName, idField, nameField);
+            stmt = conn.prepareStatement(query);
+            stmt.setString(1,nameValue);
             rs = stmt.executeQuery(query);
             while(rs.next()){
                 id = rs.getInt(1);
@@ -115,5 +124,29 @@ public abstract class AbstractDAO<T> implements DAOTemplate<T>{
     @Override
     public void deleteAll() {
 
+    }
+
+    @Override
+    public int getNumberOfRecords(String tableName) throws DAOException {
+        Connection conn = null;
+        Statement stmt = null;
+        ResultSet rs = null;
+        int records = 0;
+        try{
+            conn = ConnectionPool.getInstance().getConnection();
+            String query = GET_NUMBER_OF_RECORDS + tableName;
+            stmt = conn.createStatement();
+            rs = stmt.executeQuery(query);
+            while(rs.next()){
+                records = rs.getInt(1);
+            }
+        }
+        catch (SQLException e){
+            throw new DAOException(e.getMessage(),e);
+        }
+        finally {
+            ConnectionPool.getInstance().closeConnection(conn,stmt,rs);
+        }
+        return records;
     }
 }

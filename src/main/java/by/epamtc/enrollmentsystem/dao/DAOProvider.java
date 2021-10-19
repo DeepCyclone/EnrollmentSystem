@@ -77,7 +77,7 @@ public final class DAOProvider {
     public static DAOProvider getInstance() {
         DAOProvider localInstance = instance;
         if (localInstance == null) {
-            synchronized (CommandProvider.class) {
+            synchronized (DAOProvider.class) {
                 localInstance = instance;
                 if (localInstance == null) {
                     instance = localInstance = new DAOProvider();
