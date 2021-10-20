@@ -1,27 +1,25 @@
 package by.epamtc.enrollmentsystem.dao.impl;
 
 import by.epamtc.enrollmentsystem.dao.AbstractDAO;
-import by.epamtc.enrollmentsystem.dao.composers.builders.entity.EntityBuilder;
 import by.epamtc.enrollmentsystem.dao.connectionpool.ConnectionPool;
-import by.epamtc.enrollmentsystem.dao.tables.fields.EducationFormFields;
 import by.epamtc.enrollmentsystem.dao.tables.fields.FacultyFields;
 import by.epamtc.enrollmentsystem.dao.tables.TablesNames;
 import by.epamtc.enrollmentsystem.dao.templates.FacultyDAO;
 import by.epamtc.enrollmentsystem.exception.DAOException;
 import by.epamtc.enrollmentsystem.model.Faculty;
-import by.epamtc.enrollmentsystem.dao.composers.builders.entity.FacultyBuilder;
-import by.epamtc.enrollmentsystem.utils.SQLGenerator;
+import by.epamtc.enrollmentsystem.dao.composers.builders.FacultyBuilder;
 
 import java.sql.*;
 import java.util.List;
+import java.util.Optional;
 
-public class FacultyMySQL extends AbstractDAO<Faculty> implements FacultyDAO {
+public final class FacultyMySQL extends AbstractDAO<Faculty> implements FacultyDAO {
 
     private static final String SELECT_RANGE = "SELECT * FROM " + TablesNames.faculty + " LIMIT ?,?";
     private static final String GET_RECORDS_NUMBER = "SELECT COUNT(*) FROM " + TablesNames.faculty;
 
     @Override
-    public Faculty getByID(long id) throws DAOException {
+    public Optional<Faculty> getByID(long id) throws DAOException {
         String tableName = TablesNames.faculty;
         String idFieldName = FacultyFields.id;
         return super.getByID(tableName,idFieldName,id,new FacultyBuilder());
@@ -29,6 +27,11 @@ public class FacultyMySQL extends AbstractDAO<Faculty> implements FacultyDAO {
 
     @Override
     public void insertInto(Faculty object) throws DAOException {
+
+    }
+
+    @Override
+    public void updateRowByID(Faculty note) throws DAOException {
 
     }
 
@@ -41,11 +44,6 @@ public class FacultyMySQL extends AbstractDAO<Faculty> implements FacultyDAO {
     public List<Faculty> getAll() throws DAOException {
         String tableName = TablesNames.faculty;
         return super.getAll(tableName,new FacultyBuilder());
-    }
-
-    @Override
-    public void updateRowByID(Faculty note, long id) {
-
     }
 
     @Override

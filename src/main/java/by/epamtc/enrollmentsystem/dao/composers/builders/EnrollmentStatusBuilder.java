@@ -1,8 +1,8 @@
-package by.epamtc.enrollmentsystem.dao.composers.builders.statement;
+package by.epamtc.enrollmentsystem.dao.composers.builders;
 
+import by.epamtc.enrollmentsystem.dao.tables.fields.EnrollmentStatusFields;
 import by.epamtc.enrollmentsystem.model.EnrollmentStatus;
 import by.epamtc.enrollmentsystem.dao.composers.AbstractComposer;
-import by.epamtc.enrollmentsystem.dao.composers.builders.entity.EntityBuilder;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -23,6 +23,9 @@ public class EnrollmentStatusBuilder extends AbstractComposer<EnrollmentStatus> 
 
     @Override
     public EnrollmentStatus composeObject(ResultSet rs) throws SQLException {
-        return null;
+        EnrollmentStatus status = new EnrollmentStatus();
+        status.setId(rs.getLong(EnrollmentStatusFields.id));
+        status.setName(rs.getString(EnrollmentStatusFields.name));
+        return status;
     }
 }

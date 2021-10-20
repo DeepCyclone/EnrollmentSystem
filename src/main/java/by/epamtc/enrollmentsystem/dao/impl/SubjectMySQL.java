@@ -7,6 +7,7 @@ import by.epamtc.enrollmentsystem.dao.tables.fields.EducationFormFields;
 import by.epamtc.enrollmentsystem.dao.tables.fields.SubjectFields;
 import by.epamtc.enrollmentsystem.dao.templates.SubjectDAO;
 import by.epamtc.enrollmentsystem.exception.DAOException;
+import by.epamtc.enrollmentsystem.model.Facilitym2mUserInfo;
 import by.epamtc.enrollmentsystem.model.Subject;
 
 import java.sql.Connection;
@@ -15,8 +16,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
-public class SubjectMySQL extends AbstractDAO<Subject> implements SubjectDAO {
+public final class SubjectMySQL extends AbstractDAO<Subject> implements SubjectDAO {
 
     private static final String SELECT_NAMES = "SELECT " + SubjectFields.name + " FROM " + TablesNames.education_form;
     private static final String SELECT_ALL = "SELECT * FROM " + TablesNames.education_form;
@@ -33,7 +35,7 @@ public class SubjectMySQL extends AbstractDAO<Subject> implements SubjectDAO {
     }
 
     @Override
-    public Subject getByID(long id) throws DAOException {
+    public Optional<Subject> getByID(long id) throws DAOException {
         return null;
     }
 
@@ -49,7 +51,7 @@ public class SubjectMySQL extends AbstractDAO<Subject> implements SubjectDAO {
     }
 
     @Override
-    public void updateRowByID(Subject note, long id) {
+    public void updateRowByID(Subject note) {
 
     }
 

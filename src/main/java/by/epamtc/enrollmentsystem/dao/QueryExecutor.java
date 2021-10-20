@@ -1,6 +1,6 @@
 package by.epamtc.enrollmentsystem.dao;
 
-import by.epamtc.enrollmentsystem.dao.composers.builders.entity.EntityBuilder;
+import by.epamtc.enrollmentsystem.dao.composers.builders.EntityBuilder;
 import by.epamtc.enrollmentsystem.dao.connectionpool.ConnectionPool;
 import by.epamtc.enrollmentsystem.exception.DAOException;
 
@@ -8,7 +8,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,18 +34,8 @@ public class QueryExecutor<T> {
         return Optional.of(entities.get(0));
     }
 
-    protected long executeInsertQuery(String query, Object... params) throws DAOException {
-        long result = 0;
-        try (PreparedStatement statement = createPreparedStatement(query, params)) {
-            statement.executeUpdate();
-            ResultSet generatedKey = statement.getGeneratedKeys();
-            if (generatedKey.next()) {
-                result = generatedKey.getLong(1);
-            }
-        } catch (SQLException e) {
-            throw new DAOException(e.getMessage(), e);
-        }
-        return result;
+    protected void executeInsertQuery(String query, Object... params) throws DAOException {
+        executeUpdateQuery(query,params);
     }
 
     protected void executeUpdateQuery(String query, Object... params) throws DAOException {
@@ -60,9 +49,9 @@ public class QueryExecutor<T> {
     private PreparedStatement createPreparedStatement(String query, Object... params) throws DAOException {
         try {
             Connection connection = ConnectionPool.getInstance().getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
-            for (int i = 0; i < params.length; i++) {
-                preparedStatement.setObject(i + 1, params[i]);
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            for (int i = 1; i <= params.length; ++i) {
+                preparedStatement.setObject(i, params[i-1]);
             }
             ConnectionPool.getInstance().returnConnection(connection);
             return preparedStatement;

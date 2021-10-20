@@ -7,15 +7,16 @@ import by.epamtc.enrollmentsystem.dao.tables.fields.EducationFormFields;
 import by.epamtc.enrollmentsystem.dao.templates.EducationFormDAO;
 import by.epamtc.enrollmentsystem.exception.DAOException;
 import by.epamtc.enrollmentsystem.model.EducationForm;
-import by.epamtc.enrollmentsystem.dao.composers.builders.entity.EducationFormBuilder;
+import by.epamtc.enrollmentsystem.dao.composers.builders.EducationFormBuilder;
 
 import java.sql.*;
 import java.util.List;
 import java.util.Optional;
 
-public class EducationFormMySQL extends AbstractDAO<EducationForm> implements EducationFormDAO {
-    private static final String UPDATE_NOTE = "UPDATE " + TablesNames.education_form +
-                                              " SET ? WHERE " + EducationFormFields.id + " = ?";
+public final class EducationFormMySQL extends AbstractDAO<EducationForm> implements EducationFormDAO {
+    private static final String UPDATE_RECORD_BY_ID = " UPDATE " + TablesNames.education_form +
+                                                      " SET " + EducationFormFields.name  + " = ? " +
+                                                      " WHERE " + EducationFormFields.id + " = ?";
 
     @Override
     public void insertInto(EducationForm object) throws DAOException {
@@ -27,24 +28,8 @@ public class EducationFormMySQL extends AbstractDAO<EducationForm> implements Ed
     }
 
     @Override
-    public void updateRowByID(EducationForm note,long id) throws DAOException {
-
-        Connection conn = null;
-        PreparedStatement preparedStatement = null;
-
-        try {
-            conn = ConnectionPool.getInstance().getConnection();
-            preparedStatement = conn.prepareStatement(UPDATE_NOTE);
-            preparedStatement.setString(0,note.getName());
-            preparedStatement.setLong(1,id);
-            preparedStatement.executeUpdate();
-        }
-        catch (SQLException e){
-            throw new DAOException(e.getMessage(),e.getCause());
-        }
-        finally {
-            ConnectionPool.getInstance().closeConnection(conn,preparedStatement);
-        }
+    public void updateRowByID(EducationForm note) throws DAOException {
+        executeUpdateQuery(UPDATE_RECORD_BY_ID,note.getName(),note.getId());
     }
 
     @Override

@@ -1,6 +1,6 @@
 package by.epamtc.enrollmentsystem.dao.composers;
 
-import by.epamtc.enrollmentsystem.dao.composers.builders.entity.EntityBuilder;
+import by.epamtc.enrollmentsystem.dao.composers.builders.EntityBuilder;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

@@ -1,8 +1,7 @@
-package by.epamtc.enrollmentsystem.dao.composers.builders.statement;
+package by.epamtc.enrollmentsystem.dao.composers.builders;
 
-import by.epamtc.enrollmentsystem.model.User;
 import by.epamtc.enrollmentsystem.dao.composers.AbstractComposer;
-import by.epamtc.enrollmentsystem.dao.composers.builders.entity.EntityBuilder;
+import by.epamtc.enrollmentsystem.model.User;
 
 import java.nio.charset.StandardCharsets;
 import java.sql.ResultSet;
@@ -25,11 +24,11 @@ public class UserBuilder extends AbstractComposer<User> implements EntityBuilder
     @Override
     public User composeObject(ResultSet rs) throws SQLException {
         User user = new User();
-        user.setId(rs.getInt(1));
+        user.setId(rs.getLong(1));
         user.setLogin(rs.getString(2));
         user.setPassword(rs.getString(3).getBytes(StandardCharsets.UTF_8));
         user.setEmail(rs.getString(4));
-        user.setRoleId(rs.getInt(5));
+        user.setRoleId(rs.getLong(5));
         return user;
     }
 }

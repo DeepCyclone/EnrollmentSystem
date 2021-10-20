@@ -8,12 +8,12 @@ import by.epamtc.enrollmentsystem.model.ApplicantEnrollment;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 public interface ApplicantEnrollmentDAO extends DAOTemplate<ApplicantEnrollment> {
-    Map<Long, List<Long>> getFacultiesWithFormsByUserId(long userId) throws DAOException;
     void updateEducationForm(long userId,long facultyId,long educationFormId) throws DAOException;
-    boolean userHasFaculty(long userId,long facultyId) throws DAOException;
+    Optional<ApplicantEnrollment> getByFacultyAndUserIds(long userId, long facultyId) throws DAOException;
     void deleteFacultiesByUserId(long userId) throws DAOException;
     List<ApplicantEnrollment> getByUserId(long userId) throws DAOException;
-    void updateRowByUserId(long userId,ApplicantEnrollment note) throws DAOException;
+    void updateEnrollmentStatusByUserId(ApplicantEnrollment note) throws DAOException;
 }

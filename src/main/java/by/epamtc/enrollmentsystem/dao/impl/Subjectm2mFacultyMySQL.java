@@ -6,15 +6,13 @@ import by.epamtc.enrollmentsystem.dao.tables.TablesNames;
 import by.epamtc.enrollmentsystem.dao.tables.fields.EducationFormFields;
 import by.epamtc.enrollmentsystem.dao.templates.Subjectm2mFacultyDAO;
 import by.epamtc.enrollmentsystem.exception.DAOException;
+import by.epamtc.enrollmentsystem.model.Facilitym2mUserInfo;
 import by.epamtc.enrollmentsystem.model.Subjectm2mFaculty;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
-public class Subjectm2mFacultyMySQL extends AbstractDAO<Subjectm2mFaculty> implements Subjectm2mFacultyDAO {
+public final class Subjectm2mFacultyMySQL extends AbstractDAO<Subjectm2mFaculty> implements Subjectm2mFacultyDAO {
 
     private static final String GET_FACULTIES_CORRESPONDING_TO_SUBJECTS = "SELECT f_name,s_name FROM subject JOIN subject_m2m_faculty ON s_id = smf_s_id JOIN faculty AS f ON subject_m2m_faculty.smf_f_id = f.f_id";//TODO crash into parts and !ask if this must be here!
 
@@ -30,7 +28,7 @@ public class Subjectm2mFacultyMySQL extends AbstractDAO<Subjectm2mFaculty> imple
     }
 
     @Override
-    public Subjectm2mFaculty getByID(long id) throws DAOException {
+    public Optional<Subjectm2mFaculty> getByID(long id) throws DAOException {
         return null;
     }
 
@@ -40,7 +38,7 @@ public class Subjectm2mFacultyMySQL extends AbstractDAO<Subjectm2mFaculty> imple
     }
 
     @Override
-    public void updateRowByID(Subjectm2mFaculty note, long id) throws DAOException {
+    public void updateRowByID(Subjectm2mFaculty note) throws DAOException {
 
     }
 

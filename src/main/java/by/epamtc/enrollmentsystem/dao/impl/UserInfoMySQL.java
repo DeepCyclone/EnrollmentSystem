@@ -1,20 +1,19 @@
 package by.epamtc.enrollmentsystem.dao.impl;
 
 import by.epamtc.enrollmentsystem.dao.AbstractDAO;
-import by.epamtc.enrollmentsystem.dao.tables.fields.SubjectFields;
 import by.epamtc.enrollmentsystem.dao.tables.fields.UserInfoFields;
 import by.epamtc.enrollmentsystem.dao.tables.TablesNames;
 import by.epamtc.enrollmentsystem.dao.connectionpool.ConnectionPool;
 import by.epamtc.enrollmentsystem.dao.templates.UserInfoDAO;
 import by.epamtc.enrollmentsystem.exception.DAOException;
-import by.epamtc.enrollmentsystem.model.User;
 import by.epamtc.enrollmentsystem.model.UserInfo;
-import by.epamtc.enrollmentsystem.dao.composers.builders.entity.UserInfoBuilder;
+import by.epamtc.enrollmentsystem.dao.composers.builders.UserInfoBuilder;
 
 import java.sql.*;
 import java.util.List;
+import java.util.Optional;
 
-public class UserInfoMySQL extends AbstractDAO<UserInfo> implements UserInfoDAO {
+public final class UserInfoMySQL extends AbstractDAO<UserInfo> implements UserInfoDAO {
     private static final String tableName = TablesNames.user_info;
     private static final String INSERT_INTO = "INSERT INTO " + TablesNames.user_info +
                                 "(" + UserInfoFields.userId + "," + UserInfoFields.name + "," + UserInfoFields.surname + "," +
@@ -41,7 +40,7 @@ public class UserInfoMySQL extends AbstractDAO<UserInfo> implements UserInfoDAO 
     }
 
     @Override
-    public UserInfo getByID(long id) throws DAOException {
+    public Optional<UserInfo> getByID(long id) throws DAOException {
         String idFieldName = UserInfoFields.userId;
         return super.getByID(tableName,idFieldName,id,new UserInfoBuilder());
     }
@@ -77,7 +76,7 @@ public class UserInfoMySQL extends AbstractDAO<UserInfo> implements UserInfoDAO 
     }
 
     @Override
-    public void updateRowByID(UserInfo note, long id) throws DAOException {
+    public void updateRowByID(UserInfo note) throws DAOException {
         Connection conn = null;
         PreparedStatement preparedStatement = null;
         try {

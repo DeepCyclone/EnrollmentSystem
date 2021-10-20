@@ -6,11 +6,13 @@ import by.epamtc.enrollmentsystem.dao.tables.fields.EducationFormFields;
 import by.epamtc.enrollmentsystem.dao.tables.fields.RoleFields;
 import by.epamtc.enrollmentsystem.dao.templates.RoleDAO;
 import by.epamtc.enrollmentsystem.exception.DAOException;
+import by.epamtc.enrollmentsystem.model.Facilitym2mUserInfo;
 import by.epamtc.enrollmentsystem.model.Role;
 
 import java.util.List;
+import java.util.Optional;
 
-public class RoleMySQL extends AbstractDAO<Role> implements RoleDAO {
+public final class RoleMySQL extends AbstractDAO<Role> implements RoleDAO {
 
     @Override
     public List<Role> getAll() throws DAOException {
@@ -23,7 +25,7 @@ public class RoleMySQL extends AbstractDAO<Role> implements RoleDAO {
     }
 
     @Override
-    public Role getByID(long id) throws DAOException {
+    public Optional<Role> getByID(long id) throws DAOException {
         return null;
     }
 
@@ -33,5 +35,15 @@ public class RoleMySQL extends AbstractDAO<Role> implements RoleDAO {
         String nameField = RoleFields.name;
         String idField = RoleFields.id;
         return super.getNameById(tableName,idField,nameField,id);
+    }
+
+    @Override
+    public void insertInto(Role object) throws DAOException {
+
+    }
+
+    @Override
+    public void updateRowByID(Role note) throws DAOException {
+
     }
 }

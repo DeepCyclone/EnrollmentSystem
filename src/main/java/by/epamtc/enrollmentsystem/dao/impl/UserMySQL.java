@@ -1,7 +1,6 @@
 package by.epamtc.enrollmentsystem.dao.impl;
 
 import by.epamtc.enrollmentsystem.dao.AbstractDAO;
-import by.epamtc.enrollmentsystem.dao.tables.fields.SubjectFields;
 import by.epamtc.enrollmentsystem.dao.tables.fields.UserFields;
 import by.epamtc.enrollmentsystem.dao.tables.TablesNames;
 import by.epamtc.enrollmentsystem.dao.connectionpool.ConnectionPool;
@@ -9,13 +8,14 @@ import by.epamtc.enrollmentsystem.dao.templates.UserDAO;
 import by.epamtc.enrollmentsystem.exception.DAOException;
 import by.epamtc.enrollmentsystem.model.User;
 import by.epamtc.enrollmentsystem.model.dto.UserCredentials;
-import by.epamtc.enrollmentsystem.dao.composers.builders.entity.UserBuilder;
+import by.epamtc.enrollmentsystem.dao.composers.builders.UserBuilder;
 
 import java.nio.charset.StandardCharsets;
 import java.sql.*;
 import java.util.List;
+import java.util.Optional;
 
-public class UserMySQL extends AbstractDAO<User> implements UserDAO {
+public final class UserMySQL extends AbstractDAO<User> implements UserDAO {
     private static final String GET_ALL_USERS = "SELECT * FROM " + TablesNames.user;
     private static final String GET_ALL_APPLICANTS = "SELECT * FROM " + TablesNames.user +
                                                      " WHERE ";
@@ -35,7 +35,7 @@ public class UserMySQL extends AbstractDAO<User> implements UserDAO {
 
 
     @Override
-    public User getByID(long id) throws DAOException {
+    public Optional<User> getByID(long id) throws DAOException {
         String tableName = TablesNames.user;
         String idFieldName = UserFields.id;
         return super.getByID(tableName,idFieldName,id,new UserBuilder());
@@ -89,7 +89,7 @@ public class UserMySQL extends AbstractDAO<User> implements UserDAO {
     }
 
     @Override
-    public void updateRowByID(User note, long id) {
+    public void updateRowByID(User note) {
 
     }
 

@@ -1,8 +1,7 @@
-package by.epamtc.enrollmentsystem.dao.composers.builders.statement;
+package by.epamtc.enrollmentsystem.dao.composers.builders;
 
-import by.epamtc.enrollmentsystem.model.UserInfo;
 import by.epamtc.enrollmentsystem.dao.composers.AbstractComposer;
-import by.epamtc.enrollmentsystem.dao.composers.builders.entity.EntityBuilder;
+import by.epamtc.enrollmentsystem.model.UserInfo;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -24,7 +23,7 @@ public class UserInfoBuilder extends AbstractComposer<UserInfo> implements Entit
     @Override
     public UserInfo composeObject(ResultSet rs) throws SQLException {
         UserInfo ui = new UserInfo();
-        ui.setId(rs.getInt(1));
+        ui.setId(rs.getLong(1));
         ui.setName(rs.getString(2));
         ui.setSurname(rs.getString(3));
         ui.setPatronymic(rs.getString(4));

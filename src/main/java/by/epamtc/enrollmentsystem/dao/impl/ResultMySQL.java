@@ -8,6 +8,7 @@ import by.epamtc.enrollmentsystem.dao.tables.fields.ResultFields;
 import by.epamtc.enrollmentsystem.dao.tables.fields.SubjectFields;
 import by.epamtc.enrollmentsystem.dao.templates.ResultDAO;
 import by.epamtc.enrollmentsystem.exception.DAOException;
+import by.epamtc.enrollmentsystem.model.Facilitym2mUserInfo;
 import by.epamtc.enrollmentsystem.model.Result;
 import by.epamtc.enrollmentsystem.model.dto.MarkValue;
 import by.epamtc.enrollmentsystem.model.dto.UserResultByFaculty;
@@ -19,8 +20,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 
-public class ResultMySQL extends AbstractDAO<Result> implements ResultDAO {
+public final class ResultMySQL extends AbstractDAO<Result> implements ResultDAO {
 
     private static final String GET_APPLICANT_MARKS = "SELECT s_id,s_name,r_value FROM subject LEFT JOIN (SELECT r_s_id,r_value FROM result WHERE r_ui_u_id = ?) as result ON result.r_s_id = s_id";
     private static final String UPDATE_USER_RESULT = "UPDATE "+ TablesNames.result +
@@ -51,7 +53,7 @@ public class ResultMySQL extends AbstractDAO<Result> implements ResultDAO {
     }
 
     @Override
-    public Result getByID(long id) throws DAOException {
+    public Optional<Result> getByID(long id) throws DAOException {
         return null;
     }
 
@@ -78,7 +80,7 @@ public class ResultMySQL extends AbstractDAO<Result> implements ResultDAO {
     }
 
     @Override
-    public void updateRowByID(Result note, long id) throws DAOException {
+    public void updateRowByID(Result note) throws DAOException {
 
     }
 

@@ -3,19 +3,19 @@ package by.epamtc.enrollmentsystem.dao.impl;
 import by.epamtc.enrollmentsystem.dao.AbstractDAO;
 import by.epamtc.enrollmentsystem.dao.connectionpool.ConnectionPool;
 import by.epamtc.enrollmentsystem.dao.tables.TablesNames;
-import by.epamtc.enrollmentsystem.dao.tables.fields.EducationFormFields;
 import by.epamtc.enrollmentsystem.dao.tables.fields.FacilityFields;
 import by.epamtc.enrollmentsystem.dao.tables.fields.Facilitym2mUserInfoFields;
 import by.epamtc.enrollmentsystem.dao.templates.Facilitym2mUserInfoDAO;
 import by.epamtc.enrollmentsystem.exception.DAOException;
 import by.epamtc.enrollmentsystem.model.Facilitym2mUserInfo;
-import by.epamtc.enrollmentsystem.dao.composers.builders.entity.Facilitym2mUserInfoBuilder;
+import by.epamtc.enrollmentsystem.dao.composers.builders.Facilitym2mUserInfoBuilder;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
-public class Facilitym2mUserInfoMySQL extends AbstractDAO<Facilitym2mUserInfo> implements Facilitym2mUserInfoDAO {
+public final class Facilitym2mUserInfoMySQL extends AbstractDAO<Facilitym2mUserInfo> implements Facilitym2mUserInfoDAO {
 
     private static final String INSERT_INTO = "INSERT INTO " + TablesNames.facility_m2m_user_info + " VALUES(?,?)";
     private static final String GET_USER_FACILITIES_NAMES = "SELECT " + FacilityFields.name + " FROM " + TablesNames.facility +
@@ -34,27 +34,18 @@ public class Facilitym2mUserInfoMySQL extends AbstractDAO<Facilitym2mUserInfo> i
     }
 
     @Override
-    public Facilitym2mUserInfo getByID(long id) throws DAOException {
+    public Optional<Facilitym2mUserInfo> getByID(long id) throws DAOException {
         return null;
     }
 
     @Override
     public void insertInto(Facilitym2mUserInfo object) throws DAOException {
-        Connection conn = null;
-        PreparedStatement stmt = null;
-        try{
-            conn = ConnectionPool.getInstance().getConnection();
-            stmt = conn.prepareStatement(INSERT_INTO);
-            stmt.setLong(1,object.getFacilityId());
-            stmt.setLong(2,object.getUserInfoUserId());
-            stmt.executeUpdate();
-        }
-        catch (SQLException e){
-            throw new DAOException(e.getMessage(),e);
-        }
-        finally {
-            ConnectionPool.getInstance().closeConnection(conn,stmt);
-        }
+        executeInsertQuery(INSERT_INTO,object.getFacilityId(),object.getUserInfoUserId());
+    }
+
+    @Override
+    public void updateRowByID(Facilitym2mUserInfo note) throws DAOException {
+
     }
 
     @Override

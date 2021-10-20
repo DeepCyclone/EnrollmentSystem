@@ -1,4 +1,4 @@
-package by.epamtc.enrollmentsystem.dao.composers.builders.entity;
+package by.epamtc.enrollmentsystem.dao.composers.builders;
 
 import by.epamtc.enrollmentsystem.model.Result;
 import by.epamtc.enrollmentsystem.dao.composers.AbstractComposer;

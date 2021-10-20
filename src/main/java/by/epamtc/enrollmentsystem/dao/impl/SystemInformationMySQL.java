@@ -6,6 +6,7 @@ import by.epamtc.enrollmentsystem.dao.connectionpool.ConnectionPool;
 import by.epamtc.enrollmentsystem.dao.tables.fields.SubjectFields;
 import by.epamtc.enrollmentsystem.dao.templates.SystemInformationDAO;
 import by.epamtc.enrollmentsystem.exception.DAOException;
+import by.epamtc.enrollmentsystem.model.Facilitym2mUserInfo;
 import by.epamtc.enrollmentsystem.model.SystemInformation;
 import by.epamtc.enrollmentsystem.dao.tables.fields.SystemInformationFields;
 
@@ -14,8 +15,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 
-public class SystemInformationMySQL extends AbstractDAO<SystemInformation> implements SystemInformationDAO {
+public final class SystemInformationMySQL extends AbstractDAO<SystemInformation> implements SystemInformationDAO {
     private static final String GET_BY_NAME = "SELECT "+ SystemInformationFields.value +
                                               " FROM " + TablesNames.system_information +
                                               " WHERE " + SystemInformationFields.name +  "= ?";
@@ -32,7 +34,7 @@ public class SystemInformationMySQL extends AbstractDAO<SystemInformation> imple
     }
 
     @Override
-    public SystemInformation getByID(long id) throws DAOException {
+    public Optional<SystemInformation> getByID(long id) throws DAOException {
         return null;
     }
 
@@ -73,7 +75,7 @@ public class SystemInformationMySQL extends AbstractDAO<SystemInformation> imple
 
 
     @Override
-    public void updateRowByID(SystemInformation note, long id) {
+    public void updateRowByID(SystemInformation note) {
 
     }
 
