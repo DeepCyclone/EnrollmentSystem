@@ -7,16 +7,16 @@ public class SQLGenerator {//singleton
         query.append(tableName);
         return query.toString();
     }
-    public static String generateGetByIdQuery(String tableName,String idFieldName,long id){
+    public static String generateGetByIdPreparedQuery(String tableName,String idFieldName){
         StringBuilder query = new StringBuilder(SELECT_ALL);
         query.append(tableName);
         query.append(" WHERE ");
         query.append(idFieldName);
         query.append("=");
-        query.append(id);
+        query.append("?");
         return query.toString();
     }
-    public static String getIdByNameQuery(String tableName,String idField,String nameField,String nameValue){
+    public static String getIdByNamePreparedQuery(String tableName,String idField,String nameField){
         StringBuilder query = new StringBuilder("SELECT ");
         query.append(idField);
         query.append(" FROM ");
@@ -24,9 +24,7 @@ public class SQLGenerator {//singleton
         query.append(" WHERE ");
         query.append(nameField);
         query.append("=");
-        query.append("'");
-        query.append(nameValue);
-        query.append("'");
+        query.append("?");
         return query.toString();
     }
     public static String getNameByIdQuery(String tableName,String idField,String nameField,long id) {
