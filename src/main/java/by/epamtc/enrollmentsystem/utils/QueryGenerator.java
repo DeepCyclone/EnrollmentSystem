@@ -1,6 +1,6 @@
 package by.epamtc.enrollmentsystem.utils;
 
-public class SQLGenerator {//singleton
+public class QueryGenerator {//singleton
     private static final String SELECT_ALL = "SELECT * FROM ";
     public static String generateSelectAllQuery(String tableName){
         StringBuilder query = new StringBuilder(SELECT_ALL);

@@ -41,7 +41,7 @@ public class EnrollmentStatusUpdateCommand implements Command {
             applicantEnrollment.setEducationFormId(educationFormId);
             applicantEnrollment.setFacultyId(facultyId);
             applicantEnrollment.setUserId(userId);
-            applicantEnrollmentDAO.updateRowByUserId(userId,applicantEnrollment);
+            applicantEnrollmentDAO.updateEnrollmentStatusByUserId(applicantEnrollment);
         }
         catch (Exception e){
 

@@ -17,25 +17,32 @@ import java.util.Optional;
 
 public final class Facilitym2mUserInfoMySQL extends AbstractDAO<Facilitym2mUserInfo> implements Facilitym2mUserInfoDAO {
 
+    private static final String tableName = TablesNames.facility_m2m_user_info;
+
     private static final String INSERT_INTO = "INSERT INTO " + TablesNames.facility_m2m_user_info + " VALUES(?,?)";
+
     private static final String GET_USER_FACILITIES_NAMES = "SELECT " + FacilityFields.name + " FROM " + TablesNames.facility +
                                                            " JOIN " + TablesNames.facility_m2m_user_info +
                                                            " ON " +  FacilityFields.id + "=" + Facilitym2mUserInfoFields.facilityId +
                                                            " WHERE " + Facilitym2mUserInfoFields.userInfoUserId + " = ?";
+
+    private static final String GET_BY_USER_ID = "SELECT * FROM " + TablesNames.facility_m2m_user_info +
+                                                " WHERE " + Facilitym2mUserInfoFields.userInfoUserId + " = ?";
+
+
     @Override
     public List<Facilitym2mUserInfo> getAll() throws DAOException {
-        String tableName = TablesNames.facility_m2m_user_info;
         return super.getAll(tableName,new Facilitym2mUserInfoBuilder());
     }
 
     @Override
-    public int getIdByName(String name) throws DAOException {
-        return 0;
+    public long getIdByName(String name) throws DAOException {
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public Optional<Facilitym2mUserInfo> getByID(long id) throws DAOException {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
@@ -49,12 +56,19 @@ public final class Facilitym2mUserInfoMySQL extends AbstractDAO<Facilitym2mUserI
     }
 
     @Override
-    public List<String> getUserFacilitiesNames(long userId) throws DAOException {
+    public List<Facilitym2mUserInfo> getEntitiesRange(int from, int offset) throws DAOException {
+        return null;
+    }
+
+    @Override
+    public List<String> getUserFacilitiesNames(long userId) throws DAOException {//TODO починить + сервис
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
         List<String> existingFacilitiesNames = null;
         try{
+            conn = ConnectionPool.getInstance().getConnection();
+            conn.prepareStatement(GET_USER_FACILITIES_NAMES);
             stmt.setLong(1,userId);
             rs = stmt.executeQuery();
             existingFacilitiesNames = new ArrayList<>();
@@ -69,6 +83,11 @@ public final class Facilitym2mUserInfoMySQL extends AbstractDAO<Facilitym2mUserI
             ConnectionPool.getInstance().closeConnection(conn,stmt);
         }
         return existingFacilitiesNames;
+    }
+
+    @Override
+    public List<Facilitym2mUserInfo> getByUserId(long userId) throws DAOException {
+        return executeSelectQuery(GET_BY_USER_ID,new Facilitym2mUserInfoBuilder(),userId);
     }
 
     @Override

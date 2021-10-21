@@ -1,5 +1,7 @@
 package by.epamtc.enrollmentsystem.model;
 
+import java.util.Objects;
+
 public class EducationForm {
 
     private long id;
@@ -27,5 +29,31 @@ public class EducationForm {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        EducationForm that = (EducationForm) o;
+        return id == that.id && Objects.equals(name, that.name);
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + (int) id;
+        result = prime * result + (name==null?0:name.hashCode());
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder result = new StringBuilder(getClass().getSimpleName());
+        result.append(" Fields:\n");
+        result.append("ID:").append(id).append("\n");
+        result.append("name:").append(name).append("\n");
+        return result.toString();
     }
 }

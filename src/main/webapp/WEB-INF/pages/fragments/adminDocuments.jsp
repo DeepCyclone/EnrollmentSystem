@@ -30,7 +30,6 @@
             <td>${user.surname}</td>
             <td>${user.name}</td>
             <td>${user.patronymic}</td>
-
             <td>
             <c:forEach var = "info" items="${user.enrollmentInfo}">
                     ${info.facultyName}
@@ -95,4 +94,20 @@
     </c:forEach>
         </tbody>
     </table>
+    <nav aria-label="Page navigation">
+        <ul class="pagination justify-content-center">
+            <li class="page-item <c:if test="${requestScope.get('prevPage') == null}">disabled</c:if>">
+                <a class="page-link" href="controller?action=PRELOAD_ADMIN_PAGE&page=${requestScope.get('prevPage')}" tabindex="-1">Previous</a>
+            </li>
+            <c:forEach var="i" begin="${requestScope.get('currentPage')}" end="${requestScope.get('endPage')}">
+                <li class="page-item">
+                    <a class="page-link" href="controller?action=PRELOAD_ADMIN_PAGE&page=${i}">${i}</a>
+                </li>
+            </c:forEach>
+
+            <li class="page-item <c:if test="${requestScope.get('nextPage') == null}">disabled</c:if>">
+                <a class="page-link" href="controller?action=PRELOAD_ADMIN_PAGE&page=${requestScope.get('nextPage')}">Next</a>
+            </li>
+        </ul>
+    </nav>
 </div>

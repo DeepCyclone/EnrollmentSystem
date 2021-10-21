@@ -1,6 +1,7 @@
 package by.epamtc.enrollmentsystem.dao.impl;
 
 import by.epamtc.enrollmentsystem.dao.AbstractDAO;
+import by.epamtc.enrollmentsystem.dao.composers.builders.ResultBuilder;
 import by.epamtc.enrollmentsystem.dao.connectionpool.ConnectionPool;
 import by.epamtc.enrollmentsystem.dao.tables.TablesNames;
 import by.epamtc.enrollmentsystem.dao.tables.fields.ApplicantEnrollmentFields;
@@ -10,6 +11,7 @@ import by.epamtc.enrollmentsystem.dao.templates.ResultDAO;
 import by.epamtc.enrollmentsystem.exception.DAOException;
 import by.epamtc.enrollmentsystem.model.Facilitym2mUserInfo;
 import by.epamtc.enrollmentsystem.model.Result;
+import by.epamtc.enrollmentsystem.model.Subject;
 import by.epamtc.enrollmentsystem.model.dto.MarkValue;
 import by.epamtc.enrollmentsystem.model.dto.UserResultByFaculty;
 
@@ -42,13 +44,19 @@ public final class ResultMySQL extends AbstractDAO<Result> implements ResultDAO 
                                              " VALUES (?,?,?)";
 
 
+    private static final String GET_RESULT_BY_USER_ID_AND_SUBJECT_NAME = "SELECT * FROM " + TablesNames.result +
+                                                                        " JOIN " + TablesNames.subject + " ON " + ResultFields.subjectId + " = " + SubjectFields.id +
+                                                                        " WHERE " + SubjectFields.name + " = ?" +
+                                                                        " AND " + ResultFields.userInfoUserId + " = ?";
+
+
     @Override
     public List<Result> getAll() throws DAOException {
         return null;
     }
 
     @Override
-    public int getIdByName(String name) throws DAOException {
+    public long getIdByName(String name) throws DAOException {
         return 0;
     }
 
@@ -59,24 +67,7 @@ public final class ResultMySQL extends AbstractDAO<Result> implements ResultDAO 
 
     @Override
     public void insertInto(Result object) throws DAOException {
-        Connection conn = null;
-        PreparedStatement stmt = null;
-        try{
-            conn = ConnectionPool.getInstance().getConnection();
-            stmt = conn.prepareStatement(INSERT_INTO);
-            stmt.setLong(1,object.getSubjectId());
-            stmt.setLong(2,object.getUserInfoUserId());
-            stmt.setInt(3,object.getResultValue());
-            stmt.executeUpdate();
-        }
-        catch (SQLException exception){
-            throw new DAOException(exception.getMessage(),exception);
-        }
-        finally {
-            if(conn !=null){
-                ConnectionPool.getInstance().closeConnection(conn,stmt);
-            }
-        }
+        executeInsertQuery(INSERT_INTO,object.getSubjectId(),object.getUserInfoUserId(),object.getResultValue());
     }
 
     @Override
@@ -90,7 +81,12 @@ public final class ResultMySQL extends AbstractDAO<Result> implements ResultDAO 
     }
 
     @Override
-    public List<MarkValue> retrieveResultByUserId(long userID) throws DAOException {//TODO это куда-то перенести
+    public List<Result> getEntitiesRange(int from, int offset) throws DAOException {
+        return null;
+    }
+
+    @Override
+    public List<MarkValue> retrieveResultsByUserId(long userID) throws DAOException {//TODO это куда-то перенести
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -121,24 +117,7 @@ public final class ResultMySQL extends AbstractDAO<Result> implements ResultDAO 
 
     @Override
     public void updateUserResult(Result res) throws DAOException {
-        Connection conn = null;
-        PreparedStatement stmt = null;
-        try{
-            conn = ConnectionPool.getInstance().getConnection();
-            stmt = conn.prepareStatement(UPDATE_USER_RESULT);
-            stmt.setInt(1,res.getResultValue());
-            stmt.setLong(2,res.getUserInfoUserId());
-            stmt.setLong(3,res.getSubjectId());
-            stmt.executeUpdate();
-        }
-        catch (SQLException exception){
-            throw new DAOException(exception.getMessage(),exception);
-        }
-        finally {
-            if(conn !=null){
-                ConnectionPool.getInstance().closeConnection(conn,stmt);
-            }
-        }
+        executeUpdateQuery(UPDATE_USER_RESULT,res.getResultValue(),res.getUserInfoUserId(),res.getSubjectId());
     }
 
     @Override
@@ -196,6 +175,16 @@ public final class ResultMySQL extends AbstractDAO<Result> implements ResultDAO 
             }
         }
         return userResults;
+    }
+
+    @Override
+    public int getResultValueBySubjectName(String subjectName,long userId) throws DAOException {
+        Optional<Result> result = executeSingleResultQuery(GET_RESULT_BY_USER_ID_AND_SUBJECT_NAME, new ResultBuilder(), subjectName,userId);//TODO return
+        int resValue = 0;
+        if(result.isPresent()){
+            resValue = result.get().getResultValue();
+        }
+        return resValue;
     }
 
     @Override

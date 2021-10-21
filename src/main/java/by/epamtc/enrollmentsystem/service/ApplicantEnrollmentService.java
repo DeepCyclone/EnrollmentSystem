@@ -10,7 +10,7 @@ import java.util.Set;
 public interface ApplicantEnrollmentService {
     Map<Long, List<Long>> getSelectedFacultiesByUserId(long userId) throws ServiceException;
     void updateEducationForm(long userId,long facultyId,long educationFormId);
-    boolean userHasFaculty(long userId,long facultyId);
+    boolean userHasFaculty(long userId,long facultyId) throws ServiceException;
     void deleteFacultiesByUserId(long userId);
     Set<StringifiedApplicantEnrollment> getStringifiedTable(long userId) throws ServiceException;
 }

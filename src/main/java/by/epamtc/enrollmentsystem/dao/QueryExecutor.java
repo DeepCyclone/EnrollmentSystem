@@ -27,7 +27,7 @@ public class QueryExecutor<T> {
     protected Optional<T> executeSingleResultQuery(String query,EntityBuilder<T> builder , Object... params) throws DAOException {
         List<T> entities = executeSelectQuery(query,builder, params);
 
-        if (entities.size() <= 1) {
+        if (entities.isEmpty() || !(entities.size() == 1)) {
             return Optional.empty();
         }
 
@@ -50,8 +50,8 @@ public class QueryExecutor<T> {
         try {
             Connection connection = ConnectionPool.getInstance().getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(query);
-            for (int i = 1; i <= params.length; ++i) {
-                preparedStatement.setObject(i, params[i-1]);
+            for (int i = 0; i < params.length; ++i) {
+                preparedStatement.setObject(i+1, params[i]);
             }
             ConnectionPool.getInstance().returnConnection(connection);
             return preparedStatement;

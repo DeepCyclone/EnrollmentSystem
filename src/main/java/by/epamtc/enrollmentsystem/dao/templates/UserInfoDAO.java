@@ -6,5 +6,5 @@ import by.epamtc.enrollmentsystem.model.ApplicantEnrollment;
 import by.epamtc.enrollmentsystem.model.UserInfo;
 
 public interface UserInfoDAO extends DAOTemplate<UserInfo> {
-    public boolean hasNoteWithId(long id) throws DAOException;
+
 }

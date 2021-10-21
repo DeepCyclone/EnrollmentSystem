@@ -1,5 +1,6 @@
 package by.epamtc.enrollmentsystem.dao.composers.builders;
 
+import by.epamtc.enrollmentsystem.dao.tables.fields.ResultFields;
 import by.epamtc.enrollmentsystem.model.Result;
 import by.epamtc.enrollmentsystem.dao.composers.AbstractComposer;
 
@@ -22,6 +23,10 @@ public class ResultBuilder extends AbstractComposer<Result> implements EntityBui
 
     @Override
     public Result composeObject(ResultSet rs) throws SQLException {
-        return null;
+        Result result = new Result();
+        result.setSubjectId(rs.getLong(ResultFields.subjectId));
+        result.setUserInfoUserId(rs.getLong(ResultFields.userInfoUserId));
+        result.setResultValue(rs.getInt(ResultFields.resultValue));
+        return result;
     }
 }

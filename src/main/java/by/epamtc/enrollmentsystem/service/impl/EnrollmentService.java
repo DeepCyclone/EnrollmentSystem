@@ -16,10 +16,7 @@ import by.epamtc.enrollmentsystem.model.UserInfo;
 import by.epamtc.enrollmentsystem.model.dto.UserResultByFaculty;
 import by.epamtc.enrollmentsystem.service.comparators.ResultComparator;
 
-import java.util.LinkedHashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class EnrollmentService {
 
@@ -39,8 +36,14 @@ public class EnrollmentService {
             }
 
             for(Long facultyId:faculties){
-                Faculty faculty = facultyDAO.getByID(facultyId);
-                int availablePlaces = faculty.getBudgetAdmissionPlan();
+                Optional<Faculty> faculty = facultyDAO.getByID(facultyId);
+                int availablePlaces;
+                if(faculty.isPresent()) {
+                    availablePlaces = faculty.get().getBudgetAdmissionPlan();
+                }
+                else {
+                    continue;
+                }
                 List<UserResultByFaculty> resultByFaculty = getResultsByFacultyId(facultyId,results,availablePlaces);
                 for(UserResultByFaculty result:resultByFaculty){
                     ApplicantEnrollment enrollment = new ApplicantEnrollment();
@@ -48,7 +51,7 @@ public class EnrollmentService {
                     enrollment.setFacultyId(result.getFacultyId());
                     enrollment.setEducationFormId(BUDGET_EDUCATION_FORM);
                     enrollment.setEnrollmentStatusId(FORM_ENROLLED);
-                    applicantEnrollmentDAO.updateRowByID(enrollment,result.getUserId());
+                    applicantEnrollmentDAO.updateRowByID(enrollment);
                 }
             }
         }

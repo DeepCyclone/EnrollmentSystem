@@ -9,11 +9,14 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public class LanguageChangerCommand implements Command {
+    private static final int SECS_IN_HOUR = 3600;
+    private static final int HOURS = 24;
+    private static final int DAYS = 30;
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String locale = request.getParameter("locale");
-        Cookie cookie = new Cookie("locale",locale);//todo проверка есть ли уже кука
-        cookie.setMaxAge(3600*24*30);//TODO magic nums
+        Cookie cookie = new Cookie("locale",locale);
+        cookie.setMaxAge(SECS_IN_HOUR * HOURS * DAYS);
         response.addCookie(cookie);
         request.getRequestDispatcher(request.getRequestURL().toString()).forward(request,response);
     }

@@ -23,6 +23,11 @@
         </ul>
         <ul class="nav justify-content-end">
             <li class = "nav-item">
+                <a class="nav-link" href="aboutUs">
+                    <fmt:message key="enrollmentsystem.aboutUs" bundle="${bundle}"/>
+                </a>
+            </li>
+            <li class = "nav-item">
                 <div class="btn-group">
                     <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuClickableInside" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
                         <fmt:message key="enrollmentsystem.languagebutton" bundle="${bundle}"/>

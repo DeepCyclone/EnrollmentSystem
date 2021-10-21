@@ -1,6 +1,7 @@
 package by.epamtc.enrollmentsystem.service.impl;
 
 import by.epamtc.enrollmentsystem.dao.DAOProvider;
+import by.epamtc.enrollmentsystem.dao.tables.fields.ApplicantEnrollmentFields;
 import by.epamtc.enrollmentsystem.dao.templates.ApplicantEnrollmentDAO;
 import by.epamtc.enrollmentsystem.dao.templates.EducationFormDAO;
 import by.epamtc.enrollmentsystem.dao.templates.EnrollmentStatusDAO;
@@ -19,7 +20,17 @@ public class ApplicantEnrollmentServiceImpl implements ApplicantEnrollmentServic
     public Map<Long, List<Long>> getSelectedFacultiesByUserId(long userId) throws ServiceException {
         try {
             ApplicantEnrollmentDAO dao = DAOProvider.getInstance().getApplicantEnrollmentDAO();
-            return dao.getFacultiesWithFormsByUserId(userId);
+            List<ApplicantEnrollment> userData = dao.getByUserId(userId);
+            Map<Long,List<Long>> facultyForms = new HashMap<>();
+            for(ApplicantEnrollment data:userData){
+                long key = data.getFacultyId();
+                if(!facultyForms.containsKey(key)) {
+                    facultyForms.put(key,new ArrayList<>());
+                }
+                long value = data.getEducationFormId();
+                facultyForms.get(key).add(value);
+            }
+            return facultyForms;
         }
         catch (DAOException exception){
             throw new ServiceException(exception.getMessage(),exception);
@@ -32,8 +43,15 @@ public class ApplicantEnrollmentServiceImpl implements ApplicantEnrollmentServic
     }
 
     @Override
-    public boolean userHasFaculty(long userId, long facultyId) {
-        return false;
+    public boolean userHasFaculty(long userId, long facultyId) throws ServiceException {
+        try {
+            ApplicantEnrollmentDAO dao = DAOProvider.getInstance().getApplicantEnrollmentDAO();
+            Optional<ApplicantEnrollment> userData = dao.getByFacultyAndUserIds(userId,facultyId);
+            return userData.isPresent();
+        }
+        catch (DAOException exception){
+            throw new ServiceException(exception.getMessage(),exception);
+        }
     }
 
     @Override
@@ -44,7 +62,7 @@ public class ApplicantEnrollmentServiceImpl implements ApplicantEnrollmentServic
     /*
     * @author Alexey
     * @params userId
-    *
+    * @throws ServiceException
     * This method takes an userId,gets notes from ApplicantEnrollment table corresponding to userId.
     * Then it stringifies ApplicantEnrollment internal id's by calling corresponding stringifiers of field's dao's
     *
@@ -60,6 +78,7 @@ public class ApplicantEnrollmentServiceImpl implements ApplicantEnrollmentServic
             List<ApplicantEnrollment> applicantEnrollmentList = applicantEnrollmentDAO.getByUserId(userId);
             Set<StringifiedApplicantEnrollment> stringifiedApplicantEnrollmentSet = new HashSet<>();
             Map<String,Map<String,String>> facultyFormsStatusesMap = new HashMap<>();//TODO переделать через алгоритм без доп.выделения для удобства
+
             for(ApplicantEnrollment applicantEnrollment:applicantEnrollmentList){
                 String facultyName = facultyDAO.getNameById(applicantEnrollment.getFacultyId());
                 if(!facultyFormsStatusesMap.containsKey(facultyName)){
@@ -70,6 +89,7 @@ public class ApplicantEnrollmentServiceImpl implements ApplicantEnrollmentServic
                 String educationFormName = educationFormDAO.getNameById(applicantEnrollment.getEducationFormId());
                 facultyFormsStatusesMap.get(facultyName).put(educationFormName,enrollmentStatusName);
             }
+
             for(Map.Entry<String,Map<String,String>> entry:facultyFormsStatusesMap.entrySet()){
                 StringifiedApplicantEnrollment stringifiedApplicantEnrollment = new StringifiedApplicantEnrollment();
                 stringifiedApplicantEnrollment.setFacultyName(entry.getKey());

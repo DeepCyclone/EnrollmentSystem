@@ -1,6 +1,7 @@
 package by.epamtc.enrollmentsystem.dao.impl;
 
 import by.epamtc.enrollmentsystem.dao.AbstractDAO;
+import by.epamtc.enrollmentsystem.dao.composers.builders.SubjectBuilder;
 import by.epamtc.enrollmentsystem.dao.connectionpool.ConnectionPool;
 import by.epamtc.enrollmentsystem.dao.tables.TablesNames;
 import by.epamtc.enrollmentsystem.dao.tables.fields.EducationFormFields;
@@ -20,18 +21,20 @@ import java.util.Optional;
 
 public final class SubjectMySQL extends AbstractDAO<Subject> implements SubjectDAO {
 
+    String tableName = TablesNames.subject;
     private static final String SELECT_NAMES = "SELECT " + SubjectFields.name + " FROM " + TablesNames.education_form;
-    private static final String SELECT_ALL = "SELECT * FROM " + TablesNames.education_form;
 
 
     @Override
     public List<Subject> getAll() throws DAOException {
-        return null;
+        return super.getAll(tableName,new SubjectBuilder());
     }
 
     @Override
-    public int getIdByName(String name) throws DAOException {
-        return 0;
+    public long getIdByName(String name) throws DAOException {
+        String nameField = SubjectFields.name;
+        String idField = SubjectFields.id;
+        return super.getIdByName(tableName,idField,nameField,name);
     }
 
     @Override
@@ -48,6 +51,11 @@ public final class SubjectMySQL extends AbstractDAO<Subject> implements SubjectD
     @Override
     public void deleteAll() {
 
+    }
+
+    @Override
+    public List<Subject> getEntitiesRange(int from, int offset) throws DAOException {
+        return null;
     }
 
     @Override

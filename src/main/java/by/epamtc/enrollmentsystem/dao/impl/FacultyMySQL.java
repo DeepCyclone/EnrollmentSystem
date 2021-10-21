@@ -15,12 +15,12 @@ import java.util.Optional;
 
 public final class FacultyMySQL extends AbstractDAO<Faculty> implements FacultyDAO {
 
-    private static final String SELECT_RANGE = "SELECT * FROM " + TablesNames.faculty + " LIMIT ?,?";
+    private static final String tableName = TablesNames.faculty;
     private static final String GET_RECORDS_NUMBER = "SELECT COUNT(*) FROM " + TablesNames.faculty;
+
 
     @Override
     public Optional<Faculty> getByID(long id) throws DAOException {
-        String tableName = TablesNames.faculty;
         String idFieldName = FacultyFields.id;
         return super.getByID(tableName,idFieldName,id,new FacultyBuilder());
     }
@@ -41,14 +41,17 @@ public final class FacultyMySQL extends AbstractDAO<Faculty> implements FacultyD
     }
 
     @Override
+    public List<Faculty> getEntitiesRange(int from, int offset) throws DAOException {
+        return super.getEntitiesRange(tableName,from,offset,new FacultyBuilder());
+    }
+
+    @Override
     public List<Faculty> getAll() throws DAOException {
-        String tableName = TablesNames.faculty;
         return super.getAll(tableName,new FacultyBuilder());
     }
 
     @Override
-    public int getIdByName(String name) throws DAOException {
-        String tableName = TablesNames.faculty;
+    public long getIdByName(String name) throws DAOException {
         String idField = FacultyFields.id;
         String nameField = FacultyFields.name;
         return super.getIdByName(tableName,idField,nameField,name);
@@ -56,56 +59,13 @@ public final class FacultyMySQL extends AbstractDAO<Faculty> implements FacultyD
 
     @Override
     public String getNameById(long id) throws DAOException {
-        String tableName = TablesNames.faculty;
         String nameField = FacultyFields.name;
         String idField = FacultyFields.id;
         return super.getNameById(tableName,idField,nameField,id);
     }
 
     @Override
-    public List<Faculty> getFacultiesRange(int from, int offset) throws DAOException {
-        Connection conn = null;
-        PreparedStatement stmt = null;
-        ResultSet rs = null;
-        List<Faculty> faculties = null;
-        try{
-            conn = ConnectionPool.getInstance().getConnection();
-            stmt = conn.prepareStatement(SELECT_RANGE);
-            stmt.setInt(1,from);
-            stmt.setInt(2,offset);
-            rs = stmt.executeQuery();
-            FacultyBuilder builder = new FacultyBuilder();
-            faculties = builder.buildObjectsList(rs);
-        }
-        catch (SQLException e){
-            throw new DAOException(e.getMessage(),e);
-        }
-        finally {
-            ConnectionPool.getInstance().closeConnection(conn,stmt,rs);
-        }
-        return faculties;
-    }
-
-    @Override
     public int getRecordsNumber() throws DAOException {
-        Connection conn = null;
-        Statement stmt = null;
-        ResultSet rs = null;
-        int records = 0;
-        try{
-            conn = ConnectionPool.getInstance().getConnection();
-            stmt = conn.createStatement();
-            rs = stmt.executeQuery(GET_RECORDS_NUMBER);
-            while(rs.next()){
-                records = rs.getInt(1);
-            }
-        }
-        catch (SQLException e){
-            throw new DAOException(e.getMessage(),e);
-        }
-        finally {
-            ConnectionPool.getInstance().closeConnection(conn,stmt,rs);
-        }
-        return records;
+     return super.getNumberOfRecords(tableName);
     }
 }

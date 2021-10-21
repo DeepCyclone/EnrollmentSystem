@@ -19,19 +19,7 @@ public class Controller extends HttpServlet {
     }
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-        String action = request.getParameter("action");
-
-        if(action != null){
-            CommandProvider commandProvider = CommandProvider.getInstance();
-            Command command = commandProvider.getCommand(action);
-            command.execute(request, response);
-        }
-        else{
-            response.sendRedirect("");
-        }
-
-
+        doPost(request, response);
     }
 
     @Override

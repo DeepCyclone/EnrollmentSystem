@@ -8,4 +8,5 @@ import java.util.List;
 public interface FacultyService {
     List<Faculty> getAll() throws ServiceException;
     List<Faculty> getFacultiesRange(int from,int offset) throws ServiceException;
+    int getFacultiesNumber() throws ServiceException;
 }

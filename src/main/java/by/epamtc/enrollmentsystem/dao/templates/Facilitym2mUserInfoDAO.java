@@ -9,4 +9,5 @@ import java.util.List;
 
 public interface Facilitym2mUserInfoDAO extends DAOTemplate<Facilitym2mUserInfo> {
     List<String> getUserFacilitiesNames(long userId) throws DAOException;
+    List<Facilitym2mUserInfo> getByUserId(long userId) throws DAOException;
 }

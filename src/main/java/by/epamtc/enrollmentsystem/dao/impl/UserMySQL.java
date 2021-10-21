@@ -16,12 +16,11 @@ import java.util.List;
 import java.util.Optional;
 
 public final class UserMySQL extends AbstractDAO<User> implements UserDAO {
-    private static final String GET_ALL_USERS = "SELECT * FROM " + TablesNames.user;
-    private static final String GET_ALL_APPLICANTS = "SELECT * FROM " + TablesNames.user +
-                                                     " WHERE ";
-    private static final String GET_ROLE = "SELECT " + UserFields.roleId  +
-                                           " FROM "+ TablesNames.user +
-                                           " WHERE " + UserFields.login  +  " = ?";
+
+    private static final String TABLE_NAME = TablesNames.user;
+
+    private static final String GET_BY_LOGIN = "SELECT * FROM "+ TablesNames.user +
+                                              " WHERE " + UserFields.login  +  " = ?";
     private static final String GET_PASSWORD = "SELECT " + UserFields.password +
                                                 " FROM " + TablesNames.user +
                                                 " WHERE " + UserFields.login + " = ?";
@@ -29,10 +28,6 @@ public final class UserMySQL extends AbstractDAO<User> implements UserDAO {
                                                 "("+ UserFields.login + "," + UserFields.password +
                                                 "," + UserFields.email + "," + UserFields.roleId +") " +
                                                 "VALUES (?,?,?,?)";
-
-    private static final String UPDATE_NOTE = "UPDATE " + TablesNames.user +
-                                              " SET ? WHERE " + UserFields.id + " = ?";
-
 
     @Override
     public Optional<User> getByID(long id) throws DAOException {
@@ -43,38 +38,29 @@ public final class UserMySQL extends AbstractDAO<User> implements UserDAO {
 
     @Override
     public void insertInto(User object) throws DAOException {
-        try {
-            Connection conn = ConnectionPool.getInstance().getConnection();
-            PreparedStatement stmt = conn.prepareStatement(INSERT_INTO);
-            stmt.setString(1,object.getLogin());
-            stmt.setString(2, new String(object.getPassword(), StandardCharsets.UTF_8));
-            stmt.setString(3,object.getEmail());
-            stmt.setLong(4,object.getRoleId());
-            stmt.executeUpdate();
-        }
-        catch (SQLException e){
-            throw new DAOException(e.getMessage(),e);
-        }
+        executeInsertQuery(INSERT_INTO,object.getLogin(),new String(object.getPassword(), StandardCharsets.UTF_8),
+                        object.getEmail(),object.getRoleId());
     }
 
     @Override
-    public int getRoleByLogin(String login) throws DAOException {
-        try {
-            Connection conn = ConnectionPool.getInstance().getConnection();
-            PreparedStatement stmt = conn.prepareStatement(GET_ROLE);
-            stmt.setString(1,login);
-            ResultSet rs = stmt.executeQuery();
-            rs.next();
-            return rs.getInt("u_r_id");
-        }
-        catch (SQLException e){
-            throw new DAOException(e.getMessage(),e);
-        }
+    public long getRoleByLogin(String login) throws DAOException {
+       return executeSingleResultQuery(GET_BY_LOGIN,new UserBuilder(),login).get().getRoleId();
+    }
+
+    @Override
+    public int getRecordsNumber() throws DAOException {
+        String tableName = TablesNames.user;
+        return super.getNumberOfRecords(tableName);
     }
 
     @Override
     public void deleteAll() {
 
+    }
+
+    @Override
+    public List<User> getEntitiesRange(int from, int offset) throws DAOException {
+       return super.getEntitiesRange(TABLE_NAME,from,offset,new UserBuilder());
     }
 
     @Override
@@ -84,7 +70,7 @@ public final class UserMySQL extends AbstractDAO<User> implements UserDAO {
     }
 
     @Override
-    public int getIdByName(String name) {
+    public long getIdByName(String name) {
         throw new UnsupportedOperationException();
     }
 
@@ -128,7 +114,7 @@ public final class UserMySQL extends AbstractDAO<User> implements UserDAO {
     }
 
     @Override
-    public int getIdByLogin(String login) throws DAOException {
+    public long getIdByLogin(String login) throws DAOException {
         String tableName = TablesNames.user;
         String nameField = UserFields.login;
         String idField = UserFields.id;

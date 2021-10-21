@@ -64,17 +64,43 @@
         <form name="faculties-tab" method="post" action="controller">
             <div class = "education-form-selector" id = "education-form-selector"></div>
             <div class = "marks-input" id = "marks-input">
-                <div onload = "preloadFacultiesMap()">
-                    <label for = "${mark.name}">${mark.name}</label>
-                    <input class = "mark-cell" type="text" oninput="{marksSelectorListener(this)}" value="${mark.value}" name="mark:Biology" id = "Biology">
+
+                <div onload="preloadFacultiesMap()">
+                <label for = "Biology"><fmt:message key="enrollmentsystem.biologyMark" bundle="${bundle}"/></label>
+                <input class = "mark-cell" type="text" oninput="{marksSelectorListener(this)}" value="${requestScope.get('biologyMark')}" name="mark:Biology" id = "Biology">
                 </div>
 
-                <c:forEach var = "mark" items="${requestScope.get('marksValues')}">
-                    <div onload = "preloadFacultiesMap()">
-                        <label for = "${mark.name}">${mark.name}</label>
-                        <input class = "mark-cell" type="text" oninput="{marksSelectorListener(this)}" value="${mark.value}" name="mark:${mark.id}:${mark.name}" id = ${mark.name}>
-                    </div>
-                </c:forEach>
+                <div onload="preloadFacultiesMap()">
+                <label for = "English"><fmt:message key="enrollmentsystem.englishMark" bundle="${bundle}"/></label>
+                <input class = "mark-cell" type="text" oninput="{marksSelectorListener(this)}" value="${requestScope.get('englishMark')}" name="mark:English" id = "English">
+                </div>
+
+                <div onload="preloadFacultiesMap()">
+                <label for = "Geography"><fmt:message key="enrollmentsystem.geographyMark" bundle="${bundle}"/></label>
+                <input class = "mark-cell" type="text" oninput="{marksSelectorListener(this)}" value="${requestScope.get('geographyMark')}" name="mark:Geography" id = "Geography">
+                </div>
+
+                <div onload="preloadFacultiesMap()">
+                <label for = "Mathematics"><fmt:message key="enrollmentsystem.mathematicsMark" bundle="${bundle}"/></label>
+                <input class = "mark-cell" type="text" oninput="{marksSelectorListener(this)}" value="${requestScope.get('mathematicsMark')}" name="mark:Mathematics" id = "Mathematics">
+                </div>
+
+                <div onload="preloadFacultiesMap()">
+                <label for = "Russian"><fmt:message key="enrollmentsystem.russianMark" bundle="${bundle}"/></label>
+                <input class = "mark-cell" type="text" oninput="{marksSelectorListener(this)}" value="${requestScope.get('russianMark')}" name="mark:Russian" id = "Russian">
+                </div>
+
+                <div onload="preloadFacultiesMap()">
+                <label for = "Physics"><fmt:message key="enrollmentsystem.physicsMark" bundle="${bundle}"/></label>
+                <input class = "mark-cell" type="text" oninput="{marksSelectorListener(this)}" value="${requestScope.get('physicsMark')}" name="mark:Physics" id = "Physics">
+                </div>
+
+                <div onload="preloadFacultiesMap()">
+                <label for = "Chemistry"><fmt:message key="enrollmentsystem.chemistryMark" bundle="${bundle}"/></label>
+                <input class = "mark-cell" type="text" oninput="{marksSelectorListener(this)}" value="${requestScope.get('chemistryMark')}" name="mark:Chemistry" id = "Chemistry">
+                </div>
+
+
                 </ul>
             </div>
             <table id = 'faculties-selector'>

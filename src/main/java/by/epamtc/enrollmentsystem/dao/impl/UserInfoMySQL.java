@@ -15,13 +15,12 @@ import java.util.Optional;
 
 public final class UserInfoMySQL extends AbstractDAO<UserInfo> implements UserInfoDAO {
     private static final String tableName = TablesNames.user_info;
+
     private static final String INSERT_INTO = "INSERT INTO " + TablesNames.user_info +
                                 "(" + UserInfoFields.userId + "," + UserInfoFields.name + "," + UserInfoFields.surname + "," +
                                       UserInfoFields.patronymic + "," + UserInfoFields.photoAddress + "," +
                                       UserInfoFields.address + "," + UserInfoFields.passport + ") " +
                                 "VALUES (?,?,?,?,?,?,?)";
-    private static final String GET_BY_ID = "SELECT * FROM " + TablesNames.user_info +
-                                            " WHERE " + UserInfoFields.userId + " = ?";
 
     private static final String UPDATE_NOTE = "UPDATE " + TablesNames.user_info +
                                               " SET " + UserInfoFields.name + " = ?," + UserInfoFields.surname + " = ?," +
@@ -35,7 +34,7 @@ public final class UserInfoMySQL extends AbstractDAO<UserInfo> implements UserIn
     }
 
     @Override
-    public int getIdByName(String name) throws DAOException {
+    public long getIdByName(String name) throws DAOException {
         return 0;
     }
 
@@ -47,27 +46,9 @@ public final class UserInfoMySQL extends AbstractDAO<UserInfo> implements UserIn
 
     @Override
     public void insertInto(UserInfo object) throws DAOException {
-        Connection conn = null;
-        PreparedStatement preparedStatement = null;
-        try {
-            conn = ConnectionPool.getInstance().getConnection();
-            preparedStatement = conn.prepareStatement(INSERT_INTO);
-            preparedStatement.setLong(1,object.getId());
-            preparedStatement.setString(2, object.getName());
-            preparedStatement.setString(3, object.getSurname());
-            preparedStatement.setString(4, object.getPatronymic());
-            preparedStatement.setString(5, object.getPhotoPath());
-            preparedStatement.setString(6, object.getAddress());
-            preparedStatement.setString(7, object.getPassport());
-
-            preparedStatement.executeUpdate();
-        }
-        catch (SQLException e){
-            throw new DAOException(e.getMessage(),e);
-        }
-        finally {
-            ConnectionPool.getInstance().closeConnection(conn,preparedStatement);
-        }
+        executeInsertQuery(INSERT_INTO,object.getId(),object.getName(),
+                        object.getSurname(),object.getPatronymic(),object.getPhotoPath(),
+                        object.getAddress(),object.getPassport());
     }
 
     @Override
@@ -76,56 +57,19 @@ public final class UserInfoMySQL extends AbstractDAO<UserInfo> implements UserIn
     }
 
     @Override
-    public void updateRowByID(UserInfo note) throws DAOException {
-        Connection conn = null;
-        PreparedStatement preparedStatement = null;
-        try {
-            conn = ConnectionPool.getInstance().getConnection();
-            preparedStatement = conn.prepareStatement(UPDATE_NOTE);
-            preparedStatement.setString(1, note.getName());
-            preparedStatement.setString(2, note.getSurname());
-            preparedStatement.setString(3, note.getPatronymic());
-            preparedStatement.setString(4, note.getPhotoPath());
-            preparedStatement.setString(5, note.getAddress());
-            preparedStatement.setString(6, note.getPassport());
-            preparedStatement.setLong(7,note.getId());
-            preparedStatement.executeUpdate();
-        }
-        catch (SQLException e){
-            throw new DAOException(e.getMessage(),e);
-        }
-        finally {
-            ConnectionPool.getInstance().closeConnection(conn,preparedStatement);
-        }
+    public List<UserInfo> getEntitiesRange(int from, int offset) throws DAOException {
+        return null;
     }
 
     @Override
-    public boolean hasNoteWithId(long id) throws DAOException {
-        Connection conn = null;
-        PreparedStatement preparedStatement = null;
-        ResultSet rs = null;
-        try {
-            conn = ConnectionPool.getInstance().getConnection();
-            preparedStatement = conn.prepareStatement(GET_BY_ID);
-            preparedStatement.setLong(1, id);
-            rs = preparedStatement.executeQuery();
-            boolean result = false;
-            if(rs.next()){
-                result = true;
-            }
-            return result;
-        }
-        catch (SQLException e){
-            throw new DAOException(e.getMessage(),e);
-        }
-        finally {
-            ConnectionPool.getInstance().closeConnection(conn,preparedStatement,rs);
-        }
+    public void updateRowByID(UserInfo note) throws DAOException {
+        executeUpdateQuery(UPDATE_NOTE,note.getName(),note.getSurname(),note.getPatronymic(),
+                        note.getPhotoPath(),note.getAddress(),note.getPassport(),note.getId());
     }
 
     @Override
     public String getNameById(long userId) throws DAOException {
-        String tableName = TablesNames.user_info;
+//        executeSingleResultQuery().get().getName();
         String nameField = UserInfoFields.name;
         String idField = UserInfoFields.userId;
         return super.getNameById(tableName,idField,nameField,userId);

@@ -26,8 +26,8 @@
         <input id="passwd" name= "password" type="password"/>
         <input name= "action" value="sign_up" type="hidden">
 
-        <input type="submit">
-            <fmt:message key="enrollmentsystem.submittingButton" bundle="${bundle}"/>
+        <input type="submit" value="<fmt:message key="enrollmentsystem.submittingButton" bundle="${bundle}"/>">
+
     </form>
 <jsp:include page="/WEB-INF/pages/footer.jsp"/>
 </body>

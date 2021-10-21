@@ -17,6 +17,7 @@ public class UpdateStudyingInfoCommand implements Command {
 
         //TODO deny updateflooding
         try {
+            request.setCharacterEncoding("UTF-8");
             Map<String, String[]> a = request.getParameterMap();//потому что динамически в foreach подгружаются и конкретные названия не могу взять
             MarksAndFacultiesUpdater.update(a, request);//лучше бы факультеты прописал
             response.sendRedirect(request.getContextPath() + URLHolder.USER_INFO_PAGE_PRELOADER);

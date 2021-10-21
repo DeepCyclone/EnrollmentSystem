@@ -13,7 +13,7 @@ public class LocalizationFilter implements Filter {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpSession session = request.getSession(false);
         for(Cookie cookie:request.getCookies()){
-            if(cookie.getName().equals("locale")){
+            if(cookie.getName().equals("locale")){//TODO возможно падения из-за invalidate
                 session.setAttribute("locale",cookie.getValue());
                 break;
             }

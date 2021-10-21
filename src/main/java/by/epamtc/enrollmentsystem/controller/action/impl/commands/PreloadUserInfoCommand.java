@@ -13,6 +13,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.*;
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 public class PreloadUserInfoCommand implements Command {
     @Override
@@ -21,19 +22,29 @@ public class PreloadUserInfoCommand implements Command {
         //TODO deny updateflooding
         try {
             HttpSession session = request.getSession(false);
-            int id = (int) session.getAttribute("id");
+            long id = (long) session.getAttribute("id");
             DAOProvider daoProvider = DAOProvider.getInstance();
-            AbstractDAO<UserInfo> userInfoMySQL = daoProvider.getUserInfoDAO();
+            UserInfoDAO userInfoMySQL = daoProvider.getUserInfoDAO();
             ResultDAO resultMySQL = daoProvider.getResultDAO();
-            List<MarkValue> mv = resultMySQL.retrieveResultByUserId(id);
-            UserInfo ui = userInfoMySQL.getByID(id);
-            if(ui == null){
-                ui = new UserInfo();
-                ui.setId(id);
-                userInfoMySQL.insertInto(ui);
+            Optional<UserInfo> ui = userInfoMySQL.getByID(id);
+            UserInfo userInfo = null;
+            if(!ui.isPresent()){
+                userInfo = new UserInfo();
+                userInfo.setId(id);
+                userInfoMySQL.insertInto(userInfo);
             }
-            request.setAttribute("userinfo",ui);
-            request.setAttribute("marksValues",mv);
+            else {
+                userInfo = ui.get();
+            }
+            request.setAttribute("userinfo",userInfo);
+            request.setAttribute("biologyMark",resultMySQL.getResultValueBySubjectName("Biology",id));
+            request.setAttribute("chemistryMark",resultMySQL.getResultValueBySubjectName("Chemistry",id));
+            request.setAttribute("mathematicsMark",resultMySQL.getResultValueBySubjectName("Mathematics",id));
+            request.setAttribute("physicsMark",resultMySQL.getResultValueBySubjectName("Physics",id));
+            request.setAttribute("englishMark",resultMySQL.getResultValueBySubjectName("English",id));
+            request.setAttribute("russianMark",resultMySQL.getResultValueBySubjectName("Russian",id));
+            request.setAttribute("geographyMark",resultMySQL.getResultValueBySubjectName("Geography",id));
+
             request.getRequestDispatcher( "/documents").forward(request,response);
         }
         catch (Exception e){

@@ -14,7 +14,9 @@ import java.util.*;
 
 public final class Subjectm2mFacultyMySQL extends AbstractDAO<Subjectm2mFaculty> implements Subjectm2mFacultyDAO {
 
-    private static final String GET_FACULTIES_CORRESPONDING_TO_SUBJECTS = "SELECT f_name,s_name FROM subject JOIN subject_m2m_faculty ON s_id = smf_s_id JOIN faculty AS f ON subject_m2m_faculty.smf_f_id = f.f_id";//TODO crash into parts and !ask if this must be here!
+    private static final String GET_FACULTIES_CORRESPONDING_TO_SUBJECTS = "SELECT f_name,s_name FROM subject " +
+                                                                          "JOIN subject_m2m_faculty ON s_id = smf_s_id " +
+                                                                          "JOIN faculty AS f ON subject_m2m_faculty.smf_f_id = f.f_id";//TODO crash into parts and !ask if this must be here!
 
 
     @Override
@@ -23,7 +25,7 @@ public final class Subjectm2mFacultyMySQL extends AbstractDAO<Subjectm2mFaculty>
     }
 
     @Override
-    public int getIdByName(String name) throws DAOException {
+    public long getIdByName(String name) throws DAOException {
         return 0;
     }
 
@@ -45,6 +47,11 @@ public final class Subjectm2mFacultyMySQL extends AbstractDAO<Subjectm2mFaculty>
     @Override
     public void deleteAll() {
 
+    }
+
+    @Override
+    public List<Subjectm2mFaculty> getEntitiesRange(int from, int offset) throws DAOException {
+        return null;
     }
 
     @Override

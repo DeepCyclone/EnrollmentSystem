@@ -13,15 +13,15 @@ import java.util.Optional;
 
 public final class FacilityMySQL extends AbstractDAO<Facility> implements FacilityDAO {
 
+    private static final String tableName = TablesNames.facility;
+
     @Override
     public List<Facility> getAll() throws DAOException {
-        String tableName = TablesNames.facility;
         return super.getAll(tableName,new FacilityBuilder());
     }
 
     @Override
-    public int getIdByName(String name) throws DAOException {
-        String tableName = TablesNames.facility;
+    public long getIdByName(String name) throws DAOException {
         String idField = FacilityFields.id;
         String nameField = FacilityFields.name;
         return super.getIdByName(tableName,idField,nameField,name);
@@ -29,13 +29,11 @@ public final class FacilityMySQL extends AbstractDAO<Facility> implements Facili
 
     @Override
     public Optional<Facility> getByID(long id) throws DAOException {
-        String tableName = TablesNames.facility;
         String idField = FacilityFields.id;
         return super.getByID(tableName,idField,id,new FacilityBuilder());
     }
 
     public String getNameById(long id) throws DAOException {
-        String tableName = TablesNames.facility;
         String nameField = FacilityFields.name;
         String idField = FacilityFields.id;
         return super.getNameById(tableName,idField,nameField,id);
@@ -49,5 +47,10 @@ public final class FacilityMySQL extends AbstractDAO<Facility> implements Facili
     @Override
     public void updateRowByID(Facility note) throws DAOException {
 
+    }
+
+    @Override
+    public List<Facility> getEntitiesRange(int from, int offset) throws DAOException {
+        return null;
     }
 }

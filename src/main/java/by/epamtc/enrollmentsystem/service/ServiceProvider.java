@@ -13,6 +13,7 @@ public class ServiceProvider {
     private final FacultyService facultyService = new FacultyServiceImpl();
     private final ApplicantEnrollmentService applicantEnrollmentService = new ApplicantEnrollmentServiceImpl();
     private final EnrollmentService enrollmentService = new EnrollmentService();
+    private final UserInfoService userInfoService = new UserInfoServiceImpl();
 
     private static volatile ServiceProvider instance;
 
@@ -63,5 +64,9 @@ public class ServiceProvider {
 
     public EnrollmentService getEnrollmentService() {
         return enrollmentService;
+    }
+
+    public UserInfoService getUserInfoService() {
+        return userInfoService;
     }
 }

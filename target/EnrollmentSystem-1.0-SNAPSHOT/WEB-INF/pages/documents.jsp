@@ -67,7 +67,7 @@
                                 <label for="login">
                                     <fmt:message key="enrollmentsystem.loginData" bundle="${bundle}"/>
                                 </label>
-                                <input name = "login" id = "login" type="text">
+                                <input name = "login" id = "login" minlength="3" maxlength="30" size="15">
                             </td>
                         </tr>
 
@@ -76,7 +76,7 @@
                                 <label for="oldPassword">
                                     <fmt:message key="enrollmentsystem.oldPassword" bundle="${bundle}"/>
                                 </label>
-                                <input name = "oldPassword" id="oldPassword" type="text"/>
+                                <input type = "password" name = "oldPassword" id = "oldPassword" minlength="4" maxlength="10">
                             </td>
                         </tr>
                         <tr>
@@ -84,7 +84,8 @@
                                 <label for="newPassword">
                                     <fmt:message key="enrollmentsystem.newPassword" bundle="${bundle}"/>
                                 </label>
-                                <input name = "newPassword" id="newPassword" type="text"/>
+
+                                <input type = "password" name = "newPassword" id = "newPassword" minlength="4" maxlength="10">
                             </td>
                         </tr>
                         <tr>
@@ -92,7 +93,7 @@
                                 <label for="email">
                                     <fmt:message key="enrollmentsystem.emailData" bundle="${bundle}"/>
                                 </label>
-                                <input name = "email" id="email" type="text"/>
+                                <input name = "email" id="email" type="email"/>
                             </td>
                         </tr>
                     </table>

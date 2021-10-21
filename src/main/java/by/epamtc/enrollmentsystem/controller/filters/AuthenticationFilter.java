@@ -17,11 +17,10 @@ public class AuthenticationFilter implements Filter {
                          FilterChain chain) throws IOException, ServletException
     {
         HttpSession session = ((HttpServletRequest)request).getSession(false);
-        if(session != null && session.getAttribute("login") == null)
+        if(session != null && session.getAttribute("login") == null)//TODO может ли сессия быть null
             ((HttpServletResponse)response).sendRedirect("login");
         else
             chain.doFilter(request, response);
-//        ((HttpServletRequest)request).getRequestDispatcher("controller?action=upload_userinfo").forward(request,response);
 
     }
 

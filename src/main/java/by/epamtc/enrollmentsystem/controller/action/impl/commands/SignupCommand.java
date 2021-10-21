@@ -6,6 +6,8 @@ import by.epamtc.enrollmentsystem.dao.impl.UserMySQL;
 import by.epamtc.enrollmentsystem.dao.templates.UserDAO;
 import by.epamtc.enrollmentsystem.exception.DAOException;
 import by.epamtc.enrollmentsystem.model.User;
+import by.epamtc.enrollmentsystem.service.ServiceProvider;
+import by.epamtc.enrollmentsystem.service.UserService;
 import by.epamtc.enrollmentsystem.utils.PasswordCodec;
 import sun.security.util.Password;
 
@@ -23,6 +25,10 @@ public class SignupCommand implements Command {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
 
+        UserService service = ServiceProvider.getInstance().getUserService();
+        if(!service.isValidData(username,email,password)){
+            return;
+        }
         UserDAO userMySQL = DAOProvider.getInstance().getUserDAO();
 
         byte[] encodedPassword = PasswordCodec.generateEncodedPassword(password);

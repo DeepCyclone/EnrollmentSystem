@@ -1,6 +1,7 @@
 package by.epamtc.enrollmentsystem.dao.impl;
 
 import by.epamtc.enrollmentsystem.dao.AbstractDAO;
+import by.epamtc.enrollmentsystem.dao.composers.builders.SystemInformationBuilder;
 import by.epamtc.enrollmentsystem.dao.tables.TablesNames;
 import by.epamtc.enrollmentsystem.dao.connectionpool.ConnectionPool;
 import by.epamtc.enrollmentsystem.dao.tables.fields.SubjectFields;
@@ -18,8 +19,7 @@ import java.util.List;
 import java.util.Optional;
 
 public final class SystemInformationMySQL extends AbstractDAO<SystemInformation> implements SystemInformationDAO {
-    private static final String GET_BY_NAME = "SELECT "+ SystemInformationFields.value +
-                                              " FROM " + TablesNames.system_information +
+    private static final String GET_BY_NAME = "SELECT * FROM " + TablesNames.system_information +
                                               " WHERE " + SystemInformationFields.name +  "= ?";
 
 
@@ -29,7 +29,7 @@ public final class SystemInformationMySQL extends AbstractDAO<SystemInformation>
     }
 
     @Override
-    public int getIdByName(String name) throws DAOException {
+    public long getIdByName(String name) throws DAOException {
         return 0;
     }
 
@@ -43,34 +43,18 @@ public final class SystemInformationMySQL extends AbstractDAO<SystemInformation>
     }
 
     @Override
-    public SystemInformation getValueByName(String name) throws DAOException {
-        Connection conn = null;
-        PreparedStatement preparedStatement = null;
-        ResultSet rs = null;
-        try {
-            conn = ConnectionPool.getInstance().getConnection();
-            preparedStatement = conn.prepareStatement(GET_BY_NAME);
-            preparedStatement.setString(1,name);
-            rs = preparedStatement.executeQuery();
-            SystemInformation si = new SystemInformation();
-            while(rs.next()) {
-                si.setName(name);
-                si.setValue(rs.getString(1));
-            }
-            return si;
-        }
-        catch (SQLException e){
-            throw new DAOException(e.getMessage(),e);
-        }
-        finally {
-            ConnectionPool.getInstance().closeConnection(conn,preparedStatement,rs);
-        }
-
+    public Optional<SystemInformation> getValueByName(String name) throws DAOException {
+        return executeSingleResultQuery(GET_BY_NAME,new SystemInformationBuilder(),name);
     }
 
     @Override
     public void deleteAll() {
 
+    }
+
+    @Override
+    public List<SystemInformation> getEntitiesRange(int from, int offset) throws DAOException {
+        return null;
     }
 
 

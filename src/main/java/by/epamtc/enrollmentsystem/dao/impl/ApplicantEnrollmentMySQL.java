@@ -12,6 +12,8 @@ import java.util.*;
 
 public final class ApplicantEnrollmentMySQL extends AbstractDAO<ApplicantEnrollment> implements ApplicantEnrollmentDAO {
 
+    private static final String tableName = TablesNames.applicant_enrollment;
+
     private static final String INSERT_INTO = "INSERT INTO " + TablesNames.applicant_enrollment +
                                               " VALUES (?,?,?,?)";
 
@@ -37,16 +39,13 @@ public final class ApplicantEnrollmentMySQL extends AbstractDAO<ApplicantEnrollm
                                                         " AND " + ApplicantEnrollmentFields.educationFormId + " = ?";
 
 
-
-
     @Override
     public List<ApplicantEnrollment> getAll() throws DAOException {
-        String tableName = TablesNames.applicant_enrollment;
         return super.getAll(tableName,new ApplicantEnrollmentBuilder());
     }
 
     @Override
-    public int getIdByName(String name){
+    public long getIdByName(String name){
         throw new UnsupportedOperationException();
     }
 
@@ -74,6 +73,11 @@ public final class ApplicantEnrollmentMySQL extends AbstractDAO<ApplicantEnrollm
     @Override
     public void deleteAll() {
 
+    }
+
+    @Override
+    public List<ApplicantEnrollment> getEntitiesRange(int from, int offset) throws DAOException {
+        throw new UnsupportedOperationException();
     }
 
     @Override

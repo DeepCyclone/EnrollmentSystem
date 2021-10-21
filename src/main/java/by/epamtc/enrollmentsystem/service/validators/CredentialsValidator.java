@@ -15,7 +15,7 @@ public class CredentialsValidator {
             UserCredentials userCredentials = userMySQL.getCredentials(login);
             if (userCredentials != null) {
                 String hashedPassword = userCredentials.getPassword();
-                if(PasswordCodec.validatePassword(hashedPassword, password)){//TODO спросить
+                if(PasswordCodec.validatePassword(hashedPassword, password)){
                     result = true;
                 }
             }

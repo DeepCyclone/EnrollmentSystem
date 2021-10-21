@@ -27,7 +27,7 @@
     <label for = "login">
         <fmt:message key="enrollmentsystem.loginField" bundle="${bundle}"/>
     </label>
-    <input name = "login" id = "login" minlength="3" maxlength="30" size="15">
+    <input name = "login" id = "login" minlength="3" maxlength="15" size="10">
     <br>
     <label for = "password">
         <fmt:message key="enrollmentsystem.passwordField" bundle="${bundle}"/>

@@ -43,7 +43,7 @@ public class CommandProvider {
     }
 
     public Command getCommand(String commandName) {
-        CommandType commandType = CommandType.valueOf(commandName.toUpperCase());
+        CommandType commandType = CommandType.valueOf(commandName.toUpperCase());//TODO prevent invalid command exception
 
         Command command;
 

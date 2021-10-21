@@ -8,8 +8,10 @@ import by.epamtc.enrollmentsystem.model.dto.UserStyledToAdminPanel;
 import java.util.List;
 
 public interface UserService {
-    int getIdByLogin(String login) throws ServiceException;
+    long getIdByLogin(String login) throws ServiceException;
     UserCredentials getCredentials(String login) throws ServiceException;
-    int getRoleByLogin(String login) throws ServiceException;
-    List<UserStyledToAdminPanel> getStyledUserInfo() throws ServiceException;
+    long getRoleByLogin(String login) throws ServiceException;
+    List<UserStyledToAdminPanel> getStyledUserInfo(int from,int offset) throws ServiceException;
+    boolean isValidData(String login,String email,String password);
+    int getNumberOfRecords() throws ServiceException;
 }

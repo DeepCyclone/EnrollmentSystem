@@ -23,7 +23,6 @@ function facilitiesStatusPreloader(){
 
 function facilitiesStatusSetter(){// можно с помощью c:if и передачи каких-то флажков на страницу, но уже так
     if(facilities.has('Gold Medal')){
-        console.log('has')
         document.getElementById('goldmedalFacility').checked = true;
     }
     if(facilities.has('Orphan')){

@@ -20,7 +20,7 @@ public final class RoleMySQL extends AbstractDAO<Role> implements RoleDAO {
     }
 
     @Override
-    public int getIdByName(String name) throws DAOException {
+    public long getIdByName(String name) throws DAOException {
         return 0;
     }
 
@@ -45,5 +45,10 @@ public final class RoleMySQL extends AbstractDAO<Role> implements RoleDAO {
     @Override
     public void updateRowByID(Role note) throws DAOException {
 
+    }
+
+    @Override
+    public List<Role> getEntitiesRange(int from, int offset) throws DAOException {
+        return null;
     }
 }

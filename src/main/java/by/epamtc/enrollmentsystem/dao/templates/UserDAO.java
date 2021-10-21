@@ -7,7 +7,9 @@ import by.epamtc.enrollmentsystem.model.User;
 import by.epamtc.enrollmentsystem.model.dto.UserCredentials;
 
 public interface UserDAO extends DAOTemplate<User> {
-    int getIdByLogin(String login) throws DAOException;
+    long getIdByLogin(String login) throws DAOException;
     UserCredentials getCredentials(String login) throws DAOException;
-    int getRoleByLogin(String login) throws DAOException;
+    long getRoleByLogin(String login) throws DAOException;
+    int getRecordsNumber() throws DAOException;
+
 }

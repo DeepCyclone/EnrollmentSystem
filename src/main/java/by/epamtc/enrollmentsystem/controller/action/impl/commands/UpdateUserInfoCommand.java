@@ -9,12 +9,17 @@ import by.epamtc.enrollmentsystem.exception.ServiceException;
 import by.epamtc.enrollmentsystem.model.Facilitym2mUserInfo;
 import by.epamtc.enrollmentsystem.model.UserInfo;
 import by.epamtc.enrollmentsystem.service.ServiceProvider;
+import by.epamtc.enrollmentsystem.service.UserInfoService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 public class UpdateUserInfoCommand implements Command {
+
+    private static String GOLD_MEDAL = "Gold Medal";
+    private static String ORPHAN = "Orphan";
+
     public void execute(HttpServletRequest request, HttpServletResponse response){
         HttpSession session = request.getSession(false);
         int id = (int) session.getAttribute("id");
@@ -29,37 +34,28 @@ public class UpdateUserInfoCommand implements Command {
         UserInfo ui = new UserInfo(id,name,surname,patronymic,photo,address,passport);//TODO nulls?
         try {
             DAOProvider daoProvider = DAOProvider.getInstance();
-            UserInfoMySQL dao = daoProvider.getUserInfoDAO();
+            UserInfoService userInfoService = ServiceProvider.getInstance().getUserInfoService();
             FacilityMySQL facilityMySQL = daoProvider.getFacilityDAO();
-            Facilitym2mUserInfoMySQL d = daoProvider.getFacilitym2mUserInfoMySQL();
-            if(dao.hasNoteWithId(id)) {
-                dao.updateRowByID(ui,id);
+            Facilitym2mUserInfoMySQL facilitym2mUserInfoMySQL = daoProvider.getFacilitym2mUserInfoMySQL();
+            if(userInfoService.hasNoteWithId(id)) {
+                userInfoService.updateRowByID(ui);
             }
             else {
-                dao.insertInto(ui);
+                userInfoService.insertInto(ui);
             }
-
-            Facilitym2mUserInfo facilitym2mUserInfo;
+            long facilityId = 0;
+            Facilitym2mUserInfo facilitym2mUserInfo = new Facilitym2mUserInfo();
             if("on".equals(goldMedal)){
-                facilitym2mUserInfo = new Facilitym2mUserInfo();
-                int facilityId = facilityMySQL.getIdByName("Gold Medal");
-                facilitym2mUserInfo.setFacilityId(facilityId);
-                facilitym2mUserInfo.setUserInfoUserId(id);
-                d.insertInto(facilitym2mUserInfo);
-            }
-            else{
-
+                facilityId = facilityMySQL.getIdByName(GOLD_MEDAL);
             }
             if("on".equals(orphan)){
-                facilitym2mUserInfo = new Facilitym2mUserInfo();
-                int facilityId = d.getIdByName("Orphan");
-                facilitym2mUserInfo.setFacilityId(facilityId);
-                facilitym2mUserInfo.setUserInfoUserId(id);
-                d.insertInto(facilitym2mUserInfo);
+                facilityId = facilityMySQL.getIdByName(ORPHAN);
             }
-            else{
 
-            }
+            facilitym2mUserInfo.setFacilityId(facilityId);
+            facilitym2mUserInfo.setUserInfoUserId(id);
+            facilitym2mUserInfoMySQL.insertInto(facilitym2mUserInfo);
+
             response.sendRedirect("documents");
         }
         catch (Exception e){

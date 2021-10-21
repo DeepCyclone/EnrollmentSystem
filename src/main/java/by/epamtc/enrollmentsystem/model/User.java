@@ -1,6 +1,9 @@
 package by.epamtc.enrollmentsystem.model;
 
 
+import java.util.Arrays;
+import java.util.Objects;
+
 public class User {
 
     private long id;
@@ -58,5 +61,39 @@ public class User {
 
     public void setRoleId(long roleId) {
         this.roleId = roleId;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return id == user.id && roleId == user.roleId &&
+                Objects.equals(login, user.login) && Arrays.equals(password, user.password) &&
+                Objects.equals(email, user.email);
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + (int) id;
+        result = prime * result + (login == null?0:login.hashCode());
+        result = prime * result + (Arrays.toString(password) == null?0:Arrays.hashCode(password));
+        result = prime * result + (email == null?0:email.hashCode());
+        result = prime * result + (int) roleId;
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder result = new StringBuilder(getClass().getSimpleName());
+        result.append(" Fields:\n");
+        result.append("ID:").append(id).append("\n");
+        result.append("login").append(login).append("\n");
+        result.append("password:").append(Arrays.toString(password)).append("\n");
+        result.append("email:").append(email).append("\n");
+        result.append("role id:").append(roleId).append("\n");
+        return result.toString();
     }
 }

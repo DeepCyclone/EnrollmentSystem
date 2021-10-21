@@ -16,7 +16,7 @@ public class ResultServiceImpl implements ResultService {
     public List<MarkValue> retrieveResultByUserId(long userID) throws ServiceException {
         try {
             ResultDAO dao = DAOProvider.getInstance().getResultDAO();
-            return dao.retrieveResultByUserId(userID);
+            return dao.retrieveResultsByUserId(userID);
         } catch (DAOException exception) {
             throw new ServiceException(exception.getMessage(), exception);
         }

@@ -5,6 +5,8 @@ import by.epamtc.enrollmentsystem.exception.DAOException;
 import by.epamtc.enrollmentsystem.model.ApplicantEnrollment;
 import by.epamtc.enrollmentsystem.model.SystemInformation;
 
+import java.util.Optional;
+
 public interface SystemInformationDAO extends DAOTemplate<SystemInformation> {
-    SystemInformation getValueByName(String name) throws DAOException;
+    Optional<SystemInformation> getValueByName(String name) throws DAOException;
 }

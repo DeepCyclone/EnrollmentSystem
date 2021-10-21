@@ -5,6 +5,11 @@
 <fmt:setLocale value="${sessionScope.locale}" scope="session"/>
 <fmt:setBundle basename="localization.language" var = "bundle"/>
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    <%@include file="documentsPageLogic.js"%>
+</script>
+
 <html>
 <head>
     <title>
@@ -18,7 +23,7 @@
 </head>
 <body>
 <jsp:include page="/WEB-INF/pages/header.jsp"/>
-<c:out value="${sessionScope.get('description')}"/>
+<c:out value="${requestScope.get('description')}"/>
 <div class = "enrollmenttable">
     <table class = "table table-bordered border-primary">
         <caption style="caption-side: top">
@@ -32,7 +37,7 @@
             <th><fmt:message key="enrollmentsystem.totalRequests" bundle="${bundle}"/>
         </tr>
         <tr>
-            <c:forEach var="faculty" items="${sessionScope.get('facultiesList')}">
+            <c:forEach var="faculty" items="${requestScope.get('facultiesList')}">
                 <td>${faculty.name}</td>
                 <td>${faculty.budgetAdmissionPlan}</td>
                 <td>${faculty.paidAdmissionPlan}</td>
@@ -42,12 +47,22 @@
             </c:forEach>
         </tr>
     </table>
-    <div class = "pages-selector">
-        <form method="get" name = "pages-selector" action="controller">
-            <input type="button">a
-            <input type="hidden" name="action" value="SELECT_WELCOMEPAGE_PAGE">
-        </form>
-    </div>
+    <nav aria-label="Page navigation">
+    <ul class="pagination justify-content-center">
+        <li class="page-item <c:if test="${requestScope.get('prevPage') == null}">disabled</c:if>">
+            <a class="page-link" href="controller?action=PRELOAD_WELCOMEPAGE&page=${requestScope.get('prevPage')}" tabindex="-1">Previous</a>
+        </li>
+        <c:forEach var="i" begin="${requestScope.get('currentPage')}" end="${requestScope.get('endPage')}">
+            <li class="page-item">
+                <a class="page-link" href="controller?action=PRELOAD_WELCOMEPAGE&page=${i}">${i}</a>
+            </li>
+        </c:forEach>
+
+        <li class="page-item <c:if test="${requestScope.get('nextPage') == null}">disabled</c:if>">
+            <a class="page-link" href="controller?action=PRELOAD_WELCOMEPAGE&page=${requestScope.get('nextPage')}">Next</a>
+        </li>
+    </ul>
+</nav>
 </div>
 <jsp:include page="/WEB-INF/pages/footer.jsp"/>
 </body>

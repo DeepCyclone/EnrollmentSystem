@@ -14,6 +14,9 @@ import java.util.List;
 import java.util.Optional;
 
 public final class EducationFormMySQL extends AbstractDAO<EducationForm> implements EducationFormDAO {
+
+    private static final String tableName = TablesNames.education_form;
+
     private static final String UPDATE_RECORD_BY_ID = " UPDATE " + TablesNames.education_form +
                                                       " SET " + EducationFormFields.name  + " = ? " +
                                                       " WHERE " + EducationFormFields.id + " = ?";
@@ -28,26 +31,28 @@ public final class EducationFormMySQL extends AbstractDAO<EducationForm> impleme
     }
 
     @Override
+    public List<EducationForm> getEntitiesRange(int from, int offset) throws DAOException {
+        return null;
+    }
+
+    @Override
     public void updateRowByID(EducationForm note) throws DAOException {
         executeUpdateQuery(UPDATE_RECORD_BY_ID,note.getName(),note.getId());
     }
 
     @Override
     public List<EducationForm> getAll() throws DAOException {
-        String tableName = TablesNames.education_form;
         return super.getAll(tableName,new EducationFormBuilder());
     }
 
     @Override
     public Optional<EducationForm> getByID(long id) throws DAOException {
-        String tableName = TablesNames.education_form;
         String idFieldName = EducationFormFields.id;
         return super.getByID(tableName,idFieldName,id,new EducationFormBuilder());
     }
 
     @Override
-    public int getIdByName(String name) throws DAOException {
-        String tableName = TablesNames.education_form;
+    public long getIdByName(String name) throws DAOException {
         String nameField = EducationFormFields.name;
         String idField = EducationFormFields.id;
         return super.getIdByName(tableName,idField,nameField,name);
@@ -55,7 +60,6 @@ public final class EducationFormMySQL extends AbstractDAO<EducationForm> impleme
 
     @Override
     public String getNameById(long id) throws DAOException {
-        String tableName = TablesNames.education_form;
         String nameField = EducationFormFields.name;
         String idField = EducationFormFields.id;
         return super.getNameById(tableName,idField,nameField,id);
