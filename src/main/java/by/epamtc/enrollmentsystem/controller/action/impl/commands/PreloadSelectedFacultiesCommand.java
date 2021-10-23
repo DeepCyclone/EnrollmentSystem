@@ -18,7 +18,9 @@ public class PreloadSelectedFacultiesCommand implements Command {
         HttpSession session = request.getSession(false);
         int id = (int)session.getAttribute("id");
         try{
-            Set<StringifiedApplicantEnrollment> stringifiedApplicantEnrollmentSet = UserStudyingInfoBuilder.buildFacultiesAndEducationForms(id);
+            Set<StringifiedApplicantEnrollment> stringifiedApplicantEnrollmentSet = UserStudyingInfoBuilder.
+                                                                                    buildFacultiesAndEducationForms(id);
+
             Gson gson = new Gson();
             String json = gson.toJson(stringifiedApplicantEnrollmentSet);
             response.getWriter().write(json);

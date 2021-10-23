@@ -1,15 +1,12 @@
 package by.epamtc.enrollmentsystem.dao.impl;
 
-import by.epamtc.enrollmentsystem.dao.AbstractDAO;
 import by.epamtc.enrollmentsystem.dao.tables.fields.UserInfoFields;
 import by.epamtc.enrollmentsystem.dao.tables.TablesNames;
-import by.epamtc.enrollmentsystem.dao.connectionpool.ConnectionPool;
-import by.epamtc.enrollmentsystem.dao.templates.UserInfoDAO;
+import by.epamtc.enrollmentsystem.dao.interfaces.UserInfoDAO;
 import by.epamtc.enrollmentsystem.exception.DAOException;
 import by.epamtc.enrollmentsystem.model.UserInfo;
 import by.epamtc.enrollmentsystem.dao.composers.builders.UserInfoBuilder;
 
-import java.sql.*;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,10 +14,7 @@ public final class UserInfoMySQL extends AbstractDAO<UserInfo> implements UserIn
     private static final String tableName = TablesNames.user_info;
 
     private static final String INSERT_INTO = "INSERT INTO " + TablesNames.user_info +
-                                "(" + UserInfoFields.userId + "," + UserInfoFields.name + "," + UserInfoFields.surname + "," +
-                                      UserInfoFields.patronymic + "," + UserInfoFields.photoAddress + "," +
-                                      UserInfoFields.address + "," + UserInfoFields.passport + ") " +
-                                "VALUES (?,?,?,?,?,?,?)";
+                                             " VALUES (?,?,?,?,?,?,?)";
 
     private static final String UPDATE_NOTE = "UPDATE " + TablesNames.user_info +
                                               " SET " + UserInfoFields.name + " = ?," + UserInfoFields.surname + " = ?," +
@@ -28,14 +22,12 @@ public final class UserInfoMySQL extends AbstractDAO<UserInfo> implements UserIn
                                                 UserInfoFields.address +" = ?," + UserInfoFields.passport + " = ? " +
                                               " WHERE " + UserInfoFields.userId + " = ?";
 
+    private static final String GET_BY_USERNAME = "SELECT * FROM " + TablesNames.user_info +
+                                                 " WHERE " + UserInfoFields.name + " = ?";
+
     @Override
     public List<UserInfo> getAll() throws DAOException {
         return super.getAll(tableName,new UserInfoBuilder());
-    }
-
-    @Override
-    public long getIdByName(String name) throws DAOException {
-        return 0;
     }
 
     @Override
@@ -57,6 +49,11 @@ public final class UserInfoMySQL extends AbstractDAO<UserInfo> implements UserIn
     }
 
     @Override
+    public int getNumberOfRecords() throws DAOException {
+        return 0;
+    }
+
+    @Override
     public List<UserInfo> getEntitiesRange(int from, int offset) throws DAOException {
         return null;
     }
@@ -68,10 +65,7 @@ public final class UserInfoMySQL extends AbstractDAO<UserInfo> implements UserIn
     }
 
     @Override
-    public String getNameById(long userId) throws DAOException {
-//        executeSingleResultQuery().get().getName();
-        String nameField = UserInfoFields.name;
-        String idField = UserInfoFields.userId;
-        return super.getNameById(tableName,idField,nameField,userId);
+    public Optional<UserInfo> getByUserName(String userName) throws DAOException {
+        return executeSingleResultQuery(GET_BY_USERNAME,new UserInfoBuilder(),userName);
     }
 }

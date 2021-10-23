@@ -1,18 +1,13 @@
 package by.epamtc.enrollmentsystem.controller.action.impl.commands;
 
 import by.epamtc.enrollmentsystem.controller.action.Command;
-import by.epamtc.enrollmentsystem.dao.AbstractDAO;
 import by.epamtc.enrollmentsystem.dao.DAOProvider;
-import by.epamtc.enrollmentsystem.dao.impl.*;
-import by.epamtc.enrollmentsystem.dao.templates.ResultDAO;
-import by.epamtc.enrollmentsystem.dao.templates.UserInfoDAO;
+import by.epamtc.enrollmentsystem.dao.interfaces.ResultDAO;
+import by.epamtc.enrollmentsystem.dao.interfaces.UserInfoDAO;
 import by.epamtc.enrollmentsystem.model.*;
-import by.epamtc.enrollmentsystem.model.dto.MarkValue;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.*;
 import java.io.IOException;
-import java.util.List;
 import java.util.Optional;
 
 public class PreloadUserInfoCommand implements Command {
@@ -27,7 +22,7 @@ public class PreloadUserInfoCommand implements Command {
             UserInfoDAO userInfoMySQL = daoProvider.getUserInfoDAO();
             ResultDAO resultMySQL = daoProvider.getResultDAO();
             Optional<UserInfo> ui = userInfoMySQL.getByID(id);
-            UserInfo userInfo = null;
+            UserInfo userInfo;
             if(!ui.isPresent()){
                 userInfo = new UserInfo();
                 userInfo.setId(id);

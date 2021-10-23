@@ -1,16 +1,17 @@
 package by.epamtc.enrollmentsystem.service.impl;
 
 import by.epamtc.enrollmentsystem.dao.DAOProvider;
-import by.epamtc.enrollmentsystem.dao.tables.fields.ApplicantEnrollmentFields;
-import by.epamtc.enrollmentsystem.dao.templates.ApplicantEnrollmentDAO;
-import by.epamtc.enrollmentsystem.dao.templates.EducationFormDAO;
-import by.epamtc.enrollmentsystem.dao.templates.EnrollmentStatusDAO;
-import by.epamtc.enrollmentsystem.dao.templates.FacultyDAO;
+import by.epamtc.enrollmentsystem.dao.interfaces.ApplicantEnrollmentDAO;
+import by.epamtc.enrollmentsystem.dao.interfaces.EducationFormDAO;
+import by.epamtc.enrollmentsystem.dao.interfaces.EnrollmentStatusDAO;
+import by.epamtc.enrollmentsystem.dao.interfaces.FacultyDAO;
 import by.epamtc.enrollmentsystem.exception.DAOException;
 import by.epamtc.enrollmentsystem.exception.ServiceException;
 import by.epamtc.enrollmentsystem.model.ApplicantEnrollment;
+import by.epamtc.enrollmentsystem.model.EducationForm;
+import by.epamtc.enrollmentsystem.model.EnrollmentStatus;
 import by.epamtc.enrollmentsystem.model.dto.StringifiedApplicantEnrollment;
-import by.epamtc.enrollmentsystem.service.ApplicantEnrollmentService;
+import by.epamtc.enrollmentsystem.service.templates.ApplicantEnrollmentService;
 
 import java.util.*;
 
@@ -38,8 +39,25 @@ public class ApplicantEnrollmentServiceImpl implements ApplicantEnrollmentServic
     }
 
     @Override
-    public void updateEducationForm(long userId, long facultyId, long educationFormId) {
+    public void updateEducationForm(long userId, long facultyId, long educationFormId) throws ServiceException {
+        try {
+            ApplicantEnrollmentDAO dao = DAOProvider.getInstance().getApplicantEnrollmentDAO();
+            dao.updateEducationForm(userId,facultyId,educationFormId);
+        }
+        catch (DAOException exception){
+            throw new ServiceException(exception.getMessage(),exception);
+        }
+    }
 
+    @Override
+    public void updateEnrollmentStatusByUserId(ApplicantEnrollment note) throws ServiceException {
+        try {
+            ApplicantEnrollmentDAO dao = DAOProvider.getInstance().getApplicantEnrollmentDAO();
+            dao.updateEnrollmentStatusByUserId(note);
+        }
+        catch (DAOException exception){
+            throw new ServiceException(exception.getMessage(),exception);
+        }
     }
 
     @Override
@@ -69,34 +87,42 @@ public class ApplicantEnrollmentServiceImpl implements ApplicantEnrollmentServic
     * */
 
     @Override
-    public Set<StringifiedApplicantEnrollment> getStringifiedTable(long userId) throws ServiceException {//TODO а вот такие штуки - точно слой сервисов
+    public Set<StringifiedApplicantEnrollment> getStringifiedTable(long userId) throws ServiceException {
         try {
             ApplicantEnrollmentDAO applicantEnrollmentDAO = DAOProvider.getInstance().getApplicantEnrollmentDAO();
             FacultyDAO facultyDAO = DAOProvider.getInstance().getFacultyDAO();
             EducationFormDAO educationFormDAO = DAOProvider.getInstance().getEducationFormDAO();
             EnrollmentStatusDAO enrollmentStatusDAO = DAOProvider.getInstance().getEnrollmentStatusDAO();
-            List<ApplicantEnrollment> applicantEnrollmentList = applicantEnrollmentDAO.getByUserId(userId);
-            Set<StringifiedApplicantEnrollment> stringifiedApplicantEnrollmentSet = new HashSet<>();
-            Map<String,Map<String,String>> facultyFormsStatusesMap = new HashMap<>();//TODO переделать через алгоритм без доп.выделения для удобства
+            List<ApplicantEnrollment> enrollments = applicantEnrollmentDAO.getByUserId(userId);
+            Set<StringifiedApplicantEnrollment> stringifiedEnrollments = new HashSet<>();
+            Map<String,Map<String,String>> facultyFormsStatuses = new HashMap<>();//TODO переделать без выделения
 
-            for(ApplicantEnrollment applicantEnrollment:applicantEnrollmentList){
-                String facultyName = facultyDAO.getNameById(applicantEnrollment.getFacultyId());
-                if(!facultyFormsStatusesMap.containsKey(facultyName)){
+            for(ApplicantEnrollment applicantEnrollment:enrollments){
+                String facultyName = facultyDAO.getByID(applicantEnrollment.getFacultyId()).get().getName();
+                if(!facultyFormsStatuses.containsKey(facultyName)){
                     Map<String,String> formsStatusesMap = new HashMap<>();
-                    facultyFormsStatusesMap.put(facultyName,formsStatusesMap);
+                    facultyFormsStatuses.put(facultyName,formsStatusesMap);
                 }
-                String enrollmentStatusName = enrollmentStatusDAO.getNameById(applicantEnrollment.getEnrollmentStatusId());
-                String educationFormName = educationFormDAO.getNameById(applicantEnrollment.getEducationFormId());
-                facultyFormsStatusesMap.get(facultyName).put(educationFormName,enrollmentStatusName);
+                Optional<EnrollmentStatus> enrollmentStatus = enrollmentStatusDAO.getByID(applicantEnrollment.getEnrollmentStatusId());
+                String enrollmentStatusName = "";
+                if(enrollmentStatus.isPresent()){
+                    enrollmentStatusName = enrollmentStatus.get().getName();
+                }
+                Optional<EducationForm> educationForm = educationFormDAO.getByID(applicantEnrollment.getEducationFormId());
+                String educationFormName = "";
+                if(enrollmentStatus.isPresent()){
+                    educationFormName = educationForm.get().getName();
+                }
+                facultyFormsStatuses.get(facultyName).put(educationFormName,enrollmentStatusName);
             }
 
-            for(Map.Entry<String,Map<String,String>> entry:facultyFormsStatusesMap.entrySet()){
-                StringifiedApplicantEnrollment stringifiedApplicantEnrollment = new StringifiedApplicantEnrollment();
-                stringifiedApplicantEnrollment.setFacultyName(entry.getKey());
-                stringifiedApplicantEnrollment.setEducationFormStatuses(entry.getValue());
-                stringifiedApplicantEnrollmentSet.add(stringifiedApplicantEnrollment);
+            for(Map.Entry<String,Map<String,String>> entry:facultyFormsStatuses.entrySet()){
+                StringifiedApplicantEnrollment stringifiedEnrollment = new StringifiedApplicantEnrollment();
+                stringifiedEnrollment.setFacultyName(entry.getKey());
+                stringifiedEnrollment.setEducationFormStatuses(entry.getValue());
+                stringifiedEnrollments.add(stringifiedEnrollment);
             }
-            return stringifiedApplicantEnrollmentSet;
+            return stringifiedEnrollments;
         }
         catch (DAOException exception){
             throw new ServiceException(exception.getMessage(),exception);

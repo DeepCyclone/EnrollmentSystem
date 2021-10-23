@@ -48,13 +48,13 @@
         <div class="tab-pane fade show active" id="v-pills-data" role="tabpanel" aria-labelledby="v-pills-data-tab">
             <c:choose>
                 <c:when test="${sessionScope.get('role') == '1'}">
-                    <%@include file="fragments/adminDocuments.jsp"%>
+                    <%@include file="fragments/adminDocuments.jspf"%>
                 </c:when>
                 <c:when test="${sessionScope.get('role') == '2'}">
-                    <%@include file="fragments/moderDocuments.jsp"%>
+                    <%@include file="fragments/moderDocuments.jspf"%>
                 </c:when>
                 <c:when test="${sessionScope.get('role') == '3'}">
-                    <%@include file="fragments/applicantsDocuments.jsp"%>
+                    <%@include file="fragments/applicantsDocuments.jspf"%>
                 </c:when>
             </c:choose>
         </div>

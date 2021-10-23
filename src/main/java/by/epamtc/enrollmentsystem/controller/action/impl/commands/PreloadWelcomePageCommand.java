@@ -1,24 +1,19 @@
 package by.epamtc.enrollmentsystem.controller.action.impl.commands;
 
 import by.epamtc.enrollmentsystem.controller.action.Command;
-import by.epamtc.enrollmentsystem.controller.action.impl.redirectors.URLHolder;
-import by.epamtc.enrollmentsystem.dao.DAOProvider;
-import by.epamtc.enrollmentsystem.dao.impl.FacultyMySQL;
-import by.epamtc.enrollmentsystem.dao.impl.SystemInformationMySQL;
-import by.epamtc.enrollmentsystem.dao.templates.SystemInformationDAO;
-import by.epamtc.enrollmentsystem.exception.DAOException;
 import by.epamtc.enrollmentsystem.exception.ServiceException;
 import by.epamtc.enrollmentsystem.model.Faculty;
-import by.epamtc.enrollmentsystem.service.FacultyService;
+import by.epamtc.enrollmentsystem.model.SystemInformation;
+import by.epamtc.enrollmentsystem.service.templates.FacultyService;
 import by.epamtc.enrollmentsystem.service.ServiceProvider;
-import by.epamtc.enrollmentsystem.service.SystemInformationService;
+import by.epamtc.enrollmentsystem.service.templates.SystemInformationService;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 public class PreloadWelcomePageCommand implements Command {
     private static final int DEFAULT_PAGE = 1;//первая страница
@@ -35,8 +30,9 @@ public class PreloadWelcomePageCommand implements Command {
             List<Faculty> faculties = null;
             try {
                 int facultiesNumber = 0;
-                if(systemInformationService.getValueByName(WELCOME_PAGE_INFO).isPresent()) {
-                    description = systemInformationService.getValueByName(WELCOME_PAGE_INFO).get().getValue();
+                Optional<SystemInformation> welcomePageInfo = systemInformationService.getByName(WELCOME_PAGE_INFO);
+                if(welcomePageInfo.isPresent()) {
+                    description = welcomePageInfo.get().getValue();
                 }
                 facultiesNumber = facultyService.getFacultiesNumber();
                 String currentPage = request.getParameter("page");

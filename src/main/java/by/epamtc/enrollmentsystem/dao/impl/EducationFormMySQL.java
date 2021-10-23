@@ -1,15 +1,12 @@
 package by.epamtc.enrollmentsystem.dao.impl;
 
-import by.epamtc.enrollmentsystem.dao.AbstractDAO;
 import by.epamtc.enrollmentsystem.dao.tables.TablesNames;
-import by.epamtc.enrollmentsystem.dao.connectionpool.ConnectionPool;
 import by.epamtc.enrollmentsystem.dao.tables.fields.EducationFormFields;
-import by.epamtc.enrollmentsystem.dao.templates.EducationFormDAO;
+import by.epamtc.enrollmentsystem.dao.interfaces.EducationFormDAO;
 import by.epamtc.enrollmentsystem.exception.DAOException;
 import by.epamtc.enrollmentsystem.model.EducationForm;
 import by.epamtc.enrollmentsystem.dao.composers.builders.EducationFormBuilder;
 
-import java.sql.*;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,6 +25,11 @@ public final class EducationFormMySQL extends AbstractDAO<EducationForm> impleme
     @Override
     public void deleteAll() {
 
+    }
+
+    @Override
+    public int getNumberOfRecords() throws DAOException {
+        return 0;
     }
 
     @Override
@@ -52,17 +54,7 @@ public final class EducationFormMySQL extends AbstractDAO<EducationForm> impleme
     }
 
     @Override
-    public long getIdByName(String name) throws DAOException {
-        String nameField = EducationFormFields.name;
-        String idField = EducationFormFields.id;
-        return super.getIdByName(tableName,idField,nameField,name);
+    public Optional<EducationForm> getByName(String name) {
+        return Optional.empty();
     }
-
-    @Override
-    public String getNameById(long id) throws DAOException {
-        String nameField = EducationFormFields.name;
-        String idField = EducationFormFields.id;
-        return super.getNameById(tableName,idField,nameField,id);
-    }
-
 }

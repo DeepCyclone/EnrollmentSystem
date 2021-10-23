@@ -1,13 +1,7 @@
 package by.epamtc.enrollmentsystem.controller.action.impl.commands;
 
 import by.epamtc.enrollmentsystem.controller.action.Command;
-import by.epamtc.enrollmentsystem.dao.DAOProvider;
-import by.epamtc.enrollmentsystem.dao.impl.FacilityMySQL;
-import by.epamtc.enrollmentsystem.dao.impl.Facilitym2mUserInfoMySQL;
-import by.epamtc.enrollmentsystem.dao.impl.Subjectm2mFacultyMySQL;
-import by.epamtc.enrollmentsystem.dao.templates.Facilitym2mUserInfoDAO;
-import by.epamtc.enrollmentsystem.model.Facilitym2mUserInfo;
-import by.epamtc.enrollmentsystem.service.Facilitym2mUserInfoService;
+import by.epamtc.enrollmentsystem.service.templates.Facilitym2mUserInfoService;
 import by.epamtc.enrollmentsystem.service.ServiceProvider;
 import com.google.gson.Gson;
 
@@ -16,9 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class PreloadFacilitiesTabCommand implements Command {
     @Override

@@ -1,28 +1,30 @@
 package by.epamtc.enrollmentsystem.service.impl;
 
 import by.epamtc.enrollmentsystem.dao.DAOProvider;
-import by.epamtc.enrollmentsystem.dao.templates.*;
+import by.epamtc.enrollmentsystem.dao.interfaces.*;
 import by.epamtc.enrollmentsystem.exception.DAOException;
 import by.epamtc.enrollmentsystem.exception.ServiceException;
 import by.epamtc.enrollmentsystem.model.*;
 import by.epamtc.enrollmentsystem.model.dto.StringifiedApplicantEnrollment;
 import by.epamtc.enrollmentsystem.model.dto.UserCredentials;
 import by.epamtc.enrollmentsystem.model.dto.UserStyledToAdminPanel;
-import by.epamtc.enrollmentsystem.service.ApplicantEnrollmentService;
+import by.epamtc.enrollmentsystem.service.templates.ApplicantEnrollmentService;
 import by.epamtc.enrollmentsystem.service.ServiceProvider;
-import by.epamtc.enrollmentsystem.service.UserService;
+import by.epamtc.enrollmentsystem.service.templates.UserService;
 import by.epamtc.enrollmentsystem.service.validators.RegexHolders;
 
+import java.nio.charset.StandardCharsets;
 import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+
+import static by.epamtc.enrollmentsystem.service.validators.RegexValidator.validateFieldWithRegex;
 
 public class UserServiceImpl implements UserService {
+
     @Override
-    public long getIdByLogin(String login) throws ServiceException {
+    public Optional<User> getByLogin(String login) throws ServiceException {
         try {
-            UserDAO userDAO = DAOProvider.getInstance().getUserDAO();
-            return userDAO.getIdByLogin(login);
+                UserDAO dao = DAOProvider.getInstance().getUserDAO();
+                return dao.getByLogin(login);
         }
         catch (DAOException exception){
             throw new ServiceException(exception.getMessage(),exception);
@@ -32,19 +34,15 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserCredentials getCredentials(String login) throws ServiceException {
         try {
+            UserCredentials credentials = null;
             UserDAO userDAO = DAOProvider.getInstance().getUserDAO();
-            return userDAO.getCredentials(login);
-        }
-        catch (DAOException exception){
-            throw new ServiceException(exception.getMessage(),exception);
-        }
-    }
-
-    @Override
-    public long getRoleByLogin(String login) throws ServiceException {
-        try {
-            UserDAO userDAO = DAOProvider.getInstance().getUserDAO();
-            return userDAO.getRoleByLogin(login);
+            Optional<User> user = userDAO.getByLogin(login);
+            if(user.isPresent()){
+                credentials = new UserCredentials();
+                credentials.setPassword(new String(user.get().getPassword(), StandardCharsets.UTF_8));
+                credentials.setLogin(user.get().getLogin());
+            }
+            return credentials;//TODO empty fields
         }
         catch (DAOException exception){
             throw new ServiceException(exception.getMessage(),exception);
@@ -93,16 +91,43 @@ public class UserServiceImpl implements UserService {
     public int getNumberOfRecords() throws ServiceException {
         try {
             UserDAO userDAO = DAOProvider.getInstance().getUserDAO();
-            return userDAO.getRecordsNumber();
+            return userDAO.getNumberOfRecords();
         }
         catch (DAOException exception){
             throw new ServiceException(exception.getMessage(),exception);
         }
     }
 
-    private boolean validateFieldWithRegex(String field,String regex){
-        Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(field);
-        return matcher.matches();
+    @Override
+    public void insertInto(User data) throws ServiceException {
+        try {
+            UserDAO userDAO = DAOProvider.getInstance().getUserDAO();
+            userDAO.insertInto(data);
+        }
+        catch (DAOException exception){
+            throw new ServiceException(exception.getMessage(),exception);
+        }
+    }
+
+    @Override
+    public Optional<User> getByID(long id) throws ServiceException {
+        try {
+            UserDAO userDAO = DAOProvider.getInstance().getUserDAO();
+            return userDAO.getByID(id);
+        }
+        catch (DAOException exception){
+            throw new ServiceException(exception.getMessage(),exception);
+        }
+    }
+
+    @Override
+    public void updateRowByID(User note) throws ServiceException {
+        try {
+            UserDAO userDAO = DAOProvider.getInstance().getUserDAO();
+            userDAO.updateRowByID(note);
+        }
+        catch (DAOException exception){
+            throw new ServiceException(exception.getMessage(),exception);
+        }
     }
 }

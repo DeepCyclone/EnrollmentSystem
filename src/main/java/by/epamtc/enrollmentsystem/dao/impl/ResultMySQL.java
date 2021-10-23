@@ -1,17 +1,14 @@
 package by.epamtc.enrollmentsystem.dao.impl;
 
-import by.epamtc.enrollmentsystem.dao.AbstractDAO;
 import by.epamtc.enrollmentsystem.dao.composers.builders.ResultBuilder;
 import by.epamtc.enrollmentsystem.dao.connectionpool.ConnectionPool;
 import by.epamtc.enrollmentsystem.dao.tables.TablesNames;
 import by.epamtc.enrollmentsystem.dao.tables.fields.ApplicantEnrollmentFields;
 import by.epamtc.enrollmentsystem.dao.tables.fields.ResultFields;
 import by.epamtc.enrollmentsystem.dao.tables.fields.SubjectFields;
-import by.epamtc.enrollmentsystem.dao.templates.ResultDAO;
+import by.epamtc.enrollmentsystem.dao.interfaces.ResultDAO;
 import by.epamtc.enrollmentsystem.exception.DAOException;
-import by.epamtc.enrollmentsystem.model.Facilitym2mUserInfo;
 import by.epamtc.enrollmentsystem.model.Result;
-import by.epamtc.enrollmentsystem.model.Subject;
 import by.epamtc.enrollmentsystem.model.dto.MarkValue;
 import by.epamtc.enrollmentsystem.model.dto.UserResultByFaculty;
 
@@ -56,11 +53,6 @@ public final class ResultMySQL extends AbstractDAO<Result> implements ResultDAO 
     }
 
     @Override
-    public long getIdByName(String name) throws DAOException {
-        return 0;
-    }
-
-    @Override
     public Optional<Result> getByID(long id) throws DAOException {
         return null;
     }
@@ -78,6 +70,11 @@ public final class ResultMySQL extends AbstractDAO<Result> implements ResultDAO 
     @Override
     public void deleteAll() {
 
+    }
+
+    @Override
+    public int getNumberOfRecords() throws DAOException {
+        return 0;
     }
 
     @Override
@@ -188,7 +185,7 @@ public final class ResultMySQL extends AbstractDAO<Result> implements ResultDAO 
     }
 
     @Override
-    public String getNameById(long id) {
-        throw new UnsupportedOperationException();
+    public Optional<Result> getByName(String name) throws DAOException {
+        return Optional.empty();
     }
 }

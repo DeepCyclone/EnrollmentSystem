@@ -2,6 +2,7 @@ package by.epamtc.enrollmentsystem.controller.action.impl.commands;
 
 import by.epamtc.enrollmentsystem.controller.action.Command;
 import by.epamtc.enrollmentsystem.controller.action.impl.redirectors.URLHolder;
+import by.epamtc.enrollmentsystem.exception.ServiceException;
 import by.epamtc.enrollmentsystem.model.UserType;
 import by.epamtc.enrollmentsystem.service.ServiceProvider;
 import by.epamtc.enrollmentsystem.service.impl.EnrollmentService;
@@ -25,8 +26,8 @@ public class StartEnrollmentCommand implements Command {
         try {
             service.makeEnrollment();
         }
-        catch (Exception e){
-
+        catch (ServiceException exception){
+            //logger
         }
         response.sendRedirect(request.getContextPath() + URLHolder.ADMIN_PAGE_PRELOADER);
     }

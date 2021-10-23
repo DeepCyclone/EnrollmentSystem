@@ -26,16 +26,14 @@ public class QueryExecutor<T> {
 
     protected Optional<T> executeSingleResultQuery(String query,EntityBuilder<T> builder , Object... params) throws DAOException {
         List<T> entities = executeSelectQuery(query,builder, params);
-
-        if (entities.isEmpty() || !(entities.size() == 1)) {
+        if(entities.isEmpty() || entities.size() < 1){
             return Optional.empty();
         }
-
-        return Optional.of(entities.get(0));
+        return Optional.ofNullable(entities.get(0));
     }
 
     protected void executeInsertQuery(String query, Object... params) throws DAOException {
-        executeUpdateQuery(query,params);
+        executeUpdateQuery(query,params);//TODO this method may return id's of inserted records
     }
 
     protected void executeUpdateQuery(String query, Object... params) throws DAOException {

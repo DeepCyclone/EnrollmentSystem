@@ -1,23 +1,18 @@
 package by.epamtc.enrollmentsystem.dao.impl;
 
-import by.epamtc.enrollmentsystem.dao.AbstractDAO;
-import by.epamtc.enrollmentsystem.dao.connectionpool.ConnectionPool;
 import by.epamtc.enrollmentsystem.dao.tables.fields.FacultyFields;
 import by.epamtc.enrollmentsystem.dao.tables.TablesNames;
-import by.epamtc.enrollmentsystem.dao.templates.FacultyDAO;
+import by.epamtc.enrollmentsystem.dao.interfaces.FacultyDAO;
 import by.epamtc.enrollmentsystem.exception.DAOException;
 import by.epamtc.enrollmentsystem.model.Faculty;
 import by.epamtc.enrollmentsystem.dao.composers.builders.FacultyBuilder;
 
-import java.sql.*;
 import java.util.List;
 import java.util.Optional;
 
 public final class FacultyMySQL extends AbstractDAO<Faculty> implements FacultyDAO {
 
     private static final String tableName = TablesNames.faculty;
-    private static final String GET_RECORDS_NUMBER = "SELECT COUNT(*) FROM " + TablesNames.faculty;
-
 
     @Override
     public Optional<Faculty> getByID(long id) throws DAOException {
@@ -51,21 +46,12 @@ public final class FacultyMySQL extends AbstractDAO<Faculty> implements FacultyD
     }
 
     @Override
-    public long getIdByName(String name) throws DAOException {
-        String idField = FacultyFields.id;
-        String nameField = FacultyFields.name;
-        return super.getIdByName(tableName,idField,nameField,name);
-    }
-
-    @Override
-    public String getNameById(long id) throws DAOException {
-        String nameField = FacultyFields.name;
-        String idField = FacultyFields.id;
-        return super.getNameById(tableName,idField,nameField,id);
-    }
-
-    @Override
-    public int getRecordsNumber() throws DAOException {
+    public int getNumberOfRecords() throws DAOException {
      return super.getNumberOfRecords(tableName);
+    }
+
+    @Override
+    public Optional<Faculty> getByName(String name) throws DAOException {
+        return Optional.empty();
     }
 }

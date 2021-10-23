@@ -1,12 +1,8 @@
 package by.epamtc.enrollmentsystem.dao.impl;
 
-import by.epamtc.enrollmentsystem.dao.AbstractDAO;
 import by.epamtc.enrollmentsystem.dao.connectionpool.ConnectionPool;
-import by.epamtc.enrollmentsystem.dao.tables.TablesNames;
-import by.epamtc.enrollmentsystem.dao.tables.fields.EducationFormFields;
-import by.epamtc.enrollmentsystem.dao.templates.Subjectm2mFacultyDAO;
+import by.epamtc.enrollmentsystem.dao.interfaces.Subjectm2mFacultyDAO;
 import by.epamtc.enrollmentsystem.exception.DAOException;
-import by.epamtc.enrollmentsystem.model.Facilitym2mUserInfo;
 import by.epamtc.enrollmentsystem.model.Subjectm2mFaculty;
 
 import java.sql.*;
@@ -25,28 +21,18 @@ public final class Subjectm2mFacultyMySQL extends AbstractDAO<Subjectm2mFaculty>
     }
 
     @Override
-    public long getIdByName(String name) throws DAOException {
-        return 0;
-    }
-
-    @Override
-    public Optional<Subjectm2mFaculty> getByID(long id) throws DAOException {
-        return null;
-    }
-
-    @Override
     public void insertInto(Subjectm2mFaculty object) throws DAOException {
-
-    }
-
-    @Override
-    public void updateRowByID(Subjectm2mFaculty note) throws DAOException {
 
     }
 
     @Override
     public void deleteAll() {
 
+    }
+
+    @Override
+    public int getNumberOfRecords() throws DAOException {
+        return 0;
     }
 
     @Override
@@ -84,8 +70,4 @@ public final class Subjectm2mFacultyMySQL extends AbstractDAO<Subjectm2mFaculty>
         return facSub;
     }
 
-    @Override
-    public String getNameById(long id) {
-        throw new UnsupportedOperationException();
-    }
 }

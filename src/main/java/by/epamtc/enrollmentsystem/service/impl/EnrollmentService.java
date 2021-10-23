@@ -1,20 +1,14 @@
 package by.epamtc.enrollmentsystem.service.impl;
 
 import by.epamtc.enrollmentsystem.dao.DAOProvider;
-import by.epamtc.enrollmentsystem.dao.impl.ApplicantEnrollmentMySQL;
-import by.epamtc.enrollmentsystem.dao.impl.ResultMySQL;
-import by.epamtc.enrollmentsystem.dao.impl.UserInfoMySQL;
-import by.epamtc.enrollmentsystem.dao.templates.ApplicantEnrollmentDAO;
-import by.epamtc.enrollmentsystem.dao.templates.FacultyDAO;
-import by.epamtc.enrollmentsystem.dao.templates.ResultDAO;
+import by.epamtc.enrollmentsystem.dao.interfaces.ApplicantEnrollmentDAO;
+import by.epamtc.enrollmentsystem.dao.interfaces.FacultyDAO;
+import by.epamtc.enrollmentsystem.dao.interfaces.ResultDAO;
 import by.epamtc.enrollmentsystem.exception.DAOException;
 import by.epamtc.enrollmentsystem.exception.ServiceException;
 import by.epamtc.enrollmentsystem.model.ApplicantEnrollment;
 import by.epamtc.enrollmentsystem.model.Faculty;
-import by.epamtc.enrollmentsystem.model.Result;
-import by.epamtc.enrollmentsystem.model.UserInfo;
 import by.epamtc.enrollmentsystem.model.dto.UserResultByFaculty;
-import by.epamtc.enrollmentsystem.service.comparators.ResultComparator;
 
 import java.util.*;
 
@@ -51,7 +45,7 @@ public class EnrollmentService {
                     enrollment.setFacultyId(result.getFacultyId());
                     enrollment.setEducationFormId(BUDGET_EDUCATION_FORM);
                     enrollment.setEnrollmentStatusId(FORM_ENROLLED);
-                    applicantEnrollmentDAO.updateRowByID(enrollment);
+                    applicantEnrollmentDAO.updateEnrollmentStatusByUserId(enrollment);
                 }
             }
         }

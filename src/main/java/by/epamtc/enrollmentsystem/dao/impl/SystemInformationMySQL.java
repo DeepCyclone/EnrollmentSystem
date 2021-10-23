@@ -1,20 +1,11 @@
 package by.epamtc.enrollmentsystem.dao.impl;
 
-import by.epamtc.enrollmentsystem.dao.AbstractDAO;
-import by.epamtc.enrollmentsystem.dao.composers.builders.SystemInformationBuilder;
 import by.epamtc.enrollmentsystem.dao.tables.TablesNames;
-import by.epamtc.enrollmentsystem.dao.connectionpool.ConnectionPool;
-import by.epamtc.enrollmentsystem.dao.tables.fields.SubjectFields;
-import by.epamtc.enrollmentsystem.dao.templates.SystemInformationDAO;
+import by.epamtc.enrollmentsystem.dao.interfaces.SystemInformationDAO;
 import by.epamtc.enrollmentsystem.exception.DAOException;
-import by.epamtc.enrollmentsystem.model.Facilitym2mUserInfo;
 import by.epamtc.enrollmentsystem.model.SystemInformation;
 import by.epamtc.enrollmentsystem.dao.tables.fields.SystemInformationFields;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,10 +19,6 @@ public final class SystemInformationMySQL extends AbstractDAO<SystemInformation>
         return null;
     }
 
-    @Override
-    public long getIdByName(String name) throws DAOException {
-        return 0;
-    }
 
     @Override
     public Optional<SystemInformation> getByID(long id) throws DAOException {
@@ -43,13 +30,13 @@ public final class SystemInformationMySQL extends AbstractDAO<SystemInformation>
     }
 
     @Override
-    public Optional<SystemInformation> getValueByName(String name) throws DAOException {
-        return executeSingleResultQuery(GET_BY_NAME,new SystemInformationBuilder(),name);
+    public void deleteAll() {
+
     }
 
     @Override
-    public void deleteAll() {
-
+    public int getNumberOfRecords() throws DAOException {
+        return 0;
     }
 
     @Override
@@ -57,17 +44,13 @@ public final class SystemInformationMySQL extends AbstractDAO<SystemInformation>
         return null;
     }
 
-
     @Override
     public void updateRowByID(SystemInformation note) {
 
     }
 
     @Override
-    public String getNameById(long id) throws DAOException {
-        String tableName = TablesNames.system_information;
-        String nameField = SystemInformationFields.name;
-        String idField = SystemInformationFields.id;
-        return super.getNameById(tableName,idField,nameField,id);
+    public Optional<SystemInformation> getByName(String name) throws DAOException {
+        return Optional.empty();
     }
 }

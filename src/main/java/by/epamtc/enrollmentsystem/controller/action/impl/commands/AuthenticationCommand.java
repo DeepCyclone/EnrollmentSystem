@@ -1,17 +1,18 @@
 package by.epamtc.enrollmentsystem.controller.action.impl.commands;
 
 import by.epamtc.enrollmentsystem.controller.action.Command;
-import by.epamtc.enrollmentsystem.dao.DAOProvider;
-import by.epamtc.enrollmentsystem.dao.impl.UserMySQL;
-import by.epamtc.enrollmentsystem.dao.templates.UserDAO;
+import by.epamtc.enrollmentsystem.exception.ServiceException;
 import by.epamtc.enrollmentsystem.model.User;
 import by.epamtc.enrollmentsystem.service.ServiceProvider;
-import by.epamtc.enrollmentsystem.service.UserService;
+import by.epamtc.enrollmentsystem.service.templates.UserService;
 import by.epamtc.enrollmentsystem.service.validators.CredentialsValidator;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
+import java.util.Optional;
 
 public class AuthenticationCommand implements Command {
     public void execute(HttpServletRequest request, HttpServletResponse response) {
@@ -25,16 +26,17 @@ public class AuthenticationCommand implements Command {
             }
             else {
                 httpSession.setAttribute("login", login);
-                UserDAO userDAO = DAOProvider.getInstance().getUserDAO();
-                long id = userDAO.getIdByLogin(login);
-                long roleId = userDAO.getRoleByLogin(login);
+                UserService userService = ServiceProvider.getInstance().getUserService();
+                Optional<User> user = userService.getByLogin(login);
+                long id = user.get().getId();
+                long roleId = user.get().getRoleId();
                 httpSession.setAttribute("role", roleId);
                 httpSession.setAttribute("id",id);
                 response.sendRedirect(request.getContextPath());
             }
         }
-        catch (Exception e){
-
+        catch (ServiceException | ServletException | IOException e){
+            //logger
         }
     }
 }
