@@ -1,7 +1,7 @@
 package by.epamtc.enrollmentsystem.controller.action.impl.commands;
 
 import by.epamtc.enrollmentsystem.controller.action.Command;
-import by.epamtc.enrollmentsystem.service.templates.Facilitym2mUserInfoService;
+import by.epamtc.enrollmentsystem.service.template.Facilitym2mUserInfoService;
 import by.epamtc.enrollmentsystem.service.ServiceProvider;
 import com.google.gson.Gson;
 

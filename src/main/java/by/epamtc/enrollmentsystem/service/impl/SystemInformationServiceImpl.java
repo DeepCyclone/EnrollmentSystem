@@ -1,13 +1,11 @@
 package by.epamtc.enrollmentsystem.service.impl;
 
 import by.epamtc.enrollmentsystem.dao.DAOProvider;
-import by.epamtc.enrollmentsystem.dao.interfaces.SubjectDAO;
-import by.epamtc.enrollmentsystem.dao.interfaces.SystemInformationDAO;
+import by.epamtc.enrollmentsystem.dao.template.SystemInformationDAO;
 import by.epamtc.enrollmentsystem.exception.DAOException;
 import by.epamtc.enrollmentsystem.exception.ServiceException;
-import by.epamtc.enrollmentsystem.model.Subject;
 import by.epamtc.enrollmentsystem.model.SystemInformation;
-import by.epamtc.enrollmentsystem.service.templates.SystemInformationService;
+import by.epamtc.enrollmentsystem.service.template.SystemInformationService;
 
 import java.util.Optional;
 

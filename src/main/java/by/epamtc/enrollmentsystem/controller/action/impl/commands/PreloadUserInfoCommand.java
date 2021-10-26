@@ -2,8 +2,8 @@ package by.epamtc.enrollmentsystem.controller.action.impl.commands;
 
 import by.epamtc.enrollmentsystem.controller.action.Command;
 import by.epamtc.enrollmentsystem.dao.DAOProvider;
-import by.epamtc.enrollmentsystem.dao.interfaces.ResultDAO;
-import by.epamtc.enrollmentsystem.dao.interfaces.UserInfoDAO;
+import by.epamtc.enrollmentsystem.dao.template.ResultDAO;
+import by.epamtc.enrollmentsystem.dao.template.UserInfoDAO;
 import by.epamtc.enrollmentsystem.model.*;
 
 import javax.servlet.http.*;

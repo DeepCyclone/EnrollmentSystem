@@ -3,7 +3,7 @@ package by.epamtc.enrollmentsystem.controller.action.impl.commands;
 import by.epamtc.enrollmentsystem.controller.action.Command;
 import by.epamtc.enrollmentsystem.controller.action.impl.redirectors.URLHolder;
 import by.epamtc.enrollmentsystem.exception.ServiceException;
-import by.epamtc.enrollmentsystem.model.UserType;
+import by.epamtc.enrollmentsystem.controller.filter.UserType;
 import by.epamtc.enrollmentsystem.service.ServiceProvider;
 import by.epamtc.enrollmentsystem.service.impl.EnrollmentService;
 

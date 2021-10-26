@@ -43,17 +43,14 @@ public class CommandProvider {
     }
 
     public Command getCommand(String commandName) {
-        CommandType commandType = CommandType.valueOf(commandName.toUpperCase());//TODO prevent invalid command exception
-
         Command command;
-
-        if(commandType != null){
+        try {
+            CommandType commandType = CommandType.valueOf(commandName.toUpperCase());
             command = actions.get(commandType);
         }
-        else{
+        catch (IllegalArgumentException exception) {
             command = actions.get(CommandType.EMPTY);
         }
-
         return command;
     }
 }

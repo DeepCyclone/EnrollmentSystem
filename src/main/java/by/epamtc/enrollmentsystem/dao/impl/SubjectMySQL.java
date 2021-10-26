@@ -1,9 +1,9 @@
 package by.epamtc.enrollmentsystem.dao.impl;
 
-import by.epamtc.enrollmentsystem.dao.composers.builders.SubjectBuilder;
-import by.epamtc.enrollmentsystem.dao.tables.TablesNames;
-import by.epamtc.enrollmentsystem.dao.tables.fields.SubjectFields;
-import by.epamtc.enrollmentsystem.dao.interfaces.SubjectDAO;
+import by.epamtc.enrollmentsystem.dao.composer.builders.SubjectBuilder;
+import by.epamtc.enrollmentsystem.dao.mapping.SchemaMapping;
+import by.epamtc.enrollmentsystem.dao.mapping.fields.SubjectMapping;
+import by.epamtc.enrollmentsystem.dao.template.SubjectDAO;
 import by.epamtc.enrollmentsystem.exception.DAOException;
 import by.epamtc.enrollmentsystem.model.Subject;
 
@@ -12,8 +12,8 @@ import java.util.Optional;
 
 public final class SubjectMySQL extends AbstractDAO<Subject> implements SubjectDAO {
 
-    String tableName = TablesNames.subject;
-    private static final String SELECT_NAMES = "SELECT " + SubjectFields.name + " FROM " + TablesNames.education_form;
+    String tableName = SchemaMapping.subject;
+    private static final String SELECT_NAMES = "SELECT " + SubjectMapping.name + " FROM " + SchemaMapping.education_form;
 
 
     @Override

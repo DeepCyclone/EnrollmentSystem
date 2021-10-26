@@ -1,18 +1,18 @@
 package by.epamtc.enrollmentsystem.dao.impl;
 
-import by.epamtc.enrollmentsystem.dao.tables.TablesNames;
-import by.epamtc.enrollmentsystem.dao.tables.fields.EnrollmentStatusFields;
-import by.epamtc.enrollmentsystem.dao.interfaces.EnrollmentStatusDAO;
+import by.epamtc.enrollmentsystem.dao.mapping.SchemaMapping;
+import by.epamtc.enrollmentsystem.dao.mapping.fields.EnrollmentStatusMapping;
+import by.epamtc.enrollmentsystem.dao.template.EnrollmentStatusDAO;
 import by.epamtc.enrollmentsystem.exception.DAOException;
 import by.epamtc.enrollmentsystem.model.EnrollmentStatus;
-import by.epamtc.enrollmentsystem.dao.composers.builders.EnrollmentStatusBuilder;
+import by.epamtc.enrollmentsystem.dao.composer.builders.EnrollmentStatusBuilder;
 
 import java.util.List;
 import java.util.Optional;
 
 public final class EnrollmentStatusMySQL extends AbstractDAO<EnrollmentStatus> implements EnrollmentStatusDAO {
 
-    private static final String tableName = TablesNames.enrollment_status;
+    private static final String tableName = SchemaMapping.enrollment_status;
 
     @Override
     public List<EnrollmentStatus> getAll() throws DAOException {
@@ -21,7 +21,7 @@ public final class EnrollmentStatusMySQL extends AbstractDAO<EnrollmentStatus> i
 
     @Override
     public Optional<EnrollmentStatus> getByID(long id) throws DAOException {
-        String idField = EnrollmentStatusFields.id;
+        String idField = EnrollmentStatusMapping.id;
         return super.getByID(tableName,idField,id,new EnrollmentStatusBuilder());
     }
 

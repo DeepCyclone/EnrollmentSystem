@@ -4,8 +4,8 @@ import by.epamtc.enrollmentsystem.controller.action.Command;
 import by.epamtc.enrollmentsystem.exception.ServiceException;
 import by.epamtc.enrollmentsystem.model.User;
 import by.epamtc.enrollmentsystem.service.ServiceProvider;
-import by.epamtc.enrollmentsystem.service.templates.UserService;
-import by.epamtc.enrollmentsystem.utils.PasswordCodec;
+import by.epamtc.enrollmentsystem.service.template.UserService;
+import by.epamtc.enrollmentsystem.service.util.PasswordCodec;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;

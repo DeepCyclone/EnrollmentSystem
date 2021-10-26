@@ -1,22 +1,22 @@
 package by.epamtc.enrollmentsystem.dao.impl;
 
-import by.epamtc.enrollmentsystem.dao.tables.fields.FacultyFields;
-import by.epamtc.enrollmentsystem.dao.tables.TablesNames;
-import by.epamtc.enrollmentsystem.dao.interfaces.FacultyDAO;
+import by.epamtc.enrollmentsystem.dao.mapping.fields.FacultyMapping;
+import by.epamtc.enrollmentsystem.dao.mapping.SchemaMapping;
+import by.epamtc.enrollmentsystem.dao.template.FacultyDAO;
 import by.epamtc.enrollmentsystem.exception.DAOException;
 import by.epamtc.enrollmentsystem.model.Faculty;
-import by.epamtc.enrollmentsystem.dao.composers.builders.FacultyBuilder;
+import by.epamtc.enrollmentsystem.dao.composer.builders.FacultyBuilder;
 
 import java.util.List;
 import java.util.Optional;
 
 public final class FacultyMySQL extends AbstractDAO<Faculty> implements FacultyDAO {
 
-    private static final String tableName = TablesNames.faculty;
+    private static final String tableName = SchemaMapping.faculty;
 
     @Override
     public Optional<Faculty> getByID(long id) throws DAOException {
-        String idFieldName = FacultyFields.id;
+        String idFieldName = FacultyMapping.id;
         return super.getByID(tableName,idFieldName,id,new FacultyBuilder());
     }
 

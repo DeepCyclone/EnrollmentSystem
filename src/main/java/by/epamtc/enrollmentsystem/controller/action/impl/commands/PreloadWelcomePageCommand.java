@@ -4,9 +4,9 @@ import by.epamtc.enrollmentsystem.controller.action.Command;
 import by.epamtc.enrollmentsystem.exception.ServiceException;
 import by.epamtc.enrollmentsystem.model.Faculty;
 import by.epamtc.enrollmentsystem.model.SystemInformation;
-import by.epamtc.enrollmentsystem.service.templates.FacultyService;
+import by.epamtc.enrollmentsystem.service.template.FacultyService;
 import by.epamtc.enrollmentsystem.service.ServiceProvider;
-import by.epamtc.enrollmentsystem.service.templates.SystemInformationService;
+import by.epamtc.enrollmentsystem.service.template.SystemInformationService;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;

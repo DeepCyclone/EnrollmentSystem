@@ -1,22 +1,22 @@
 package by.epamtc.enrollmentsystem.service.impl;
 
 import by.epamtc.enrollmentsystem.dao.DAOProvider;
-import by.epamtc.enrollmentsystem.dao.interfaces.*;
+import by.epamtc.enrollmentsystem.dao.template.*;
 import by.epamtc.enrollmentsystem.exception.DAOException;
 import by.epamtc.enrollmentsystem.exception.ServiceException;
 import by.epamtc.enrollmentsystem.model.*;
 import by.epamtc.enrollmentsystem.model.dto.StringifiedApplicantEnrollment;
-import by.epamtc.enrollmentsystem.model.dto.UserCredentials;
+import by.epamtc.enrollmentsystem.model.dto.UserCredential;
 import by.epamtc.enrollmentsystem.model.dto.UserStyledToAdminPanel;
-import by.epamtc.enrollmentsystem.service.templates.ApplicantEnrollmentService;
+import by.epamtc.enrollmentsystem.service.template.ApplicantEnrollmentService;
 import by.epamtc.enrollmentsystem.service.ServiceProvider;
-import by.epamtc.enrollmentsystem.service.templates.UserService;
-import by.epamtc.enrollmentsystem.service.validators.RegexHolders;
+import by.epamtc.enrollmentsystem.service.template.UserService;
+import by.epamtc.enrollmentsystem.service.validator.RegexHolders;
 
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 
-import static by.epamtc.enrollmentsystem.service.validators.RegexValidator.validateFieldWithRegex;
+import static by.epamtc.enrollmentsystem.service.validator.RegexValidator.validateFieldWithRegex;
 
 public class UserServiceImpl implements UserService {
 
@@ -32,13 +32,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserCredentials getCredentials(String login) throws ServiceException {
+    public UserCredential getCredentials(String login) throws ServiceException {
         try {
-            UserCredentials credentials = null;
+            UserCredential credentials = null;
             UserDAO userDAO = DAOProvider.getInstance().getUserDAO();
             Optional<User> user = userDAO.getByLogin(login);
             if(user.isPresent()){
-                credentials = new UserCredentials();
+                credentials = new UserCredential();
                 credentials.setPassword(new String(user.get().getPassword(), StandardCharsets.UTF_8));
                 credentials.setLogin(user.get().getLogin());
             }

@@ -1,13 +1,13 @@
 package by.epamtc.enrollmentsystem.controller.action.impl.commands;
 
-import by.epamtc.enrollmentsystem.controller.RequestParams;
+import by.epamtc.enrollmentsystem.controller.mapping.RequestMapping;
 import by.epamtc.enrollmentsystem.controller.action.Command;
 import by.epamtc.enrollmentsystem.model.Facilitym2mUserInfo;
 import by.epamtc.enrollmentsystem.model.UserInfo;
-import by.epamtc.enrollmentsystem.service.templates.FacilityService;
-import by.epamtc.enrollmentsystem.service.templates.Facilitym2mUserInfoService;
+import by.epamtc.enrollmentsystem.service.template.FacilityService;
+import by.epamtc.enrollmentsystem.service.template.Facilitym2mUserInfoService;
 import by.epamtc.enrollmentsystem.service.ServiceProvider;
-import by.epamtc.enrollmentsystem.service.templates.UserInfoService;
+import by.epamtc.enrollmentsystem.service.template.UserInfoService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -20,15 +20,15 @@ public class UpdateUserInfoCommand implements Command {
 
     public void execute(HttpServletRequest request, HttpServletResponse response){
         HttpSession session = request.getSession(false);
-        int id = (int) session.getAttribute(RequestParams.USER_ID);
-        String name = request.getParameter(RequestParams.USER_NAME);
-        String surname = request.getParameter(RequestParams.USER_SURNAME);
-        String patronymic = request.getParameter(RequestParams.USER_PATRONYMIC);
-        String photo = request.getParameter(RequestParams.USER_PHOTO);//TODO сделать загрузку фото если успею
-        String address = request.getParameter(RequestParams.USER_ADDRESS);
-        String passport = request.getParameter(RequestParams.USER_PASSPORT);
-        String orphan = request.getParameter(RequestParams.FACILITY_ORPHAN);
-        String goldMedal = request.getParameter(RequestParams.FACILITY_GOLDMEDAL);
+        int id = (int) session.getAttribute(RequestMapping.USER_ID);
+        String name = request.getParameter(RequestMapping.USER_NAME);
+        String surname = request.getParameter(RequestMapping.USER_SURNAME);
+        String patronymic = request.getParameter(RequestMapping.USER_PATRONYMIC);
+        String photo = request.getParameter(RequestMapping.USER_PHOTO);//TODO сделать загрузку фото если успею
+        String address = request.getParameter(RequestMapping.USER_ADDRESS);
+        String passport = request.getParameter(RequestMapping.USER_PASSPORT);
+        String orphan = request.getParameter(RequestMapping.FACILITY_ORPHAN);
+        String goldMedal = request.getParameter(RequestMapping.FACILITY_GOLDMEDAL);
 
         UserInfo ui = new UserInfo(id,name,surname,patronymic,photo,address,passport);//TODO nulls?
 

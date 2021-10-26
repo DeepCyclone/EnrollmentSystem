@@ -1,13 +1,13 @@
 package by.epamtc.enrollmentsystem.dao.impl;
 
 import by.epamtc.enrollmentsystem.dao.connectionpool.ConnectionPool;
-import by.epamtc.enrollmentsystem.dao.tables.TablesNames;
-import by.epamtc.enrollmentsystem.dao.tables.fields.FacilityFields;
-import by.epamtc.enrollmentsystem.dao.tables.fields.Facilitym2mUserInfoFields;
-import by.epamtc.enrollmentsystem.dao.interfaces.Facilitym2mUserInfoDAO;
+import by.epamtc.enrollmentsystem.dao.mapping.SchemaMapping;
+import by.epamtc.enrollmentsystem.dao.mapping.fields.FacilityMapping;
+import by.epamtc.enrollmentsystem.dao.mapping.fields.Facilitym2mUserInfoMapping;
+import by.epamtc.enrollmentsystem.dao.template.Facilitym2mUserInfoDAO;
 import by.epamtc.enrollmentsystem.exception.DAOException;
 import by.epamtc.enrollmentsystem.model.Facilitym2mUserInfo;
-import by.epamtc.enrollmentsystem.dao.composers.builders.Facilitym2mUserInfoBuilder;
+import by.epamtc.enrollmentsystem.dao.composer.builders.Facilitym2mUserInfoBuilder;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -15,17 +15,17 @@ import java.util.List;
 
 public final class Facilitym2mUserInfoMySQL extends AbstractDAO<Facilitym2mUserInfo> implements Facilitym2mUserInfoDAO {
 
-    private static final String tableName = TablesNames.facility_m2m_user_info;
+    private static final String tableName = SchemaMapping.facility_m2m_user_info;
 
-    private static final String INSERT_INTO = "INSERT INTO " + TablesNames.facility_m2m_user_info + " VALUES(?,?)";
+    private static final String INSERT_INTO = "INSERT INTO " + SchemaMapping.facility_m2m_user_info + " VALUES(?,?)";
 
-    private static final String GET_USER_FACILITIES_NAMES = "SELECT " + FacilityFields.name + " FROM " + TablesNames.facility +
-                                                           " JOIN " + TablesNames.facility_m2m_user_info +
-                                                           " ON " +  FacilityFields.id + "=" + Facilitym2mUserInfoFields.facilityId +
-                                                           " WHERE " + Facilitym2mUserInfoFields.userInfoUserId + " = ?";
+    private static final String GET_USER_FACILITIES_NAMES = "SELECT " + FacilityMapping.name + " FROM " + SchemaMapping.facility +
+                                                           " JOIN " + SchemaMapping.facility_m2m_user_info +
+                                                           " ON " +  FacilityMapping.id + "=" + Facilitym2mUserInfoMapping.facilityId +
+                                                           " WHERE " + Facilitym2mUserInfoMapping.userInfoUserId + " = ?";
 
-    private static final String GET_BY_USER_ID = "SELECT * FROM " + TablesNames.facility_m2m_user_info +
-                                                " WHERE " + Facilitym2mUserInfoFields.userInfoUserId + " = ?";
+    private static final String GET_BY_USER_ID = "SELECT * FROM " + SchemaMapping.facility_m2m_user_info +
+                                                " WHERE " + Facilitym2mUserInfoMapping.userInfoUserId + " = ?";
 
 
     @Override
@@ -67,7 +67,7 @@ public final class Facilitym2mUserInfoMySQL extends AbstractDAO<Facilitym2mUserI
             rs = stmt.executeQuery();
             existingFacilitiesNames = new ArrayList<>();
             while(rs.next()) {
-                existingFacilitiesNames.add(rs.getString(FacilityFields.name));
+                existingFacilitiesNames.add(rs.getString(FacilityMapping.name));
             }
         }
         catch (SQLException e){

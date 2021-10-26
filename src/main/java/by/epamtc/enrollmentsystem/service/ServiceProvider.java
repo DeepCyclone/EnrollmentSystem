@@ -2,7 +2,7 @@ package by.epamtc.enrollmentsystem.service;
 
 
 import by.epamtc.enrollmentsystem.service.impl.*;
-import by.epamtc.enrollmentsystem.service.templates.*;
+import by.epamtc.enrollmentsystem.service.template.*;
 
 public class ServiceProvider {
 

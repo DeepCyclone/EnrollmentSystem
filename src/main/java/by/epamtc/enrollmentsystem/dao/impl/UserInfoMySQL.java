@@ -1,29 +1,29 @@
 package by.epamtc.enrollmentsystem.dao.impl;
 
-import by.epamtc.enrollmentsystem.dao.tables.fields.UserInfoFields;
-import by.epamtc.enrollmentsystem.dao.tables.TablesNames;
-import by.epamtc.enrollmentsystem.dao.interfaces.UserInfoDAO;
+import by.epamtc.enrollmentsystem.dao.mapping.fields.UserInfoMapping;
+import by.epamtc.enrollmentsystem.dao.mapping.SchemaMapping;
+import by.epamtc.enrollmentsystem.dao.template.UserInfoDAO;
 import by.epamtc.enrollmentsystem.exception.DAOException;
 import by.epamtc.enrollmentsystem.model.UserInfo;
-import by.epamtc.enrollmentsystem.dao.composers.builders.UserInfoBuilder;
+import by.epamtc.enrollmentsystem.dao.composer.builders.UserInfoBuilder;
 
 import java.util.List;
 import java.util.Optional;
 
 public final class UserInfoMySQL extends AbstractDAO<UserInfo> implements UserInfoDAO {
-    private static final String tableName = TablesNames.user_info;
+    private static final String tableName = SchemaMapping.user_info;
 
-    private static final String INSERT_INTO = "INSERT INTO " + TablesNames.user_info +
+    private static final String INSERT_INTO = "INSERT INTO " + SchemaMapping.user_info +
                                              " VALUES (?,?,?,?,?,?,?)";
 
-    private static final String UPDATE_NOTE = "UPDATE " + TablesNames.user_info +
-                                              " SET " + UserInfoFields.name + " = ?," + UserInfoFields.surname + " = ?," +
-                                                UserInfoFields.patronymic +" = ?," + UserInfoFields.photoAddress + " = ?," +
-                                                UserInfoFields.address +" = ?," + UserInfoFields.passport + " = ? " +
-                                              " WHERE " + UserInfoFields.userId + " = ?";
+    private static final String UPDATE_NOTE = "UPDATE " + SchemaMapping.user_info +
+                                              " SET " + UserInfoMapping.name + " = ?," + UserInfoMapping.surname + " = ?," +
+                                                UserInfoMapping.patronymic +" = ?," + UserInfoMapping.photoAddress + " = ?," +
+                                                UserInfoMapping.address +" = ?," + UserInfoMapping.passport + " = ? " +
+                                              " WHERE " + UserInfoMapping.userId + " = ?";
 
-    private static final String GET_BY_USERNAME = "SELECT * FROM " + TablesNames.user_info +
-                                                 " WHERE " + UserInfoFields.name + " = ?";
+    private static final String GET_BY_USERNAME = "SELECT * FROM " + SchemaMapping.user_info +
+                                                 " WHERE " + UserInfoMapping.name + " = ?";
 
     @Override
     public List<UserInfo> getAll() throws DAOException {
@@ -32,7 +32,7 @@ public final class UserInfoMySQL extends AbstractDAO<UserInfo> implements UserIn
 
     @Override
     public Optional<UserInfo> getByID(long id) throws DAOException {
-        String idFieldName = UserInfoFields.userId;
+        String idFieldName = UserInfoMapping.userId;
         return super.getByID(tableName,idFieldName,id,new UserInfoBuilder());
     }
 

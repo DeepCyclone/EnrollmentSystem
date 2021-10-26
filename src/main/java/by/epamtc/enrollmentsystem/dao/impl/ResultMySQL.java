@@ -1,12 +1,12 @@
 package by.epamtc.enrollmentsystem.dao.impl;
 
-import by.epamtc.enrollmentsystem.dao.composers.builders.ResultBuilder;
+import by.epamtc.enrollmentsystem.dao.composer.builders.ResultBuilder;
 import by.epamtc.enrollmentsystem.dao.connectionpool.ConnectionPool;
-import by.epamtc.enrollmentsystem.dao.tables.TablesNames;
-import by.epamtc.enrollmentsystem.dao.tables.fields.ApplicantEnrollmentFields;
-import by.epamtc.enrollmentsystem.dao.tables.fields.ResultFields;
-import by.epamtc.enrollmentsystem.dao.tables.fields.SubjectFields;
-import by.epamtc.enrollmentsystem.dao.interfaces.ResultDAO;
+import by.epamtc.enrollmentsystem.dao.mapping.SchemaMapping;
+import by.epamtc.enrollmentsystem.dao.mapping.fields.ApplicantEnrollmentMapping;
+import by.epamtc.enrollmentsystem.dao.mapping.fields.ResultMapping;
+import by.epamtc.enrollmentsystem.dao.mapping.fields.SubjectMapping;
+import by.epamtc.enrollmentsystem.dao.template.ResultDAO;
 import by.epamtc.enrollmentsystem.exception.DAOException;
 import by.epamtc.enrollmentsystem.model.Result;
 import by.epamtc.enrollmentsystem.model.dto.MarkValue;
@@ -24,12 +24,12 @@ import java.util.Optional;
 public final class ResultMySQL extends AbstractDAO<Result> implements ResultDAO {
 
     private static final String GET_APPLICANT_MARKS = "SELECT s_id,s_name,r_value FROM subject LEFT JOIN (SELECT r_s_id,r_value FROM result WHERE r_ui_u_id = ?) as result ON result.r_s_id = s_id";
-    private static final String UPDATE_USER_RESULT = "UPDATE "+ TablesNames.result +
-                                                    " SET " + ResultFields.resultValue + "= ?" +
-                                                    " WHERE " + ResultFields.userInfoUserId + "= ? AND " + ResultFields.subjectId + "= ?";
-    private static final String GET_USER_RESULT_ON_SUBJECT = "SELECT "+ ResultFields.resultValue +
-                                                            " FROM " + TablesNames.result +
-                                                            " WHERE " + ResultFields.userInfoUserId + "= ? AND " + ResultFields.subjectId + "= ?";
+    private static final String UPDATE_USER_RESULT = "UPDATE "+ SchemaMapping.result +
+                                                    " SET " + ResultMapping.resultValue + "= ?" +
+                                                    " WHERE " + ResultMapping.userInfoUserId + "= ? AND " + ResultMapping.subjectId + "= ?";
+    private static final String GET_USER_RESULT_ON_SUBJECT = "SELECT "+ ResultMapping.resultValue +
+                                                            " FROM " + SchemaMapping.result +
+                                                            " WHERE " + ResultMapping.userInfoUserId + "= ? AND " + ResultMapping.subjectId + "= ?";
 
     private static final String GET_TOTAL_USER_RESULTS_BY_FACULTY_AND_EDUCATION_FORM = "SELECT ae_u_id,ae_f_id,SUM(r_value) FROM applicant_enrollment" +
                                                                                       " JOIN subject_m2m_faculty on ae_f_id = smf_f_id" +
@@ -37,14 +37,14 @@ public final class ResultMySQL extends AbstractDAO<Result> implements ResultDAO 
                                                                                       " WHERE ae_ef_id = ?" +
                                                                                       " GROUP BY ae_f_id,ae_u_id" +
                                                                                       " ORDER BY SUM(r_value) DESC";
-    private static final String INSERT_INTO = "INSERT INTO " + TablesNames.result +
+    private static final String INSERT_INTO = "INSERT INTO " + SchemaMapping.result +
                                              " VALUES (?,?,?)";
 
 
-    private static final String GET_RESULT_BY_USER_ID_AND_SUBJECT_NAME = "SELECT * FROM " + TablesNames.result +
-                                                                        " JOIN " + TablesNames.subject + " ON " + ResultFields.subjectId + " = " + SubjectFields.id +
-                                                                        " WHERE " + SubjectFields.name + " = ?" +
-                                                                        " AND " + ResultFields.userInfoUserId + " = ?";
+    private static final String GET_RESULT_BY_USER_ID_AND_SUBJECT_NAME = "SELECT * FROM " + SchemaMapping.result +
+                                                                        " JOIN " + SchemaMapping.subject + " ON " + ResultMapping.subjectId + " = " + SubjectMapping.id +
+                                                                        " WHERE " + SubjectMapping.name + " = ?" +
+                                                                        " AND " + ResultMapping.userInfoUserId + " = ?";
 
 
     @Override
@@ -95,9 +95,9 @@ public final class ResultMySQL extends AbstractDAO<Result> implements ResultDAO 
             rs = stmt.executeQuery();
             mv = new ArrayList<>();
             while(rs.next()) {
-                int subjectId = rs.getInt(SubjectFields.id);
-                String subjectName = rs.getString(SubjectFields.name);
-                int resultValue = rs.getInt(ResultFields.resultValue);
+                int subjectId = rs.getInt(SubjectMapping.id);
+                String subjectName = rs.getString(SubjectMapping.name);
+                int resultValue = rs.getInt(ResultMapping.resultValue);
                 mv.add(new MarkValue(subjectId,subjectName,resultValue));
             }
         }
@@ -157,8 +157,8 @@ public final class ResultMySQL extends AbstractDAO<Result> implements ResultDAO 
             rs = stmt.executeQuery();
             while(rs.next()) {
                 UserResultByFaculty result = new UserResultByFaculty();
-                result.setUserId(rs.getInt(ApplicantEnrollmentFields.userId));
-                result.setFacultyId(rs.getInt(ApplicantEnrollmentFields.facultyId));
+                result.setUserId(rs.getInt(ApplicantEnrollmentMapping.userId));
+                result.setFacultyId(rs.getInt(ApplicantEnrollmentMapping.facultyId));
                 result.setResult(rs.getInt(3));//TODO отметить сумму в запросе через AS
                 userResults.add(result);
             }

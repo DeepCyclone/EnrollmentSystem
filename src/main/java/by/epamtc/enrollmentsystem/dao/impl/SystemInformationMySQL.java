@@ -1,17 +1,17 @@
 package by.epamtc.enrollmentsystem.dao.impl;
 
-import by.epamtc.enrollmentsystem.dao.tables.TablesNames;
-import by.epamtc.enrollmentsystem.dao.interfaces.SystemInformationDAO;
+import by.epamtc.enrollmentsystem.dao.mapping.SchemaMapping;
+import by.epamtc.enrollmentsystem.dao.template.SystemInformationDAO;
 import by.epamtc.enrollmentsystem.exception.DAOException;
 import by.epamtc.enrollmentsystem.model.SystemInformation;
-import by.epamtc.enrollmentsystem.dao.tables.fields.SystemInformationFields;
+import by.epamtc.enrollmentsystem.dao.mapping.fields.SystemInformationMapping;
 
 import java.util.List;
 import java.util.Optional;
 
 public final class SystemInformationMySQL extends AbstractDAO<SystemInformation> implements SystemInformationDAO {
-    private static final String GET_BY_NAME = "SELECT * FROM " + TablesNames.system_information +
-                                              " WHERE " + SystemInformationFields.name +  "= ?";
+    private static final String GET_BY_NAME = "SELECT * FROM " + SchemaMapping.system_information +
+                                              " WHERE " + SystemInformationMapping.name +  "= ?";
 
 
     @Override

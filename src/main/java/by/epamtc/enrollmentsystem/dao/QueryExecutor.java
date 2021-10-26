@@ -1,6 +1,6 @@
 package by.epamtc.enrollmentsystem.dao;
 
-import by.epamtc.enrollmentsystem.dao.composers.builders.EntityBuilder;
+import by.epamtc.enrollmentsystem.dao.composer.builders.EntityBuilder;
 import by.epamtc.enrollmentsystem.dao.connectionpool.ConnectionPool;
 import by.epamtc.enrollmentsystem.exception.DAOException;
 

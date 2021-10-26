@@ -1,13 +1,13 @@
 package by.epamtc.enrollmentsystem.service.impl;
 
 import by.epamtc.enrollmentsystem.dao.DAOProvider;
-import by.epamtc.enrollmentsystem.dao.interfaces.FacilityDAO;
-import by.epamtc.enrollmentsystem.dao.interfaces.Facilitym2mUserInfoDAO;
+import by.epamtc.enrollmentsystem.dao.template.FacilityDAO;
+import by.epamtc.enrollmentsystem.dao.template.Facilitym2mUserInfoDAO;
 import by.epamtc.enrollmentsystem.exception.DAOException;
 import by.epamtc.enrollmentsystem.exception.ServiceException;
 import by.epamtc.enrollmentsystem.model.Facility;
 import by.epamtc.enrollmentsystem.model.Facilitym2mUserInfo;
-import by.epamtc.enrollmentsystem.service.templates.Facilitym2mUserInfoService;
+import by.epamtc.enrollmentsystem.service.template.Facilitym2mUserInfoService;
 
 import java.util.ArrayList;
 import java.util.List;

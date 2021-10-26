@@ -1,11 +1,11 @@
 package by.epamtc.enrollmentsystem.dao.impl;
 
-import by.epamtc.enrollmentsystem.dao.interfaces.DAOTemplate;
+import by.epamtc.enrollmentsystem.dao.template.DAOTemplate;
 import by.epamtc.enrollmentsystem.dao.QueryExecutor;
-import by.epamtc.enrollmentsystem.dao.composers.builders.EntityBuilder;
+import by.epamtc.enrollmentsystem.dao.composer.builders.EntityBuilder;
 import by.epamtc.enrollmentsystem.dao.connectionpool.ConnectionPool;
 import by.epamtc.enrollmentsystem.exception.DAOException;
-import by.epamtc.enrollmentsystem.utils.QueryGenerator;
+import by.epamtc.enrollmentsystem.service.util.QueryGenerator;
 
 import java.sql.*;
 import java.util.List;

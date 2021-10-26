@@ -1,18 +1,18 @@
 package by.epamtc.enrollmentsystem.dao.impl;
 
-import by.epamtc.enrollmentsystem.dao.tables.TablesNames;
-import by.epamtc.enrollmentsystem.dao.tables.fields.FacilityFields;
-import by.epamtc.enrollmentsystem.dao.interfaces.FacilityDAO;
+import by.epamtc.enrollmentsystem.dao.mapping.SchemaMapping;
+import by.epamtc.enrollmentsystem.dao.mapping.fields.FacilityMapping;
+import by.epamtc.enrollmentsystem.dao.template.FacilityDAO;
 import by.epamtc.enrollmentsystem.exception.DAOException;
 import by.epamtc.enrollmentsystem.model.Facility;
-import by.epamtc.enrollmentsystem.dao.composers.builders.FacilityBuilder;
+import by.epamtc.enrollmentsystem.dao.composer.builders.FacilityBuilder;
 
 import java.util.List;
 import java.util.Optional;
 
 public final class FacilityMySQL extends AbstractDAO<Facility> implements FacilityDAO {
 
-    private static final String tableName = TablesNames.facility;
+    private static final String tableName = SchemaMapping.facility;
 
     @Override
     public List<Facility> getAll() throws DAOException {
@@ -21,7 +21,7 @@ public final class FacilityMySQL extends AbstractDAO<Facility> implements Facili
 
     @Override
     public Optional<Facility> getByID(long id) throws DAOException {
-        String idField = FacilityFields.id;
+        String idField = FacilityMapping.id;
         return super.getByID(tableName,idField,id,new FacilityBuilder());
     }
 

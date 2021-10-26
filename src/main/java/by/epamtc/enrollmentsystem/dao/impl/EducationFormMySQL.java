@@ -1,22 +1,22 @@
 package by.epamtc.enrollmentsystem.dao.impl;
 
-import by.epamtc.enrollmentsystem.dao.tables.TablesNames;
-import by.epamtc.enrollmentsystem.dao.tables.fields.EducationFormFields;
-import by.epamtc.enrollmentsystem.dao.interfaces.EducationFormDAO;
+import by.epamtc.enrollmentsystem.dao.mapping.SchemaMapping;
+import by.epamtc.enrollmentsystem.dao.mapping.fields.EducationFormMapping;
+import by.epamtc.enrollmentsystem.dao.template.EducationFormDAO;
 import by.epamtc.enrollmentsystem.exception.DAOException;
 import by.epamtc.enrollmentsystem.model.EducationForm;
-import by.epamtc.enrollmentsystem.dao.composers.builders.EducationFormBuilder;
+import by.epamtc.enrollmentsystem.dao.composer.builders.EducationFormBuilder;
 
 import java.util.List;
 import java.util.Optional;
 
 public final class EducationFormMySQL extends AbstractDAO<EducationForm> implements EducationFormDAO {
 
-    private static final String tableName = TablesNames.education_form;
+    private static final String tableName = SchemaMapping.education_form;
 
-    private static final String UPDATE_RECORD_BY_ID = " UPDATE " + TablesNames.education_form +
-                                                      " SET " + EducationFormFields.name  + " = ? " +
-                                                      " WHERE " + EducationFormFields.id + " = ?";
+    private static final String UPDATE_RECORD_BY_ID = " UPDATE " + SchemaMapping.education_form +
+                                                      " SET " + EducationFormMapping.name  + " = ? " +
+                                                      " WHERE " + EducationFormMapping.id + " = ?";
 
     @Override
     public void insertInto(EducationForm object) throws DAOException {
@@ -49,7 +49,7 @@ public final class EducationFormMySQL extends AbstractDAO<EducationForm> impleme
 
     @Override
     public Optional<EducationForm> getByID(long id) throws DAOException {
-        String idFieldName = EducationFormFields.id;
+        String idFieldName = EducationFormMapping.id;
         return super.getByID(tableName,idFieldName,id,new EducationFormBuilder());
     }
 

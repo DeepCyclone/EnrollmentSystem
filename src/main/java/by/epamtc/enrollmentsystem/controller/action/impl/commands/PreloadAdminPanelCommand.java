@@ -3,7 +3,7 @@ package by.epamtc.enrollmentsystem.controller.action.impl.commands;
 import by.epamtc.enrollmentsystem.controller.action.Command;
 import by.epamtc.enrollmentsystem.model.dto.UserStyledToAdminPanel;
 import by.epamtc.enrollmentsystem.service.ServiceProvider;
-import by.epamtc.enrollmentsystem.service.templates.UserService;
+import by.epamtc.enrollmentsystem.service.template.UserService;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;

@@ -23,13 +23,20 @@
             <th><fmt:message key="enrollmentsystem.facultyColumn" bundle="${bundle}"/></th>
             <th><fmt:message key="enrollmentsystem.educationForm" bundle="${bundle}"/></th>
             <th><fmt:message key="enrollmentsystem.enrollmentStatus" bundle="${bundle}"/></th>
+            <th><fmt:message key="enrollmentsystem.marksSum" bundle="${bundle}"/></th>
         </tr>
     <c:forEach var="user" items="${requestScope.get('users')}">
+
             <td>${user.id}</td>
+
             <td>${user.username}</td>
+
             <td>${user.surname}</td>
+
             <td>${user.name}</td>
+
             <td>${user.patronymic}</td>
+
             <td>
             <c:forEach var = "info" items="${user.enrollmentInfo}">
                     ${info.facultyName}
@@ -90,6 +97,10 @@
                     </c:forEach>
                 </c:forEach>
             </td>
+
+        <td>
+
+        </td>
         </tr>
     </c:forEach>
         </tbody>

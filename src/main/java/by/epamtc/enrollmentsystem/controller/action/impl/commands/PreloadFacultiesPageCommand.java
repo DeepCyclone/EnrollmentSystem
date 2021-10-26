@@ -4,7 +4,7 @@ import by.epamtc.enrollmentsystem.controller.action.Command;
 import by.epamtc.enrollmentsystem.dao.DAOProvider;
 import by.epamtc.enrollmentsystem.exception.ServiceException;
 import by.epamtc.enrollmentsystem.service.ServiceProvider;
-import by.epamtc.enrollmentsystem.service.templates.Subjectm2mFacultyService;
+import by.epamtc.enrollmentsystem.service.template.Subjectm2mFacultyService;
 import com.google.gson.Gson;
 
 import javax.servlet.ServletException;

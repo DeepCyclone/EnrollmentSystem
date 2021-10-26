@@ -1,7 +1,7 @@
 package by.epamtc.enrollmentsystem.dao.impl;
 
 import by.epamtc.enrollmentsystem.dao.connectionpool.ConnectionPool;
-import by.epamtc.enrollmentsystem.dao.interfaces.Subjectm2mFacultyDAO;
+import by.epamtc.enrollmentsystem.dao.template.Subjectm2mFacultyDAO;
 import by.epamtc.enrollmentsystem.exception.DAOException;
 import by.epamtc.enrollmentsystem.model.Subjectm2mFaculty;
 

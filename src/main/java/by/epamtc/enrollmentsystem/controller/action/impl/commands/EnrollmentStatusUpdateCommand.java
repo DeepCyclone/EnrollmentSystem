@@ -7,10 +7,10 @@ import by.epamtc.enrollmentsystem.model.EducationForm;
 import by.epamtc.enrollmentsystem.model.EnrollmentStatus;
 import by.epamtc.enrollmentsystem.model.Faculty;
 import by.epamtc.enrollmentsystem.service.*;
-import by.epamtc.enrollmentsystem.service.templates.ApplicantEnrollmentService;
-import by.epamtc.enrollmentsystem.service.templates.EducationFormService;
-import by.epamtc.enrollmentsystem.service.templates.EnrollmentStatusService;
-import by.epamtc.enrollmentsystem.service.templates.FacultyService;
+import by.epamtc.enrollmentsystem.service.template.ApplicantEnrollmentService;
+import by.epamtc.enrollmentsystem.service.template.EducationFormService;
+import by.epamtc.enrollmentsystem.service.template.EnrollmentStatusService;
+import by.epamtc.enrollmentsystem.service.template.FacultyService;
 
 
 import javax.servlet.ServletException;

@@ -18,6 +18,9 @@ public class LanguageChangerCommand implements Command {
         Cookie cookie = new Cookie("locale",locale);
         cookie.setMaxAge(SECS_IN_HOUR * HOURS * DAYS);
         response.addCookie(cookie);
-        request.getRequestDispatcher(request.getRequestURL().toString()).forward(request,response);
+        String requestURL = request.getRequestURL().toString();
+        String reqParams = request.getQueryString();
+        String fullURL = requestURL + "?" + reqParams;
+        request.getRequestDispatcher(fullURL).forward(request,response);
     }
 }

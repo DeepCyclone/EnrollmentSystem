@@ -1,10 +1,10 @@
 package by.epamtc.enrollmentsystem.service.impl;
 
 import by.epamtc.enrollmentsystem.dao.DAOProvider;
-import by.epamtc.enrollmentsystem.dao.interfaces.Subjectm2mFacultyDAO;
+import by.epamtc.enrollmentsystem.dao.template.Subjectm2mFacultyDAO;
 import by.epamtc.enrollmentsystem.exception.DAOException;
 import by.epamtc.enrollmentsystem.exception.ServiceException;
-import by.epamtc.enrollmentsystem.service.templates.Subjectm2mFacultyService;
+import by.epamtc.enrollmentsystem.service.template.Subjectm2mFacultyService;
 
 import java.util.List;
 import java.util.Map;

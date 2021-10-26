@@ -1,15 +1,15 @@
 package by.epamtc.enrollmentsystem.dao.impl;
 
 import by.epamtc.enrollmentsystem.dao.connectionpool.ConnectionPool;
-import by.epamtc.enrollmentsystem.dao.tables.TablesNames;
-import by.epamtc.enrollmentsystem.dao.tables.fields.ApplicantEnrollmentFields;
-import by.epamtc.enrollmentsystem.dao.interfaces.ApplicantEnrollmentDAO;
-import by.epamtc.enrollmentsystem.dao.tables.fields.EducationFormFields;
-import by.epamtc.enrollmentsystem.dao.tables.fields.EnrollmentStatusFields;
-import by.epamtc.enrollmentsystem.dao.tables.fields.FacultyFields;
+import by.epamtc.enrollmentsystem.dao.mapping.SchemaMapping;
+import by.epamtc.enrollmentsystem.dao.mapping.fields.ApplicantEnrollmentMapping;
+import by.epamtc.enrollmentsystem.dao.template.ApplicantEnrollmentDAO;
+import by.epamtc.enrollmentsystem.dao.mapping.fields.EducationFormMapping;
+import by.epamtc.enrollmentsystem.dao.mapping.fields.EnrollmentStatusMapping;
+import by.epamtc.enrollmentsystem.dao.mapping.fields.FacultyMapping;
 import by.epamtc.enrollmentsystem.exception.DAOException;
 import by.epamtc.enrollmentsystem.model.ApplicantEnrollment;
-import by.epamtc.enrollmentsystem.dao.composers.builders.ApplicantEnrollmentBuilder;
+import by.epamtc.enrollmentsystem.dao.composer.builders.ApplicantEnrollmentBuilder;
 import by.epamtc.enrollmentsystem.model.dto.StringifiedApplicantEnrollment;
 
 import java.sql.Connection;
@@ -20,31 +20,31 @@ import java.util.*;
 
 public final class ApplicantEnrollmentMySQL extends AbstractDAO<ApplicantEnrollment> implements ApplicantEnrollmentDAO {
 
-    private static final String tableName = TablesNames.applicant_enrollment;
+    private static final String tableName = SchemaMapping.applicant_enrollment;
 
-    private static final String INSERT_INTO = "INSERT INTO " + TablesNames.applicant_enrollment +
+    private static final String INSERT_INTO = "INSERT INTO " + SchemaMapping.applicant_enrollment +
                                               " VALUES (?,?,?,?)";
 
-    private static final String UPDATE_EDUCATION_FORM = "UPDATE " + TablesNames.applicant_enrollment +
-                                                        " SET " + ApplicantEnrollmentFields.educationFormId + " = ?" +
-                                                        " WHERE " + ApplicantEnrollmentFields.userId +  " = ?" +
-                                                        " AND " + ApplicantEnrollmentFields.facultyId + " = ?";
+    private static final String UPDATE_EDUCATION_FORM = "UPDATE " + SchemaMapping.applicant_enrollment +
+                                                        " SET " + ApplicantEnrollmentMapping.educationFormId + " = ?" +
+                                                        " WHERE " + ApplicantEnrollmentMapping.userId +  " = ?" +
+                                                        " AND " + ApplicantEnrollmentMapping.facultyId + " = ?";
 
-    private static final String GET_BY_FACULTY_AND_USER_ID = "SELECT * FROM " + TablesNames.applicant_enrollment +
-                                                            " WHERE " + ApplicantEnrollmentFields.userId + " = ?" +
-                                                            " AND " + ApplicantEnrollmentFields.facultyId + " = ?";
+    private static final String GET_BY_FACULTY_AND_USER_ID = "SELECT * FROM " + SchemaMapping.applicant_enrollment +
+                                                            " WHERE " + ApplicantEnrollmentMapping.userId + " = ?" +
+                                                            " AND " + ApplicantEnrollmentMapping.facultyId + " = ?";
 
-    private static final String DELETE_FACULTIES_BY_USER_ID = "DELETE FROM " + TablesNames.applicant_enrollment +
-                                                            " WHERE " + ApplicantEnrollmentFields.userId + " = ?";
+    private static final String DELETE_FACULTIES_BY_USER_ID = "DELETE FROM " + SchemaMapping.applicant_enrollment +
+                                                            " WHERE " + ApplicantEnrollmentMapping.userId + " = ?";
 
-    private static final String GET_TABLE_INFO_BY_USER_ID = "SELECT * FROM " + TablesNames.applicant_enrollment +
-                                                           " WHERE " + ApplicantEnrollmentFields.userId + " = ?";
+    private static final String GET_TABLE_INFO_BY_USER_ID = "SELECT * FROM " + SchemaMapping.applicant_enrollment +
+                                                           " WHERE " + ApplicantEnrollmentMapping.userId + " = ?";
 
-    private static final String UPDATE_ENROLLMENT_STATUS = "UPDATE " + TablesNames.applicant_enrollment +
-                                                        " SET " + ApplicantEnrollmentFields.enrollmentStatusId + " = ?" +
-                                                        " WHERE " + ApplicantEnrollmentFields.userId + " = ? " +
-                                                        " AND " + ApplicantEnrollmentFields.facultyId + " = ?" +
-                                                        " AND " + ApplicantEnrollmentFields.educationFormId + " = ?";
+    private static final String UPDATE_ENROLLMENT_STATUS = "UPDATE " + SchemaMapping.applicant_enrollment +
+                                                        " SET " + ApplicantEnrollmentMapping.enrollmentStatusId + " = ?" +
+                                                        " WHERE " + ApplicantEnrollmentMapping.userId + " = ? " +
+                                                        " AND " + ApplicantEnrollmentMapping.facultyId + " = ?" +
+                                                        " AND " + ApplicantEnrollmentMapping.educationFormId + " = ?";
 
     private static final String GET_STRINGIFIED_USER_RESULT = "SELECT f_name,e_form_name,es_name FROM applicant_enrollment " +
                                                              " JOIN education_form ef on ef.e_form_id = applicant_enrollment.ae_ef_id" +
@@ -115,9 +115,9 @@ public final class ApplicantEnrollmentMySQL extends AbstractDAO<ApplicantEnrollm
             StringifiedApplicantEnrollment enrollment = null;
             Map<String,String> formsStatuses = new HashMap<>();
             while (rs.next()){
-                String facultyName = rs.getString(FacultyFields.name);
+                String facultyName = rs.getString(FacultyMapping.name);
                 if(Objects.equals(enrollment.getFacultyName(),facultyName)){
-                    formsStatuses.put(rs.getString(EducationFormFields.name), rs.getString(EnrollmentStatusFields.name));
+                    formsStatuses.put(rs.getString(EducationFormMapping.name), rs.getString(EnrollmentStatusMapping.name));
                 }
                 else{
 
