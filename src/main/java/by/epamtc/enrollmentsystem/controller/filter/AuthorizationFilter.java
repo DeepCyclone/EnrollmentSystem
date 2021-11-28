@@ -16,18 +16,31 @@ public class AuthorizationFilter implements Filter {
 
     @Override
     public void init(FilterConfig filterConfig){
+        List<CommandType> commonCommands = Arrays.asList(CommandType.PRELOAD_WELCOMEPAGE,
+                                                         CommandType.CHANGE_LANGUAGE);
+
         allowedActionsForUsers.put(UserType.APPLICANT_ROLE,
-                                    Arrays.asList(CommandType.PRELOAD_WELCOMEPAGE,
-                                                  CommandType.PRELOAD_USERINFO_PAGE,
-                                                  CommandType.LOGOUT));
+                                    new ArrayList<>(Arrays.asList(CommandType.PRELOAD_USERINFO_PAGE,
+                                                  CommandType.PRELOAD_FACULTIES_PAGE,
+                                                  CommandType.PRELOAD_FACILITIES_TAB,
+                                                  CommandType.PRELOAD_SELECTED_FACULTIES,
+                                                  CommandType.UPDATE_STUDYING_INFO,
+                                                  CommandType.UPDATE_INFO,
+                                                  CommandType.LOGOUT)));
+        allowedActionsForUsers.get(UserType.APPLICANT_ROLE).addAll(commonCommands);
+
         allowedActionsForUsers.put(UserType.ADMIN_ROLE,
-                                    Arrays.asList(CommandType.LOGOUT,
+                new ArrayList<>(Arrays.asList(CommandType.LOGOUT,
                                                   CommandType.PRELOAD_WELCOMEPAGE,
-                                                  CommandType.PRELOAD_ADMIN_PAGE));
+                                                  CommandType.PRELOAD_ADMIN_PAGE,
+                                                  CommandType.PRELOAD_USER_POPUP,
+                                                  CommandType.DELETE_USER)));
+        allowedActionsForUsers.get(UserType.ADMIN_ROLE).addAll(commonCommands);
+
         allowedActionsForUsers.put(UserType.GUEST,
-                                    Arrays.asList(CommandType.PRELOAD_WELCOMEPAGE,
-                                                  CommandType.AUTHORIZATION,
-                                                  CommandType.CHANGE_LANGUAGE));
+                new ArrayList<>(Arrays.asList(CommandType.PRELOAD_WELCOMEPAGE,
+                                                  CommandType.AUTHORIZATION)));
+        allowedActionsForUsers.get(UserType.GUEST).addAll(commonCommands);
     }
 
     @Override
@@ -38,7 +51,6 @@ public class AuthorizationFilter implements Filter {
         HttpSession session = httpServletRequest.getSession(false);
 
         String action = httpServletRequest.getParameter("action");
-        String query = httpServletRequest.getQueryString();
         CommandType commandType;
         try {
             commandType = CommandType.valueOf(action.toUpperCase());
@@ -61,7 +73,7 @@ public class AuthorizationFilter implements Filter {
             }
         }
 
-        httpServletResponse.sendRedirect(httpServletRequest.getContextPath());//unauthorized access page
+        httpServletResponse.sendRedirect(httpServletRequest.getContextPath() + "/");//unauthorized access page
     }
 
 }

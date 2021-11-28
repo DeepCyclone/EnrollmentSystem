@@ -4,6 +4,7 @@ import by.epamtc.enrollmentsystem.dao.mapping.fields.UserInfoMapping;
 import by.epamtc.enrollmentsystem.dao.mapping.SchemaMapping;
 import by.epamtc.enrollmentsystem.dao.template.UserInfoDAO;
 import by.epamtc.enrollmentsystem.exception.DAOException;
+import by.epamtc.enrollmentsystem.exception.ServiceException;
 import by.epamtc.enrollmentsystem.model.UserInfo;
 import by.epamtc.enrollmentsystem.dao.composer.builders.UserInfoBuilder;
 
@@ -62,6 +63,11 @@ public final class UserInfoMySQL extends AbstractDAO<UserInfo> implements UserIn
     public void updateRowByID(UserInfo note) throws DAOException {
         executeUpdateQuery(UPDATE_NOTE,note.getName(),note.getSurname(),note.getPatronymic(),
                         note.getPhotoPath(),note.getAddress(),note.getPassport(),note.getId());
+    }
+
+    @Override
+    public void deleteRowByID(long id) throws DAOException {
+
     }
 
     @Override

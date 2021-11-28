@@ -4,28 +4,38 @@ import by.epamtc.enrollmentsystem.controller.action.Command;
 import by.epamtc.enrollmentsystem.exception.ServiceException;
 import by.epamtc.enrollmentsystem.model.Faculty;
 import by.epamtc.enrollmentsystem.model.SystemInformation;
+import by.epamtc.enrollmentsystem.service.template.ApplicantEnrollmentService;
 import by.epamtc.enrollmentsystem.service.template.FacultyService;
 import by.epamtc.enrollmentsystem.service.ServiceProvider;
 import by.epamtc.enrollmentsystem.service.template.SystemInformationService;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public class PreloadWelcomePageCommand implements Command {
+    private static Logger logger = LogManager.getLogger(PreloadUserPopupCommand.class);
     private static final int DEFAULT_PAGE = 1;//первая страница
     private static final int RECORDS_PER_PAGE = 5;//количество факультетов в одной странице
     private static final int BUTTONS = 3;//количество кнопок в блоке
     private static final String WELCOME_PAGE_INFO = "welcome_page";
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void execute(HttpServletRequest request, HttpServletResponse response) {
         //TODO проверка на правильность page и перенос в сервис
             ServiceProvider serviceProvider = ServiceProvider.getInstance();
             SystemInformationService systemInformationService = serviceProvider.getSystemInformationService();
             FacultyService facultyService = serviceProvider.getFacultyService();
+            ApplicantEnrollmentService applicantEnrollmentService = serviceProvider.getApplicantEnrollmentService();
+            Map<String,Integer> totalRequestsBudg = new HashMap<>();
+            Map<String,Integer> totalRequestsPaid = new HashMap<>();
             String description = null;
             List<Faculty> faculties = null;
             try {
@@ -68,14 +78,18 @@ public class PreloadWelcomePageCommand implements Command {
                 if(pageNum > BUTTONS){
                     request.setAttribute("prevPage",startPage - BUTTONS);//обратно
                 }
+                totalRequestsBudg = applicantEnrollmentService.buildRequestAmountDtos(1,facultiesRangeStart,records);
+                totalRequestsPaid = applicantEnrollmentService.buildRequestAmountDtos(2,facultiesRangeStart,records);
+                request.setAttribute("facultiesList", faculties);
+                request.setAttribute("totalRequestsBudg",totalRequestsBudg);
+                request.setAttribute("totalRequestsPaid",totalRequestsPaid);
+                request.setAttribute("description", description);
+                request.getRequestDispatcher("welcome").forward(request,response);
             }
-            catch (ServiceException exception){
-
+            catch (ServiceException | IOException | ServletException exception){
+                logger.log(Level.ERROR,exception.getMessage());
             }
-            request.setAttribute("facultiesList", faculties);
-            request.setAttribute("description", description);//TODO как-то закешировать инфу, т.к. можно зажать f5 на welcomepage
 
 //        }
-        request.getRequestDispatcher("welcome").forward(request,response);
     }
 }

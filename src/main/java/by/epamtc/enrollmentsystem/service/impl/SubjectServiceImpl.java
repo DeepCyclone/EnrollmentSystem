@@ -34,6 +34,11 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public void deleteRowByID(long id) throws ServiceException {
+
+    }
+
+    @Override
     public Optional<Subject> getByName(String name) throws ServiceException {
         try {
             SubjectDAO dao = DAOProvider.getInstance().getSubjectDAO();

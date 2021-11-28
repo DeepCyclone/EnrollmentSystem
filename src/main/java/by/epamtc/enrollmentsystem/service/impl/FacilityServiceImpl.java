@@ -33,6 +33,11 @@ public class FacilityServiceImpl implements FacilityService {
     }
 
     @Override
+    public void deleteRowByID(long id) throws ServiceException {
+
+    }
+
+    @Override
     public Optional<Facility> getByName(String name) throws ServiceException {
         try {
             FacilityDAO dao = DAOProvider.getInstance().getFacilityDAO();

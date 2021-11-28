@@ -4,9 +4,10 @@
 <fmt:setLocale value="${sessionScope.locale}" scope="session"/>
 <fmt:setBundle basename="localization.language" var = "bundle"/>
 
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg" style="opacity: 50%">
     <div class="container-fluid">
         <ul class="nav">
+
             <li class="nav-item d-flex align-items-center">
                 <a class="navbar-brand" href="${pageContext.request.contextPath}/">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cpu" viewBox="0 0 16 16">
@@ -21,16 +22,26 @@
                 </c:if>
             </li>
         </ul>
+
         <ul class="nav justify-content-end">
+
+            <li class = "nav-item">
+                <a class="nav-link" href="faculties">
+                    <fmt:message key="enrollmentsystem.faculties" bundle="${bundle}"/>
+                </a>
+            </li>
+
             <li class = "nav-item">
                 <a class="nav-link" href="aboutUs">
                     <fmt:message key="enrollmentsystem.aboutUs" bundle="${bundle}"/>
                 </a>
             </li>
+
             <li class = "nav-item">
                 <div class="btn-group">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuClickableInside" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
-                        <fmt:message key="enrollmentsystem.languagebutton" bundle="${bundle}"/>
+                    <button class="btn btn-secondary" type="button" id="dropdownMenuClickableInside" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
+<%--                        <fmt:message key="enrollmentsystem.languagebutton" bundle="${bundle}"/>--%>
+<%--                        <img src="language.png">--%>
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuClickableInside">
                         <li><a class="dropdown-item" href="controller?action=change_language&locale=ru_RU">Ru</a></li>
@@ -38,6 +49,7 @@
                     </ul>
                 </div>
             </li>
+
             <c:choose>
             <c:when test = "${sessionScope.get('login') != null}">
                     <li class="nav-item">
@@ -65,6 +77,7 @@
                         </a>
                     </li>
             </c:when>
+
             <c:otherwise>
                     <li class="nav-item">
                         <a class="nav-link" href="login">
@@ -77,6 +90,7 @@
                         </a>
                     </li>
             </c:otherwise>
+
         </c:choose>
         </ul>
     </div>

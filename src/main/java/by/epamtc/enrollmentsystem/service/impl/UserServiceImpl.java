@@ -11,7 +11,7 @@ import by.epamtc.enrollmentsystem.model.dto.UserStyledToAdminPanel;
 import by.epamtc.enrollmentsystem.service.template.ApplicantEnrollmentService;
 import by.epamtc.enrollmentsystem.service.ServiceProvider;
 import by.epamtc.enrollmentsystem.service.template.UserService;
-import by.epamtc.enrollmentsystem.service.validator.RegexHolders;
+import by.epamtc.enrollmentsystem.service.validator.RegexHolder;
 
 import java.nio.charset.StandardCharsets;
 import java.util.*;
@@ -23,8 +23,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public Optional<User> getByLogin(String login) throws ServiceException {
         try {
-                UserDAO dao = DAOProvider.getInstance().getUserDAO();
-                return dao.getByLogin(login);
+            UserDAO dao = DAOProvider.getInstance().getUserDAO();
+            return dao.getByLogin(login);
         }
         catch (DAOException exception){
             throw new ServiceException(exception.getMessage(),exception);
@@ -82,9 +82,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean isValidData(String login, String email, String password) {
-        return  validateFieldWithRegex(login,RegexHolders.USERNAME_REGEX) &&
-                validateFieldWithRegex(email,RegexHolders.EMAIL_REGEX) &&
-                validateFieldWithRegex(password,RegexHolders.PASSWORD_REGEX);
+        return  validateFieldWithRegex(login, RegexHolder.USERNAME_REGEX) &&
+                validateFieldWithRegex(email, RegexHolder.EMAIL_REGEX) &&
+                validateFieldWithRegex(password, RegexHolder.PASSWORD_REGEX);
     }
 
     @Override
@@ -125,6 +125,17 @@ public class UserServiceImpl implements UserService {
         try {
             UserDAO userDAO = DAOProvider.getInstance().getUserDAO();
             userDAO.updateRowByID(note);
+        }
+        catch (DAOException exception){
+            throw new ServiceException(exception.getMessage(),exception);
+        }
+    }
+
+    @Override
+    public void deleteRowByID(long id) throws ServiceException {
+        try {
+            UserDAO userDAO = DAOProvider.getInstance().getUserDAO();
+            userDAO.deleteRowByID(id);
         }
         catch (DAOException exception){
             throw new ServiceException(exception.getMessage(),exception);

@@ -2,6 +2,7 @@ package by.epamtc.enrollmentsystem.dao.impl;
 
 import by.epamtc.enrollmentsystem.dao.template.RoleDAO;
 import by.epamtc.enrollmentsystem.exception.DAOException;
+import by.epamtc.enrollmentsystem.exception.ServiceException;
 import by.epamtc.enrollmentsystem.model.Role;
 
 import java.util.List;
@@ -36,6 +37,11 @@ public final class RoleMySQL extends AbstractDAO<Role> implements RoleDAO {
 
     @Override
     public void updateRowByID(Role note) throws DAOException {
+
+    }
+
+    @Override
+    public void deleteRowByID(long id) throws DAOException {
 
     }
 

@@ -4,6 +4,7 @@ import by.epamtc.enrollmentsystem.dao.mapping.fields.FacultyMapping;
 import by.epamtc.enrollmentsystem.dao.mapping.SchemaMapping;
 import by.epamtc.enrollmentsystem.dao.template.FacultyDAO;
 import by.epamtc.enrollmentsystem.exception.DAOException;
+import by.epamtc.enrollmentsystem.exception.ServiceException;
 import by.epamtc.enrollmentsystem.model.Faculty;
 import by.epamtc.enrollmentsystem.dao.composer.builders.FacultyBuilder;
 
@@ -31,6 +32,11 @@ public final class FacultyMySQL extends AbstractDAO<Faculty> implements FacultyD
     }
 
     @Override
+    public void deleteRowByID(long id) throws DAOException {
+
+    }
+
+    @Override
     public void deleteAll() {
 
     }
@@ -52,6 +58,6 @@ public final class FacultyMySQL extends AbstractDAO<Faculty> implements FacultyD
 
     @Override
     public Optional<Faculty> getByName(String name) throws DAOException {
-        return Optional.empty();
+        return super.getByName(tableName,FacultyMapping.name,name,new FacultyBuilder());
     }
 }

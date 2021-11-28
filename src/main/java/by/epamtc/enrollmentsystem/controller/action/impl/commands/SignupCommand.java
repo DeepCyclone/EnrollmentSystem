@@ -6,6 +6,9 @@ import by.epamtc.enrollmentsystem.model.User;
 import by.epamtc.enrollmentsystem.service.ServiceProvider;
 import by.epamtc.enrollmentsystem.service.template.UserService;
 import by.epamtc.enrollmentsystem.service.util.PasswordCodec;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -13,9 +16,10 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public class SignupCommand implements Command {
+    private static Logger logger = LogManager.getLogger(SignupCommand.class);
     private static final int APPLICANT_ROLE = 3;
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void execute(HttpServletRequest request, HttpServletResponse response) {
         String username = request.getParameter("login");
         String email = request.getParameter("email");
         String password = request.getParameter("password");
@@ -32,8 +36,8 @@ public class SignupCommand implements Command {
             service.insertInto(user);
             response.sendRedirect(request.getContextPath());
         }
-        catch (ServiceException e){
-            //logger
+        catch (ServiceException | IOException e){
+            logger.log(Level.ERROR,e.getMessage());
             //redirector
         }
     }

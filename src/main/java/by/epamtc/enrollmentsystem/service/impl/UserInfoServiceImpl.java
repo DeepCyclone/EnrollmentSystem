@@ -46,6 +46,11 @@ public class UserInfoServiceImpl implements UserInfoService {
     }
 
     @Override
+    public void deleteRowByID(long id) throws ServiceException {
+
+    }
+
+    @Override
     public void insertInto(UserInfo ui) throws ServiceException {
         try {
             if(ui != null) {

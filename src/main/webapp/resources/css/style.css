@@ -7,11 +7,6 @@ footer{
 .enrollmenttable{
     position: relative;
     border: blue;
-    top:5%;
     width: 80%;
     margin: 10%;
-}
-.pages-selector{
-    position: absolute;
-    padding-left: 50%;
 }

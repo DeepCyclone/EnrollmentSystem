@@ -6,6 +6,9 @@ import by.epamtc.enrollmentsystem.exception.ServiceException;
 import by.epamtc.enrollmentsystem.service.ServiceProvider;
 import by.epamtc.enrollmentsystem.service.template.Subjectm2mFacultyService;
 import com.google.gson.Gson;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -15,18 +18,18 @@ import java.util.List;
 import java.util.Map;
 
 public class PreloadFacultiesPageCommand implements Command {
+    private static Logger logger = LogManager.getLogger(PreloadFacultiesPageCommand.class);
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/plain; charset=UTF-8");
-        DAOProvider daoProvider = DAOProvider.getInstance();
+        ServiceProvider serviceProvider = ServiceProvider.getInstance();
         Map<String, List<String>> facSub = null;
-        Subjectm2mFacultyService service = null;
+        Subjectm2mFacultyService service = serviceProvider.getSubjectm2mFacultyService();
         try {
-            service = ServiceProvider.getInstance().getSubjectm2mFacultyService();
             facSub = service.getFacultiesCorrespondingToSubjects();
         }
         catch (ServiceException exception){
-
+            logger.log(Level.ERROR,exception.getMessage());
         }
         Gson gson = new Gson();
         String json = gson.toJson(facSub);

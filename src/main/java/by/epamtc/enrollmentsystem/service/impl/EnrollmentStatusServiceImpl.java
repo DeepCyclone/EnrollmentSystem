@@ -11,6 +11,11 @@ import java.util.Optional;
 
 public class EnrollmentStatusServiceImpl implements EnrollmentStatusService {
     @Override
+    public void deleteRowByID(long id) throws ServiceException {
+
+    }
+
+    @Override
     public Optional<EnrollmentStatus> getByID(long id) throws ServiceException {
         try {
             EnrollmentStatusDAO dao = DAOProvider.getInstance().getEnrollmentStatusDAO();

@@ -1,6 +1,8 @@
 package by.epamtc.enrollmentsystem.model.dto;
 
-public class MarkValue {
+import java.io.Serializable;
+
+public class MarkValue implements Serializable {
 
     private long id;
     private String name;
@@ -37,5 +39,14 @@ public class MarkValue {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    @Override
+    public String toString() {
+        return "MarkValue{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", value=" + value +
+                '}';
     }
 }

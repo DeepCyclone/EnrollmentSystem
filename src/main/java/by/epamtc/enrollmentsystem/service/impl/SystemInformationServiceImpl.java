@@ -33,6 +33,11 @@ public class SystemInformationServiceImpl implements SystemInformationService {
     }
 
     @Override
+    public void deleteRowByID(long id) throws ServiceException {
+
+    }
+
+    @Override
     public Optional<SystemInformation> getByName(String name) throws ServiceException {
         try {
             SystemInformationDAO dao = DAOProvider.getInstance().getSystemInformationDAO();

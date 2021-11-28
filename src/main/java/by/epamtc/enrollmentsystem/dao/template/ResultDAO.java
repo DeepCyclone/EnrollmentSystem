@@ -13,4 +13,5 @@ public interface ResultDAO extends DAOTemplate<Result>, Identifiable<Result>, Na
     boolean userHasMarkOnSubject(long userId,long subjectId) throws DAOException;
     List<UserResultByFaculty> getUserResultByFacultyAndEduForm(long educationFormId) throws DAOException;
     int getResultValueBySubjectName(String subjectName,long userId) throws DAOException;
+    void deleteByUserID(long userID) throws DAOException;
 }

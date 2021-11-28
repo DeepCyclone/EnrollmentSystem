@@ -1,6 +1,8 @@
 package by.epamtc.enrollmentsystem.model;
 
-public class Facilitym2mUserInfo {
+import java.io.Serializable;
+
+public class Facilitym2mUserInfo implements Serializable {
     private long facilityId;
     private long userInfoUserId;
 

@@ -1,9 +1,10 @@
 package by.epamtc.enrollmentsystem.model;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Objects;
 
-public class UserInfo {
+public class UserInfo implements Serializable {
 
     private long id;
     private String name;

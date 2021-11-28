@@ -2,9 +2,10 @@ package by.epamtc.enrollmentsystem.model;
 
 import com.sun.org.apache.xpath.internal.operations.Bool;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Facility {
+public class Facility implements Serializable {
 
     private long id;
     private String name;

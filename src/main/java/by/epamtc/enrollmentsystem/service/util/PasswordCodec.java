@@ -6,7 +6,6 @@ import java.nio.charset.StandardCharsets;
 
 public class PasswordCodec {
 
-    //private static final SecureRandom RANDOM = SecureRandom.getInstanceStrong();
     private static final int HASHING_ROUNDS = 10;
 
     public static byte[] generateEncodedPassword(String originalPassword){

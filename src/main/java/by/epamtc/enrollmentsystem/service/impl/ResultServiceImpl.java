@@ -46,4 +46,13 @@ public class ResultServiceImpl implements ResultService {
             throw new ServiceException(exception.getMessage(), exception);
         }
     }
+
+    public int getResultValueBySubjectName(String subjectName,long userId) throws ServiceException {
+        try {
+            ResultDAO dao = DAOProvider.getInstance().getResultDAO();
+            return dao.getResultValueBySubjectName(subjectName,userId);
+        } catch (DAOException exception) {
+            throw new ServiceException(exception.getMessage(), exception);
+        }
+    }
 }

@@ -11,6 +11,9 @@ import by.epamtc.enrollmentsystem.service.template.ApplicantEnrollmentService;
 import by.epamtc.enrollmentsystem.service.template.EducationFormService;
 import by.epamtc.enrollmentsystem.service.template.EnrollmentStatusService;
 import by.epamtc.enrollmentsystem.service.template.FacultyService;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 
 import javax.servlet.ServletException;
@@ -20,6 +23,7 @@ import java.io.IOException;
 import java.util.Optional;
 
 public class EnrollmentStatusUpdateCommand implements Command {
+    private static Logger logger = LogManager.getLogger(EnrollmentStatusUpdateCommand.class);
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         System.out.println("request");
@@ -55,7 +59,7 @@ public class EnrollmentStatusUpdateCommand implements Command {
             applicantEnrollmentService.updateEnrollmentStatusByUserId(applicantEnrollment);
         }
         catch (ServiceException e){
-            //logger
+            logger.log(Level.ERROR,e.getMessage());
             //redirect
         }
     }

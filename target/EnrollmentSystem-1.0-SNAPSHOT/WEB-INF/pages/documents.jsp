@@ -67,7 +67,7 @@
                                 <label for="login">
                                     <fmt:message key="enrollmentsystem.loginData" bundle="${bundle}"/>
                                 </label>
-                                <input name = "login" id = "login" minlength="3" maxlength="30" size="15">
+                                <input name = "login" id = "login" minlength="3" maxlength="30" size="15" value="${sessionScope.get('login')}">
                             </td>
                         </tr>
 
@@ -76,7 +76,7 @@
                                 <label for="oldPassword">
                                     <fmt:message key="enrollmentsystem.oldPassword" bundle="${bundle}"/>
                                 </label>
-                                <input type = "password" name = "oldPassword" id = "oldPassword" minlength="4" maxlength="10">
+                                <input type = "password" name = "oldPassword" id = "oldPassword" minlength="4" maxlength="10" autocomplete="new-password">
                             </td>
                         </tr>
                         <tr>

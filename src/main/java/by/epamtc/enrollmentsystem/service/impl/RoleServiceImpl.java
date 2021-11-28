@@ -33,6 +33,11 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
+    public void deleteRowByID(long id) throws ServiceException {
+
+    }
+
+    @Override
     public Optional<Role> getByName(String name) throws ServiceException {
         try {
             RoleDAO dao = DAOProvider.getInstance().getRoleDAO();

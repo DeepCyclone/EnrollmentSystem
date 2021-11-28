@@ -4,6 +4,7 @@ import by.epamtc.enrollmentsystem.dao.mapping.SchemaMapping;
 import by.epamtc.enrollmentsystem.dao.mapping.fields.EnrollmentStatusMapping;
 import by.epamtc.enrollmentsystem.dao.template.EnrollmentStatusDAO;
 import by.epamtc.enrollmentsystem.exception.DAOException;
+import by.epamtc.enrollmentsystem.exception.ServiceException;
 import by.epamtc.enrollmentsystem.model.EnrollmentStatus;
 import by.epamtc.enrollmentsystem.dao.composer.builders.EnrollmentStatusBuilder;
 
@@ -42,6 +43,11 @@ public final class EnrollmentStatusMySQL extends AbstractDAO<EnrollmentStatus> i
 
     @Override
     public void updateRowByID(EnrollmentStatus note) throws DAOException {
+
+    }
+
+    @Override
+    public void deleteRowByID(long id) throws DAOException {
 
     }
 

@@ -3,20 +3,13 @@ package by.epamtc.enrollmentsystem.controller;
 import by.epamtc.enrollmentsystem.controller.action.Command;
 import by.epamtc.enrollmentsystem.controller.action.CommandProvider;
 import by.epamtc.enrollmentsystem.dao.connectionpool.ConnectionPool;
+import by.epamtc.enrollmentsystem.exception.DAOException;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
 import java.io.IOException;
 
 public class Controller extends HttpServlet {
-    @Override
-    public void init(){
-        ConnectionPool.getInstance().initPoolData();
-    }
-    @Override
-    public void destroy(){
-        ConnectionPool.getInstance().dispose();
-    }
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doPost(request, response);

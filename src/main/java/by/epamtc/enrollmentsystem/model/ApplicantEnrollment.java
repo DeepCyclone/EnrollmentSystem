@@ -1,9 +1,9 @@
 package by.epamtc.enrollmentsystem.model;
 
 
-import java.util.Objects;
+import java.io.Serializable;
 
-public class ApplicantEnrollment {
+public class ApplicantEnrollment implements Serializable {
 
     private long userId;
     private long facultyId;

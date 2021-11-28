@@ -1,9 +1,13 @@
 package by.epamtc.enrollmentsystem.controller.action.impl.commands;
 
 import by.epamtc.enrollmentsystem.controller.action.Command;
+import by.epamtc.enrollmentsystem.exception.ServiceException;
 import by.epamtc.enrollmentsystem.model.dto.UserStyledToAdminPanel;
 import by.epamtc.enrollmentsystem.service.ServiceProvider;
 import by.epamtc.enrollmentsystem.service.template.UserService;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -12,6 +16,8 @@ import java.io.IOException;
 import java.util.List;
 
 public class PreloadAdminPanelCommand implements Command {
+
+    private static Logger logger = LogManager.getLogger(PreloadAdminPanelCommand.class);
 
     private static final int RECORDS_PER_PAGE = 3;
     private static final int DEFAULT_PAGE = 1;
@@ -65,8 +71,8 @@ public class PreloadAdminPanelCommand implements Command {
 
             request.getRequestDispatcher("/documents").forward(request, response);
         }
-        catch (Exception e){
-
+        catch (IOException | ServiceException e){
+            logger.log(Level.ERROR,e.getMessage());
         }
     }
 }

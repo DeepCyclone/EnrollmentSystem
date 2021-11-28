@@ -1,8 +1,12 @@
 package by.epamtc.enrollmentsystem.dao.impl;
 
 import by.epamtc.enrollmentsystem.dao.connectionpool.ConnectionPool;
+import by.epamtc.enrollmentsystem.dao.connectionpool.PoolException;
+import by.epamtc.enrollmentsystem.dao.mapping.fields.FacultyMapping;
+import by.epamtc.enrollmentsystem.dao.mapping.fields.SubjectMapping;
 import by.epamtc.enrollmentsystem.dao.template.Subjectm2mFacultyDAO;
 import by.epamtc.enrollmentsystem.exception.DAOException;
+import by.epamtc.enrollmentsystem.model.Faculty;
 import by.epamtc.enrollmentsystem.model.Subjectm2mFaculty;
 
 import java.sql.*;
@@ -12,7 +16,7 @@ public final class Subjectm2mFacultyMySQL extends AbstractDAO<Subjectm2mFaculty>
 
     private static final String GET_FACULTIES_CORRESPONDING_TO_SUBJECTS = "SELECT f_name,s_name FROM subject " +
                                                                           "JOIN subject_m2m_faculty ON s_id = smf_s_id " +
-                                                                          "JOIN faculty AS f ON subject_m2m_faculty.smf_f_id = f.f_id";//TODO crash into parts and !ask if this must be here!
+                                                                          "JOIN faculty AS f ON subject_m2m_faculty.smf_f_id = f.f_id";
 
 
     @Override
@@ -53,15 +57,15 @@ public final class Subjectm2mFacultyMySQL extends AbstractDAO<Subjectm2mFaculty>
             facSub = new HashMap<>();
             List<String> subjects = null;
             while(rs.next()) {
-                String facultyName = rs.getString("f_name");
+                String facultyName = rs.getString(FacultyMapping.name);
                 if(!facSub.containsKey(facultyName)){
                     subjects = new ArrayList<>();
                     facSub.put(facultyName,subjects);
                 }
-                subjects.add(rs.getString("s_name"));
+                facSub.get(facultyName).add(rs.getString(SubjectMapping.name));
             }
         }
-        catch (SQLException e){
+        catch (SQLException | PoolException e){
             throw new DAOException(e.getMessage(),e);
         }
         finally {

@@ -66,6 +66,11 @@ public class FacultyServiceImpl implements FacultyService {
     }
 
     @Override
+    public void deleteRowByID(long id) throws ServiceException {
+
+    }
+
+    @Override
     public Optional<Faculty> getByName(String name) throws ServiceException {
         try {
             FacultyDAO dao = DAOProvider.getInstance().getFacultyDAO();

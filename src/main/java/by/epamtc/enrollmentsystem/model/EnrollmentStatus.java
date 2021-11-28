@@ -1,8 +1,9 @@
 package by.epamtc.enrollmentsystem.model;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class EnrollmentStatus {
+public class EnrollmentStatus implements Serializable {
 
     private long id;
     private String name;

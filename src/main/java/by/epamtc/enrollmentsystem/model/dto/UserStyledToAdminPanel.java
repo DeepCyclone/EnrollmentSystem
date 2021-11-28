@@ -1,5 +1,6 @@
 package by.epamtc.enrollmentsystem.model.dto;
 
+import java.util.List;
 import java.util.Set;
 
 public class UserStyledToAdminPanel {

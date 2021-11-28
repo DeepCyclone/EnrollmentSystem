@@ -1,6 +1,7 @@
 package by.epamtc.enrollmentsystem.dao.impl;
 
 import by.epamtc.enrollmentsystem.dao.connectionpool.ConnectionPool;
+import by.epamtc.enrollmentsystem.dao.connectionpool.PoolException;
 import by.epamtc.enrollmentsystem.dao.mapping.SchemaMapping;
 import by.epamtc.enrollmentsystem.dao.mapping.fields.FacilityMapping;
 import by.epamtc.enrollmentsystem.dao.mapping.fields.Facilitym2mUserInfoMapping;
@@ -70,7 +71,7 @@ public final class Facilitym2mUserInfoMySQL extends AbstractDAO<Facilitym2mUserI
                 existingFacilitiesNames.add(rs.getString(FacilityMapping.name));
             }
         }
-        catch (SQLException e){
+        catch (SQLException | PoolException e){
             throw new DAOException(e.getMessage(),e);
         }
         finally {

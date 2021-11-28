@@ -7,7 +7,7 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
-    <%@include file="documentsPageLogic.js"%>
+    <%@include file="/resources/js/documentsPageLogic.js"%>
 </script>
 
 <html>
@@ -34,7 +34,8 @@
             <th><fmt:message key="enrollmentsystem.budgPlaces" bundle="${bundle}"/>
             <th><fmt:message key="enrollmentsystem.payablePlaces" bundle="${bundle}"/>
             <th><fmt:message key="enrollmentsystem.facultyDescription" bundle="${bundle}"/>
-            <th><fmt:message key="enrollmentsystem.totalRequests" bundle="${bundle}"/>
+            <th><fmt:message key="enrollmentsystem.totalRequestsBudg" bundle="${bundle}"/>
+            <th><fmt:message key="enrollmentsystem.totalRequestsPaid" bundle="${bundle}"/>
         </tr>
         <tr>
             <c:forEach var="faculty" items="${requestScope.get('facultiesList')}">
@@ -42,7 +43,8 @@
                 <td>${faculty.budgetAdmissionPlan}</td>
                 <td>${faculty.paidAdmissionPlan}</td>
                 <td>${faculty.description}</td>
-                <td>100</td>
+                <td>${requestScope.get("totalRequestsBudg").get(faculty.name)}</td>
+                <td>${requestScope.get("totalRequestsPaid").get(faculty.name)}</td>
                 <tr></tr>
             </c:forEach>
         </tr>

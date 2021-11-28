@@ -15,4 +15,5 @@ public interface ApplicantEnrollmentDAO extends DAOTemplate<ApplicantEnrollment>
     List<ApplicantEnrollment> getByUserId(long userId) throws DAOException;
     void updateEnrollmentStatusByUserId(ApplicantEnrollment note) throws DAOException;
     Set<StringifiedApplicantEnrollment> getStringifiedTableByUserId(long userId) throws DAOException;
+    int getUserRequestsAmount(long facultyID,long educationFormID) throws DAOException;
 }

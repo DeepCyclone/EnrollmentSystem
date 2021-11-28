@@ -1,6 +1,8 @@
 package by.epamtc.enrollmentsystem.model;
 
-public class Subjectm2mFaculty {
+import java.io.Serializable;
+
+public class Subjectm2mFaculty implements Serializable {
 
     private long subjectId;
     private long facultyId;

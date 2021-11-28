@@ -4,6 +4,7 @@ import by.epamtc.enrollmentsystem.dao.mapping.SchemaMapping;
 import by.epamtc.enrollmentsystem.dao.mapping.fields.EducationFormMapping;
 import by.epamtc.enrollmentsystem.dao.template.EducationFormDAO;
 import by.epamtc.enrollmentsystem.exception.DAOException;
+import by.epamtc.enrollmentsystem.exception.ServiceException;
 import by.epamtc.enrollmentsystem.model.EducationForm;
 import by.epamtc.enrollmentsystem.dao.composer.builders.EducationFormBuilder;
 
@@ -43,6 +44,11 @@ public final class EducationFormMySQL extends AbstractDAO<EducationForm> impleme
     }
 
     @Override
+    public void deleteRowByID(long id) throws DAOException {
+
+    }
+
+    @Override
     public List<EducationForm> getAll() throws DAOException {
         return super.getAll(tableName,new EducationFormBuilder());
     }
@@ -54,7 +60,7 @@ public final class EducationFormMySQL extends AbstractDAO<EducationForm> impleme
     }
 
     @Override
-    public Optional<EducationForm> getByName(String name) {
-        return Optional.empty();
+    public Optional<EducationForm> getByName(String name) throws DAOException {
+        return super.getByName(tableName,EducationFormMapping.name,name,new EducationFormBuilder());
     }
 }

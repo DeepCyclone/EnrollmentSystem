@@ -15,4 +15,6 @@ public interface ApplicantEnrollmentService {
     void deleteFacultiesByUserId(long userId);
     void updateEnrollmentStatusByUserId(ApplicantEnrollment note) throws ServiceException;
     Set<StringifiedApplicantEnrollment> getStringifiedTable(long userId) throws ServiceException;
+    int getUserRequestsAmount(long facultyID,long educationFormID) throws ServiceException;
+    Map<String,Integer> buildRequestAmountDtos(long educationFormID,int from,int offset) throws ServiceException;
 }

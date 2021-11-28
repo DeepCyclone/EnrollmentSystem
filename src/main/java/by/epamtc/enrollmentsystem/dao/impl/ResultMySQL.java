@@ -2,12 +2,14 @@ package by.epamtc.enrollmentsystem.dao.impl;
 
 import by.epamtc.enrollmentsystem.dao.composer.builders.ResultBuilder;
 import by.epamtc.enrollmentsystem.dao.connectionpool.ConnectionPool;
+import by.epamtc.enrollmentsystem.dao.connectionpool.PoolException;
 import by.epamtc.enrollmentsystem.dao.mapping.SchemaMapping;
 import by.epamtc.enrollmentsystem.dao.mapping.fields.ApplicantEnrollmentMapping;
 import by.epamtc.enrollmentsystem.dao.mapping.fields.ResultMapping;
 import by.epamtc.enrollmentsystem.dao.mapping.fields.SubjectMapping;
 import by.epamtc.enrollmentsystem.dao.template.ResultDAO;
 import by.epamtc.enrollmentsystem.exception.DAOException;
+import by.epamtc.enrollmentsystem.exception.ServiceException;
 import by.epamtc.enrollmentsystem.model.Result;
 import by.epamtc.enrollmentsystem.model.dto.MarkValue;
 import by.epamtc.enrollmentsystem.model.dto.UserResultByFaculty;
@@ -23,7 +25,7 @@ import java.util.Optional;
 
 public final class ResultMySQL extends AbstractDAO<Result> implements ResultDAO {
 
-    private static final String GET_APPLICANT_MARKS = "SELECT s_id,s_name,r_value FROM subject LEFT JOIN (SELECT r_s_id,r_value FROM result WHERE r_ui_u_id = ?) as result ON result.r_s_id = s_id";
+    private static final String GET_APPLICANT_MARKS = "SELECT s_id,s_name,r_value FROM result LEFT JOIN (SELECT s_id,s_name FROM subject) as result ON result.r_s_id = s_id WHERE r_ui_u_id = ?";
     private static final String UPDATE_USER_RESULT = "UPDATE "+ SchemaMapping.result +
                                                     " SET " + ResultMapping.resultValue + "= ?" +
                                                     " WHERE " + ResultMapping.userInfoUserId + "= ? AND " + ResultMapping.subjectId + "= ?";
@@ -46,6 +48,8 @@ public final class ResultMySQL extends AbstractDAO<Result> implements ResultDAO 
                                                                         " WHERE " + SubjectMapping.name + " = ?" +
                                                                         " AND " + ResultMapping.userInfoUserId + " = ?";
 
+    private static final String DELETE_BY_USER_ID = "DELETE FROM " + SchemaMapping.result +
+                                                    " WHERE " + ResultMapping.userInfoUserId + " = ?";
 
     @Override
     public List<Result> getAll() throws DAOException {
@@ -68,8 +72,13 @@ public final class ResultMySQL extends AbstractDAO<Result> implements ResultDAO 
     }
 
     @Override
-    public void deleteAll() {
+    public void deleteRowByID(long id) throws DAOException {
 
+    }
+
+    @Override
+    public void deleteAll() throws DAOException {
+        super.deleteAll(SchemaMapping.result);
     }
 
     @Override
@@ -101,7 +110,7 @@ public final class ResultMySQL extends AbstractDAO<Result> implements ResultDAO 
                 mv.add(new MarkValue(subjectId,subjectName,resultValue));
             }
         }
-        catch (SQLException exception){
+        catch (SQLException | PoolException exception){
             throw new DAOException(exception.getMessage(),exception);
         }
         finally {
@@ -133,7 +142,7 @@ public final class ResultMySQL extends AbstractDAO<Result> implements ResultDAO 
                 result = true;
             }
         }
-        catch (SQLException exception){
+        catch (SQLException | PoolException exception){
             throw new DAOException(exception.getMessage(),exception);
         }
         finally {
@@ -163,7 +172,7 @@ public final class ResultMySQL extends AbstractDAO<Result> implements ResultDAO 
                 userResults.add(result);
             }
         }
-        catch (SQLException exception){
+        catch (SQLException | PoolException exception){
             throw new DAOException(exception.getMessage(),exception);
         }
         finally {
@@ -182,6 +191,11 @@ public final class ResultMySQL extends AbstractDAO<Result> implements ResultDAO 
             resValue = result.get().getResultValue();
         }
         return resValue;
+    }
+
+    @Override
+    public void deleteByUserID(long userID) throws DAOException {
+        executeUpdateQuery(DELETE_BY_USER_ID,userID);
     }
 
     @Override

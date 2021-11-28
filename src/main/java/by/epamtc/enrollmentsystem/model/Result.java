@@ -1,6 +1,8 @@
 package by.epamtc.enrollmentsystem.model;
 
-public class Result {
+import java.io.Serializable;
+
+public class Result implements Serializable {
 
     private long subjectId;
     private long userInfoUserId;

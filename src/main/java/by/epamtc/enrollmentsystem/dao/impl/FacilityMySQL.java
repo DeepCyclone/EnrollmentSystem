@@ -4,6 +4,7 @@ import by.epamtc.enrollmentsystem.dao.mapping.SchemaMapping;
 import by.epamtc.enrollmentsystem.dao.mapping.fields.FacilityMapping;
 import by.epamtc.enrollmentsystem.dao.template.FacilityDAO;
 import by.epamtc.enrollmentsystem.exception.DAOException;
+import by.epamtc.enrollmentsystem.exception.ServiceException;
 import by.epamtc.enrollmentsystem.model.Facility;
 import by.epamtc.enrollmentsystem.dao.composer.builders.FacilityBuilder;
 
@@ -27,6 +28,11 @@ public final class FacilityMySQL extends AbstractDAO<Facility> implements Facili
 
     @Override
     public void updateRowByID(Facility note) throws DAOException {
+
+    }
+
+    @Override
+    public void deleteRowByID(long id) throws DAOException {
 
     }
 

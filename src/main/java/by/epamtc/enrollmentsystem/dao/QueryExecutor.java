@@ -2,6 +2,7 @@ package by.epamtc.enrollmentsystem.dao;
 
 import by.epamtc.enrollmentsystem.dao.composer.builders.EntityBuilder;
 import by.epamtc.enrollmentsystem.dao.connectionpool.ConnectionPool;
+import by.epamtc.enrollmentsystem.dao.connectionpool.PoolException;
 import by.epamtc.enrollmentsystem.exception.DAOException;
 
 import java.sql.Connection;
@@ -24,7 +25,7 @@ public class QueryExecutor<T> {
         return entities;
     }
 
-    protected Optional<T> executeSingleResultQuery(String query,EntityBuilder<T> builder , Object... params) throws DAOException {
+    protected Optional<T> executeSingleResultQuery(String query,EntityBuilder<T> builder ,Object... params) throws DAOException {
         List<T> entities = executeSelectQuery(query,builder, params);
         if(entities.isEmpty() || entities.size() < 1){
             return Optional.empty();
@@ -33,7 +34,7 @@ public class QueryExecutor<T> {
     }
 
     protected void executeInsertQuery(String query, Object... params) throws DAOException {
-        executeUpdateQuery(query,params);//TODO this method may return id's of inserted records
+        executeUpdateQuery(query,params);
     }
 
     protected void executeUpdateQuery(String query, Object... params) throws DAOException {
@@ -53,7 +54,7 @@ public class QueryExecutor<T> {
             }
             ConnectionPool.getInstance().returnConnection(connection);
             return preparedStatement;
-        } catch (SQLException e) {
+        } catch (SQLException | PoolException e) {
             throw new DAOException(e.getMessage(), e);
         }
     }

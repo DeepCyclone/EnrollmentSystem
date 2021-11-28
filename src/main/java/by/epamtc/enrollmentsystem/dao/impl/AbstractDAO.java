@@ -1,5 +1,6 @@
 package by.epamtc.enrollmentsystem.dao.impl;
 
+import by.epamtc.enrollmentsystem.dao.connectionpool.PoolException;
 import by.epamtc.enrollmentsystem.dao.template.DAOTemplate;
 import by.epamtc.enrollmentsystem.dao.QueryExecutor;
 import by.epamtc.enrollmentsystem.dao.composer.builders.EntityBuilder;
@@ -15,6 +16,8 @@ public abstract class AbstractDAO<T> extends QueryExecutor<T> implements DAOTemp
 
     private static final String SELECT_ALL = "SELECT * FROM ";
 
+    private static final String DELETE_ALL = "DELETE FROM ";
+
     private static final String GET_NUMBER_OF_RECORDS = "SELECT COUNT(*) FROM ";
 
     protected final List<T> getAll(String tableName, EntityBuilder<T> entityBuilder) throws DAOException {
@@ -27,8 +30,19 @@ public abstract class AbstractDAO<T> extends QueryExecutor<T> implements DAOTemp
         return executeSingleResultQuery(query, entityBuilder, id);
     }
 
-    protected final void deleteAll(String tableName) {
+    protected final Optional<T> getByName(String tableName,String nameField,String name,EntityBuilder<T> entityBuilder) throws DAOException{
+        String query = QueryGenerator.getByNamePreparedQuery(tableName,nameField);
+        return executeSingleResultQuery(query,entityBuilder,name);
+    }
 
+    protected final void deleteAll(String tableName) throws DAOException {
+        String query = DELETE_ALL + tableName;
+        executeUpdateQuery(query);
+    }
+
+    protected final void deleteByID(String tableName,String idField,long id) throws DAOException {
+        String query = DELETE_ALL + tableName + " WHERE " + idField + " = " + id;
+        executeUpdateQuery(query);
     }
 
     protected final List<T> getEntitiesRange(String tableName,int from,int offset,EntityBuilder<T> entityBuilder) throws DAOException{
@@ -51,11 +65,13 @@ public abstract class AbstractDAO<T> extends QueryExecutor<T> implements DAOTemp
                 records = rs.getInt(1);
             }
         }
-        catch (SQLException e){
+        catch (SQLException | PoolException e){
             throw new DAOException(e.getMessage(),e);
         }
         finally {
-            ConnectionPool.getInstance().closeConnection(conn,stmt,rs);
+            if(conn != null) {//TODO не оч
+                ConnectionPool.getInstance().closeConnection(conn, stmt, rs);
+            }
         }
         return records;
     }

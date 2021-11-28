@@ -3,6 +3,8 @@ package by.epamtc.enrollmentsystem.service;
 
 import by.epamtc.enrollmentsystem.service.impl.*;
 import by.epamtc.enrollmentsystem.service.template.*;
+import by.epamtc.enrollmentsystem.service.util.EnrollmentService;
+import by.epamtc.enrollmentsystem.service.util.StudyingInfoUpdater;
 
 public class ServiceProvider {
 
@@ -17,7 +19,9 @@ public class ServiceProvider {
     private final UserInfoService userInfoService = new UserInfoServiceImpl();
     private final EducationFormService educationFormService = new EducationFormServiceImpl();
     private final EnrollmentStatusService enrollmentStatusService = new EnrollmentStatusServiceImpl();
+    private final SubjectService subjectService = new SubjectServiceImpl();
     private final FacilityService facilityService = new FacilityServiceImpl();
+    private final ResultService resultService = new ResultServiceImpl();
 
     private static volatile ServiceProvider instance;
 
@@ -84,5 +88,13 @@ public class ServiceProvider {
 
     public FacilityService getFacilityService() {
         return facilityService;
+    }
+
+    public ResultService getResultService() {
+        return resultService;
+    }
+
+    public SubjectService getSubjectService() {
+        return subjectService;
     }
 }

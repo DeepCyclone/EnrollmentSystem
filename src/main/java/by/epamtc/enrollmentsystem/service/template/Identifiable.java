@@ -7,4 +7,5 @@ import java.util.Optional;
 public interface Identifiable<T> {
     Optional<T> getByID(long id) throws ServiceException;
     void updateRowByID(T note) throws ServiceException;
+    void deleteRowByID(long id) throws ServiceException;
 }

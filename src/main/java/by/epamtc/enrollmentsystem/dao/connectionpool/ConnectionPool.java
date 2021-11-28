@@ -1,6 +1,7 @@
 package by.epamtc.enrollmentsystem.dao.connectionpool;
 
 import by.epamtc.enrollmentsystem.controller.action.CommandProvider;
+import by.epamtc.enrollmentsystem.exception.DAOException;
 
 import java.sql.*;
 import java.util.Locale;
@@ -15,38 +16,43 @@ import java.util.concurrent.Executor;
         private BlockingQueue<Connection> connectionQueue;
         private BlockingQueue<Connection> givenAwayConQueue;
 
-        private String driverName;
-        private String url;
-        private String user;
-        private String password;
+        private final String driverName;
+        private final String url;
+        private final String user;
+        private final String password;
         private int poolSize;
 
-        public void closeConnection(Connection con, Statement st, ResultSet rs) {
+        public void closeConnection(Connection con, Statement st, ResultSet rs) throws DAOException {
             try {
                 con.close();
             } catch (SQLException e) {
+                throw new DAOException(e.getMessage(),e);
             }
 
             try {
                 rs.close();
             } catch (SQLException e) {
+                throw new DAOException(e.getMessage(),e);
             }
 
             try {
                 st.close();
             } catch (SQLException e) {
+                throw new DAOException(e.getMessage(),e);
             }
         }
 
-        public void closeConnection(Connection con, Statement st) {
+        public void closeConnection(Connection con, Statement st) throws DAOException {
             try {
                 con.close();
             } catch (SQLException e) {
+                throw new DAOException(e.getMessage(),e);
             }
 
             try {
                 st.close();
             } catch (SQLException e) {
+                throw new DAOException(e.getMessage(),e);
             }
         }
 
@@ -80,14 +86,14 @@ import java.util.concurrent.Executor;
             return localInstance;
         }
 
-        public void initPoolData() {
+        public void initPoolData() throws DAOException {
             Locale.setDefault(Locale.ENGLISH);
 
             try {
                 Class.forName(driverName);
                 givenAwayConQueue = new
-                        ArrayBlockingQueue<Connection>(poolSize);
-                connectionQueue = new ArrayBlockingQueue<Connection>(poolSize);
+                        ArrayBlockingQueue<>(poolSize);
+                connectionQueue = new ArrayBlockingQueue<>(poolSize);
                 for (int i = 0; i < poolSize; i++) {
                     Connection connection = DriverManager.getConnection(url,
                             user,
@@ -98,33 +104,32 @@ import java.util.concurrent.Executor;
                 }
             }
 
-            catch (SQLException e) {
-
-            }
-            catch (ClassNotFoundException e) {
-
+            catch (SQLException | ClassNotFoundException e) {
+                throw new DAOException(e.getMessage(),e);
             }
 
         }
 
-        public void dispose() {
+        public void dispose() throws DAOException {
             clearConnectionQueue();
         }
 
-        private void clearConnectionQueue() {
+        private void clearConnectionQueue() throws DAOException {
             try {
                 closeConnectionsQueue(givenAwayConQueue);
                 closeConnectionsQueue(connectionQueue);
             } catch (SQLException e) {
+                throw new DAOException(e.getMessage(),e);
             }
         }
 
-        public Connection getConnection() {
+        public Connection getConnection() throws PoolException {
             Connection connection = null;
             try {
                 connection = connectionQueue.take();
                 givenAwayConQueue.add(connection);
             } catch (InterruptedException e) {
+                throw new PoolException(e.getMessage(),e);
             }
             return connection;
         }
@@ -167,7 +172,6 @@ import java.util.concurrent.Executor;
             @Override
             public void close() throws SQLException {
                 if (connection.isClosed()) {
-
                     throw new SQLException("Attempting to close closed connection.");
                 }
 

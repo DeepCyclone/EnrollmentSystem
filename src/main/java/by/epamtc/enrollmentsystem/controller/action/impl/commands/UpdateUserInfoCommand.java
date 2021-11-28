@@ -8,12 +8,16 @@ import by.epamtc.enrollmentsystem.service.template.FacilityService;
 import by.epamtc.enrollmentsystem.service.template.Facilitym2mUserInfoService;
 import by.epamtc.enrollmentsystem.service.ServiceProvider;
 import by.epamtc.enrollmentsystem.service.template.UserInfoService;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 public class UpdateUserInfoCommand implements Command {
+    private static Logger logger = LogManager.getLogger(UpdateUserInfoCommand.class);
 
     private static String GOLD_MEDAL = "Gold Medal";
     private static String ORPHAN = "Orphan";
@@ -24,7 +28,7 @@ public class UpdateUserInfoCommand implements Command {
         String name = request.getParameter(RequestMapping.USER_NAME);
         String surname = request.getParameter(RequestMapping.USER_SURNAME);
         String patronymic = request.getParameter(RequestMapping.USER_PATRONYMIC);
-        String photo = request.getParameter(RequestMapping.USER_PHOTO);//TODO сделать загрузку фото если успею
+        String photo = request.getParameter(RequestMapping.USER_PHOTO);
         String address = request.getParameter(RequestMapping.USER_ADDRESS);
         String passport = request.getParameter(RequestMapping.USER_PASSPORT);
         String orphan = request.getParameter(RequestMapping.FACILITY_ORPHAN);
@@ -61,11 +65,12 @@ public class UpdateUserInfoCommand implements Command {
             response.sendRedirect("documents");
         }
         catch (Exception e){
+            logger.log(Level.ERROR,e.getMessage());
             try {
                 response.sendRedirect(request.getContextPath());
             }
             catch (Exception ex){
-
+                logger.log(Level.ERROR,ex.getMessage());
             }
         }
     }

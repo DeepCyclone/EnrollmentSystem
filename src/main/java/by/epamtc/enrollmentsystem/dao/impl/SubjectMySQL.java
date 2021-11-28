@@ -5,6 +5,7 @@ import by.epamtc.enrollmentsystem.dao.mapping.SchemaMapping;
 import by.epamtc.enrollmentsystem.dao.mapping.fields.SubjectMapping;
 import by.epamtc.enrollmentsystem.dao.template.SubjectDAO;
 import by.epamtc.enrollmentsystem.exception.DAOException;
+import by.epamtc.enrollmentsystem.exception.ServiceException;
 import by.epamtc.enrollmentsystem.model.Subject;
 
 import java.util.List;
@@ -23,7 +24,7 @@ public final class SubjectMySQL extends AbstractDAO<Subject> implements SubjectD
 
     @Override
     public Optional<Subject> getByID(long id) throws DAOException {
-        return null;
+        return super.getByID(tableName,SubjectMapping.id,id,new SubjectBuilder());
     }
 
     @Override
@@ -49,6 +50,11 @@ public final class SubjectMySQL extends AbstractDAO<Subject> implements SubjectD
 
     @Override
     public void updateRowByID(Subject note) {
+
+    }
+
+    @Override
+    public void deleteRowByID(long id) throws DAOException {
 
     }
 
@@ -79,6 +85,6 @@ public final class SubjectMySQL extends AbstractDAO<Subject> implements SubjectD
 
     @Override
     public Optional<Subject> getByName(String name) throws DAOException {
-        return Optional.empty();
+        return super.getByName(tableName,SubjectMapping.name,name,new SubjectBuilder());
     }
 }

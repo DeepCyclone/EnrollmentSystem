@@ -4,6 +4,7 @@ import by.epamtc.enrollmentsystem.dao.mapping.fields.UserMapping;
 import by.epamtc.enrollmentsystem.dao.mapping.SchemaMapping;
 import by.epamtc.enrollmentsystem.dao.template.UserDAO;
 import by.epamtc.enrollmentsystem.exception.DAOException;
+import by.epamtc.enrollmentsystem.exception.ServiceException;
 import by.epamtc.enrollmentsystem.model.User;
 import by.epamtc.enrollmentsystem.dao.composer.builders.UserBuilder;
 
@@ -56,13 +57,17 @@ public final class UserMySQL extends AbstractDAO<User> implements UserDAO {
 
     @Override
     public List<User> getAll() throws DAOException {
-        String tableName = SchemaMapping.user;
-        return super.getAll(tableName,new UserBuilder());
+        return super.getAll(TABLE_NAME,new UserBuilder());
     }
 
     @Override
     public void updateRowByID(User note) {
 
+    }
+
+    @Override
+    public void deleteRowByID(long id) throws DAOException {
+        super.deleteByID(TABLE_NAME,UserMapping.id,id);
     }
 
 }

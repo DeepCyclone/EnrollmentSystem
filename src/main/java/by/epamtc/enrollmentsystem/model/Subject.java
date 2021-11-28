@@ -1,18 +1,19 @@
 package by.epamtc.enrollmentsystem.model;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Subject {
+public class Subject implements Serializable {
 
     private long id;
     private String name;
 
-    public Subject() {
-    }
-
-    public Subject(int id, String name) {
+    public Subject(long id, String name) {
         this.id = id;
         this.name = name;
+    }
+
+    public Subject() {
     }
 
     public long getId() {
@@ -36,7 +37,8 @@ public class Subject {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Subject subject = (Subject) o;
-        return id == subject.id && Objects.equals(name, subject.name);
+        return id == subject.id &&
+                Objects.equals(name, subject.name);
     }
 
     @Override

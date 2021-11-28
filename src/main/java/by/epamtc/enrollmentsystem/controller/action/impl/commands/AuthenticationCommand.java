@@ -1,4 +1,5 @@
 package by.epamtc.enrollmentsystem.controller.action.impl.commands;
+import org.apache.logging.log4j.*;
 
 import by.epamtc.enrollmentsystem.controller.action.Command;
 import by.epamtc.enrollmentsystem.exception.ServiceException;
@@ -15,6 +16,8 @@ import java.io.IOException;
 import java.util.Optional;
 
 public class AuthenticationCommand implements Command {
+
+    private static Logger logger = LogManager.getLogger(AuthenticationCommand.class);
     public void execute(HttpServletRequest request, HttpServletResponse response) {
         try {
             String login = request.getParameter("login");
@@ -36,7 +39,7 @@ public class AuthenticationCommand implements Command {
             }
         }
         catch (ServiceException | ServletException | IOException e){
-            //logger
+            logger.log(Level.ERROR,e.getMessage());
         }
     }
 }

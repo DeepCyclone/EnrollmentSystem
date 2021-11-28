@@ -33,6 +33,11 @@ public class EducationFormServiceImpl implements EducationFormService {
     }
 
     @Override
+    public void deleteRowByID(long id) throws ServiceException {
+
+    }
+
+    @Override
     public Optional<EducationForm> getByName(String name) throws ServiceException {
         try {
             EducationFormDAO dao = DAOProvider.getInstance().getEducationFormDAO();

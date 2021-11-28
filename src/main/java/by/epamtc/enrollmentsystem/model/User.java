@@ -1,10 +1,11 @@
 package by.epamtc.enrollmentsystem.model;
 
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Objects;
 
-public class User {
+public class User implements Serializable {
 
     private long id;
     private String login;

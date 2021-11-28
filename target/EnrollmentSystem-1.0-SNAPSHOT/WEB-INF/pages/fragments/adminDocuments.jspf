@@ -6,13 +6,14 @@
 <fmt:setBundle basename="localization.language" var = "bundle"/>
 
 <script>
-    <%@include file="adminPageLogic.js"%>
+    <%@include file="../../../resources/js/adminPageLogic.js"%>
 </script>
+
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
 
 <div class = "users-list" id = "users-list">
-    <table class="table table-light">
+    <table class="table table-light table-bordered">
         <tbody>
         <tr>
             <th><fmt:message key="enrollmentsystem.idField" bundle="${bundle}"/></th>
@@ -23,11 +24,13 @@
             <th><fmt:message key="enrollmentsystem.facultyColumn" bundle="${bundle}"/></th>
             <th><fmt:message key="enrollmentsystem.educationForm" bundle="${bundle}"/></th>
             <th><fmt:message key="enrollmentsystem.enrollmentStatus" bundle="${bundle}"/></th>
-            <th><fmt:message key="enrollmentsystem.marksSum" bundle="${bundle}"/></th>
         </tr>
-    <c:forEach var="user" items="${requestScope.get('users')}">
+        <c:forEach var="user" items="${requestScope.get('users')}">
 
-            <td>${user.id}</td>
+            <td>
+                <a href = "#popup" onclick="preloadUserPopup(${user.id})">${user.id}</a>
+                <a href = "controller?action=DELETE_USER&userID=${user.id}">Del</a>
+            </td>
 
             <td>${user.username}</td>
 
@@ -38,71 +41,68 @@
             <td>${user.patronymic}</td>
 
             <td>
-            <c:forEach var = "info" items="${user.enrollmentInfo}">
+                <c:forEach var = "info" items="${user.enrollmentInfo}">
                     ${info.facultyName}
-                        <c:forEach var = "i" begin="0" end="${info.educationFormStatuses.size()}">
-                            <br>
-                        </c:forEach>
-            </c:forEach>
-            </td>
-
-            <td>
-            <c:forEach var = "info" items="${user.enrollmentInfo}">
-                <c:forEach var = "form" items="${info.educationFormStatuses}">
-                    <p>
-                        ${form.key}
-                    </p>
+                    <c:forEach var = "i" begin="1" end="${info.educationFormStatuses.size()}">
+                        <p>
+                            &#8291;</p>
+                    </c:forEach>
                 </c:forEach>
-            </c:forEach>
             </td>
 
             <td>
                 <c:forEach var = "info" items="${user.enrollmentInfo}">
                     <c:forEach var = "form" items="${info.educationFormStatuses}">
-                        <div>
+                        <p>
+                                ${form.key}
+                                    &#8291;
+                        </p>
+                    </c:forEach>
+                    <br>
+                </c:forEach>
+            </td>
+
+            <td>
+                <c:forEach var = "info" items="${user.enrollmentInfo}">
+                    <c:forEach var = "form" items="${info.educationFormStatuses}">
                                 ${form.value}
-                        <div class="btn-group">
-                            <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Change status
-                            </button>
-                            <ul class="dropdown-menu">
-                                <li>
-                                    <input type="button" onclick="parseAndSendUserStatus(this)" class="btn-check btn-sm" name="${user.id}:${info.facultyName}:In progress" id="${user.id}:${info.facultyName}:1" autocomplete="off" value="${form.key}:In progress">
-                                    <label class="btn btn-outline-danger btn-sm" for="${user.id}:${info.facultyName}:1">
-                                        In progress
-                                    </label>
-                                </li>
-                                <li>
-                                    <input type="button" onselect="parseAndSendUserStatus(this)" class="btn-check" name="${user.id}:${info.facultyName}:Enrolled" id="${user.id}:${info.facultyName}:2" autocomplete="off" value="${form.key}:Enrolled">
-                                    <label class="btn btn-outline-danger btn-sm" for="${user.id}:${info.facultyName}:2">
-                                        Enrolled
-                                    </label>
-                                </li>
-                                <li>
-                                    <input type="button" onclick="parseAndSendUserStatus(this)" class="btn-check" name="${user.id}:${info.facultyName}:Declined" id="${user.id}:${info.facultyName}:3" autocomplete="off" value="${form.key}:Declined">
-                                    <label class="btn btn-outline-danger btn-sm" for="${user.id}:${info.facultyName}:3">
-                                        Declined
-                                    </label>
-                                </li>
-                                <li>
-                                    <input type="button" onclick="parseAndSendUserStatus(this)" class="btn-check" name="${user.id}:${info.facultyName}:Documents accepted" id="${user.id}:${info.facultyName}:4" autocomplete="off" value="${form.key}:Documents accepted">
-                                    <label class="btn btn-outline-danger btn-sm" for="${user.id}:${info.facultyName}:4">
-                                        Documents accepted
-                                    </label>
-                                </li>
-                            </ul>
-                        </div>
-                        </div>
+                            <div class="btn-group">
+                                <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <fmt:message key="enrollmentsystem.changeStatus" bundle="${bundle}"/>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <input type="button" onclick="parseAndSendUserStatus(this)" class="btn-check btn-sm" name="${user.id}:${info.facultyName}:In progress" id="${user.id}:${info.facultyName}:1" autocomplete="off" value="${form.key}:In progress">
+                                        <label class="btn btn-outline-danger btn-sm" for="${user.id}:${info.facultyName}:1">
+                                            <fmt:message key="enrollmentsystem.inProgress" bundle="${bundle}"/>
+                                        </label>
+                                    </li>
+                                    <li>
+                                        <input type="button" onselect="parseAndSendUserStatus(this)" class="btn-check" name="${user.id}:${info.facultyName}:Enrolled" id="${user.id}:${info.facultyName}:2" autocomplete="off" value="${form.key}:Enrolled">
+                                        <label class="btn btn-outline-danger btn-sm" for="${user.id}:${info.facultyName}:2">
+                                            <fmt:message key="enrollmentsystem.enrolled" bundle="${bundle}"/>
+                                        </label>
+                                    </li>
+                                    <li>
+                                        <input type="button" onclick="parseAndSendUserStatus(this)" class="btn-check" name="${user.id}:${info.facultyName}:Declined" id="${user.id}:${info.facultyName}:3" autocomplete="off" value="${form.key}:Declined">
+                                        <label class="btn btn-outline-danger btn-sm" for="${user.id}:${info.facultyName}:3">
+                                            <fmt:message key="enrollmentsystem.declined" bundle="${bundle}"/>
+                                        </label>
+                                    </li>
+                                    <li>
+                                        <input type="button" onclick="parseAndSendUserStatus(this)" class="btn-check" name="${user.id}:${info.facultyName}:Documents accepted" id="${user.id}:${info.facultyName}:4" autocomplete="off" value="${form.key}:Documents accepted">
+                                        <label class="btn btn-outline-danger btn-sm" for="${user.id}:${info.facultyName}:4">
+                                            <fmt:message key="enrollmentsystem.accepted" bundle="${bundle}"/>
+                                        </label>
+                                    </li>
+                                </ul>
+                            </div>
                         <br>
                     </c:forEach>
                 </c:forEach>
             </td>
-
-        <td>
-
-        </td>
-        </tr>
-    </c:forEach>
+            </tr>
+        </c:forEach>
         </tbody>
     </table>
     <nav aria-label="Page navigation">
@@ -122,3 +122,47 @@
         </ul>
     </nav>
 </div>
+
+<div id="popup">
+    <table id = "popupMarks">
+        <tr>
+            <th><fmt:message key="enrollmentsystem.markName" bundle="${bundle}"/></th>
+            <th><fmt:message key="enrollmentsystem.markValue" bundle="${bundle}"/></th>
+        </tr>
+    </table>
+    <br>
+    <a href="#" class="close" onclick="clearPopup()">Закрыть окно</a>
+</div>
+
+<style>
+    #popup {
+        width: 300px;
+        height: 50px;
+        text-align: center;
+        padding: 15px;
+        border: 3px solid #0000cc;
+        border-radius: 10px;
+        display: none;
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        margin: auto;
+        background-color: darkkhaki;
+        opacity: 50%;
+    }
+    #popup:target {display: block;}
+    .close {
+        display: inline-block;
+        border: 1px solid #0000cc;
+        color: #0000cc;
+        padding: 0 12px;
+        margin: 10px;
+        text-decoration: none;
+        background: #f2f2f2;
+        font-size: 14pt;
+        cursor:pointer;
+    }
+    .close:hover {background: #e6e6ff;}
+</style>
