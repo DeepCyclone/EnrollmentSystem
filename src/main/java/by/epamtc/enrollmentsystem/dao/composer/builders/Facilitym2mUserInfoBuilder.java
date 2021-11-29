@@ -10,7 +10,7 @@ import java.util.List;
 
 public class Facilitym2mUserInfoBuilder extends AbstractComposer<Facilitym2mUserInfo> implements EntityBuilder<Facilitym2mUserInfo> {
 
-    //архитектура такая, чтобы не передавать 3 параметра
+
     @Override
     public Facilitym2mUserInfo singleObjectBuilder(ResultSet rs) throws SQLException {
        return super.singleObjectBuilder(rs,this);

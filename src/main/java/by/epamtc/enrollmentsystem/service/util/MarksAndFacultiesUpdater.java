@@ -24,6 +24,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.*;
 
+/*
+ * An utility, that parses,checks and update user's marks and selected faculties
+ */
+
 public class MarksAndFacultiesUpdater {
 
     private static final int STATUS_IN_PROGRESS = 1;

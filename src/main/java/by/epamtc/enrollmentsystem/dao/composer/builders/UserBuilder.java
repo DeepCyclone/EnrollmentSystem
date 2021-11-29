@@ -10,7 +10,7 @@ import java.util.List;
 
 public class UserBuilder extends AbstractComposer<User> implements EntityBuilder<User> {
 
-    //архитектура такая, чтобы не передавать 3 параметра
+
     @Override
     public User singleObjectBuilder(ResultSet rs) throws SQLException {
        return super.singleObjectBuilder(rs,this);

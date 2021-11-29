@@ -103,7 +103,7 @@ public final class ApplicantEnrollmentMySQL extends AbstractDAO<ApplicantEnrollm
     @Override
     public void updateEnrollmentStatusByUserId(ApplicantEnrollment note) throws DAOException {
         executeUpdateQuery(UPDATE_ENROLLMENT_STATUS,note.getEnrollmentStatusId(),note.getUserId(),
-                note.getFacultyId(),note.getEnrollmentStatusId());
+                note.getFacultyId(),note.getEducationFormId());
     }
 
     @Override

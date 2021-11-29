@@ -72,25 +72,25 @@
                                 </button>
                                 <ul class="dropdown-menu">
                                     <li>
-                                        <input type="button" onclick="parseAndSendUserStatus(this)" class="btn-check btn-sm" name="${user.id}:${info.facultyName}:In progress" id="${user.id}:${info.facultyName}:1" autocomplete="off" value="${form.key}:In progress">
+                                        <input type="button" onclick="parseAndSendUserStatus(this)" class="btn-check btn-sm" name="${user.id}:${info.facultyName}:Заявление подано" id="${user.id}:${info.facultyName}:1" autocomplete="off" value="${form.key}:Заявление подано">
                                         <label class="btn btn-outline-danger btn-sm" for="${user.id}:${info.facultyName}:1">
                                             <fmt:message key="enrollmentsystem.inProgress" bundle="${bundle}"/>
                                         </label>
                                     </li>
                                     <li>
-                                        <input type="button" onselect="parseAndSendUserStatus(this)" class="btn-check" name="${user.id}:${info.facultyName}:Enrolled" id="${user.id}:${info.facultyName}:2" autocomplete="off" value="${form.key}:Enrolled">
+                                        <input type="button" onclick="parseAndSendUserStatus(this)" class="btn-check btn-sm" name="${user.id}:${info.facultyName}:Зачислен" id="${user.id}:${info.facultyName}:2" autocomplete="off" value="${form.key}:Зачислен">
                                         <label class="btn btn-outline-danger btn-sm" for="${user.id}:${info.facultyName}:2">
                                             <fmt:message key="enrollmentsystem.enrolled" bundle="${bundle}"/>
                                         </label>
                                     </li>
                                     <li>
-                                        <input type="button" onclick="parseAndSendUserStatus(this)" class="btn-check" name="${user.id}:${info.facultyName}:Declined" id="${user.id}:${info.facultyName}:3" autocomplete="off" value="${form.key}:Declined">
+                                        <input type="button" onclick="parseAndSendUserStatus(this)" class="btn-check" name="${user.id}:${info.facultyName}:Отклонено" id="${user.id}:${info.facultyName}:3" autocomplete="off" value="${form.key}:Отклонено">
                                         <label class="btn btn-outline-danger btn-sm" for="${user.id}:${info.facultyName}:3">
                                             <fmt:message key="enrollmentsystem.declined" bundle="${bundle}"/>
                                         </label>
                                     </li>
                                     <li>
-                                        <input type="button" onclick="parseAndSendUserStatus(this)" class="btn-check" name="${user.id}:${info.facultyName}:Documents accepted" id="${user.id}:${info.facultyName}:4" autocomplete="off" value="${form.key}:Documents accepted">
+                                        <input type="button" onclick="parseAndSendUserStatus(this)" class="btn-check" name="${user.id}:${info.facultyName}:Документы приняты" id="${user.id}:${info.facultyName}:4" autocomplete="off" value="${form.key}:Документы приняты">
                                         <label class="btn btn-outline-danger btn-sm" for="${user.id}:${info.facultyName}:4">
                                             <fmt:message key="enrollmentsystem.accepted" bundle="${bundle}"/>
                                         </label>

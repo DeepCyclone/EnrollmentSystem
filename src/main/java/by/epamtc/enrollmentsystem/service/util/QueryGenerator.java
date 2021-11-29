@@ -1,5 +1,7 @@
 package by.epamtc.enrollmentsystem.service.util;
-
+/*
+ * Helper utility that generates basic queries
+ */
 public class QueryGenerator {
     private static final String SELECT_ALL = "SELECT * FROM ";
     private static final String DELETE_ALL = "DELETE * FROM ";

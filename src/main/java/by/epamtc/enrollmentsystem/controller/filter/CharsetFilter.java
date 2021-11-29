@@ -6,6 +6,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/*
+ * This filter sets request encoding for all operations
+ * @author Flexus
+  */
+
 public class CharsetFilter implements Filter {
 
     private String encoding;

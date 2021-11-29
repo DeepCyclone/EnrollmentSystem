@@ -10,7 +10,7 @@ import java.util.List;
 
 public class EnrollmentStatusBuilder extends AbstractComposer<EnrollmentStatus> implements EntityBuilder<EnrollmentStatus> {
 
-    //архитектура такая, чтобы не передавать 3 параметра
+
     @Override
     public EnrollmentStatus singleObjectBuilder(ResultSet rs) throws SQLException {
        return super.singleObjectBuilder(rs,this);

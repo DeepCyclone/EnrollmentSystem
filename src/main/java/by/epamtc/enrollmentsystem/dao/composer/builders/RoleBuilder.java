@@ -9,7 +9,7 @@ import java.util.List;
 
 public class RoleBuilder extends AbstractComposer<Role> implements EntityBuilder<Role> {
 
-    //архитектура такая, чтобы не передавать 3 параметра
+
     @Override
     public Role singleObjectBuilder(ResultSet rs) throws SQLException {
        return super.singleObjectBuilder(rs,this);

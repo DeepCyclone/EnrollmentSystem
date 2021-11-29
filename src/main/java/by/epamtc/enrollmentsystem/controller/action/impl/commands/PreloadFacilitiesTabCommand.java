@@ -1,6 +1,9 @@
 package by.epamtc.enrollmentsystem.controller.action.impl.commands;
 
 import by.epamtc.enrollmentsystem.controller.action.Command;
+import by.epamtc.enrollmentsystem.controller.mapping.SessionMapping;
+import by.epamtc.enrollmentsystem.controller.routing.Router;
+import by.epamtc.enrollmentsystem.controller.routing.URLHolder;
 import by.epamtc.enrollmentsystem.exception.ServiceException;
 import by.epamtc.enrollmentsystem.service.template.Facilitym2mUserInfoService;
 import by.epamtc.enrollmentsystem.service.ServiceProvider;
@@ -17,22 +20,21 @@ import java.io.IOException;
 import java.util.List;
 
 public class PreloadFacilitiesTabCommand implements Command {
-    private static Logger logger = LogManager.getLogger(PreloadFacilitiesTabCommand.class);
+    private static Logger LOGGER = LogManager.getLogger(PreloadFacilitiesTabCommand.class);
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void execute(HttpServletRequest request, HttpServletResponse response) {
         try {
-            response.setContentType("text/plain; charset=UTF-8");
             HttpSession session = request.getSession(false);
-            int userID = (int)session.getAttribute("id");
+            int userID = (int)session.getAttribute(SessionMapping.USER_ID);
             Facilitym2mUserInfoService service = ServiceProvider.getInstance().getFacilitym2mUserInfoService();
             List<String> facilities = service.getUserFacilitiesNames(userID);
             Gson gson = new Gson();
             String json = gson.toJson(facilities);
-            System.out.println(json);
             response.getWriter().write(json);
         }
-        catch (ServiceException e){
-            logger.log(Level.ERROR,e.getMessage());
+        catch (ServiceException | IOException e){
+            LOGGER.log(Level.ERROR,e.getMessage());
+            Router.redirect(response, URLHolder.MAIN_PAGE);
         }
     }
 }

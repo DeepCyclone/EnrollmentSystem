@@ -1,6 +1,8 @@
 package by.epamtc.enrollmentsystem.controller.action.impl.commands;
 
 import by.epamtc.enrollmentsystem.controller.action.Command;
+import by.epamtc.enrollmentsystem.controller.routing.Router;
+import by.epamtc.enrollmentsystem.controller.routing.URLHolder;
 import by.epamtc.enrollmentsystem.exception.ServiceException;
 import by.epamtc.enrollmentsystem.model.User;
 import by.epamtc.enrollmentsystem.service.ServiceProvider;
@@ -16,7 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public class SignupCommand implements Command {
-    private static Logger logger = LogManager.getLogger(SignupCommand.class);
+    private static Logger LOGGER = LogManager.getLogger(SignupCommand.class);
     private static final int APPLICANT_ROLE = 3;
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
@@ -34,11 +36,10 @@ public class SignupCommand implements Command {
 
         try {
             service.insertInto(user);
-            response.sendRedirect(request.getContextPath());
         }
-        catch (ServiceException | IOException e){
-            logger.log(Level.ERROR,e.getMessage());
-            //redirector
+        catch (ServiceException e){
+            LOGGER.log(Level.ERROR,e.getMessage());
         }
+        Router.redirect(response, request.getContextPath() + URLHolder.MAIN_PAGE);
     }
 }

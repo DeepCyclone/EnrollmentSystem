@@ -1,4 +1,8 @@
 package by.epamtc.enrollmentsystem.controller.action.impl.commands;
+import by.epamtc.enrollmentsystem.controller.mapping.RequestMapping;
+import by.epamtc.enrollmentsystem.controller.mapping.SessionMapping;
+import by.epamtc.enrollmentsystem.controller.routing.Router;
+import by.epamtc.enrollmentsystem.controller.routing.URLHolder;
 import org.apache.logging.log4j.*;
 
 import by.epamtc.enrollmentsystem.controller.action.Command;
@@ -8,38 +12,37 @@ import by.epamtc.enrollmentsystem.service.ServiceProvider;
 import by.epamtc.enrollmentsystem.service.template.UserService;
 import by.epamtc.enrollmentsystem.service.validator.CredentialsValidator;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.IOException;
 import java.util.Optional;
 
 public class AuthenticationCommand implements Command {
 
-    private static Logger logger = LogManager.getLogger(AuthenticationCommand.class);
+    private static final Logger LOGGER = LogManager.getLogger(AuthenticationCommand.class);
     public void execute(HttpServletRequest request, HttpServletResponse response) {
         try {
-            String login = request.getParameter("login");
-            String password = request.getParameter("password");
+            String login = request.getParameter(RequestMapping.USER_LOGIN);
+            String password = request.getParameter(RequestMapping.USER_PASSWORD);
             HttpSession httpSession = request.getSession(true);
             if (!CredentialsValidator.isCorrectCredentials(login, password)) {
-                request.setAttribute("invalidCredentials", "true");
-                request.getRequestDispatcher("/login").forward(request, response);
+                request.setAttribute(RequestMapping.INVALID_CREDENTIALS, "true");
+                Router.forward(request,response, URLHolder.LOGIN_PAGE);
             }
             else {
-                httpSession.setAttribute("login", login);
+                httpSession.setAttribute(SessionMapping.USER_LOGIN, login);
                 UserService userService = ServiceProvider.getInstance().getUserService();
                 Optional<User> user = userService.getByLogin(login);
                 long id = user.get().getId();
                 long roleId = user.get().getRoleId();
-                httpSession.setAttribute("role", roleId);
-                httpSession.setAttribute("id",id);
-                response.sendRedirect(request.getContextPath());
+                httpSession.setAttribute(SessionMapping.ROLE, roleId);
+                httpSession.setAttribute(SessionMapping.USER_ID,id);
+                Router.redirect(response,request.getContextPath());
             }
         }
-        catch (ServiceException | ServletException | IOException e){
-            logger.log(Level.ERROR,e.getMessage());
+        catch (ServiceException e){
+            LOGGER.log(Level.ERROR,e.getMessage());
+            Router.redirect(response, URLHolder.MAIN_PAGE);
         }
     }
 }

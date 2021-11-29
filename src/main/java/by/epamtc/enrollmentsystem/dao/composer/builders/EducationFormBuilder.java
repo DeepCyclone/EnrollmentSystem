@@ -10,7 +10,6 @@ import java.util.List;
 
 public class EducationFormBuilder extends AbstractComposer<EducationForm> implements EntityBuilder<EducationForm> {
 
-    //архитектура такая, чтобы не передавать 3 параметра
     @Override
     public EducationForm singleObjectBuilder(ResultSet rs) throws SQLException {
        return super.singleObjectBuilder(rs,this);

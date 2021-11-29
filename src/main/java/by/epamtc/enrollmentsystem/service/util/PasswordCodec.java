@@ -3,7 +3,9 @@ package by.epamtc.enrollmentsystem.service.util;
 import org.mindrot.jbcrypt.BCrypt;
 
 import java.nio.charset.StandardCharsets;
-
+/*
+ * An utility that generates and validates encoded password with BCrypt
+ */
 public class PasswordCodec {
 
     private static final int HASHING_ROUNDS = 10;

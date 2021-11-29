@@ -22,6 +22,7 @@ public class ServiceProvider {
     private final SubjectService subjectService = new SubjectServiceImpl();
     private final FacilityService facilityService = new FacilityServiceImpl();
     private final ResultService resultService = new ResultServiceImpl();
+    private final RoleService roleService = new RoleServiceImpl();
 
     private static volatile ServiceProvider instance;
 
@@ -96,5 +97,9 @@ public class ServiceProvider {
 
     public SubjectService getSubjectService() {
         return subjectService;
+    }
+
+    public RoleService getRoleService() {
+        return roleService;
     }
 }

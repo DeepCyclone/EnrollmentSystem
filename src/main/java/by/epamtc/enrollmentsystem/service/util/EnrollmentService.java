@@ -12,6 +12,10 @@ import by.epamtc.enrollmentsystem.model.dto.UserResultByFaculty;
 
 import java.util.*;
 
+
+/*
+ * A core utility, which maintains enroll request
+ */
 public class EnrollmentService {
 
     private static final int BUDGET_EDUCATION_FORM = 1;

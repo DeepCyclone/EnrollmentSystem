@@ -1,5 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix = "est" uri = "greetingTag"%>
 
 <fmt:setLocale value="${sessionScope.locale}" scope="session"/>
 <fmt:setBundle basename="localization.language" var = "bundle"/>
@@ -16,7 +17,11 @@
                     EnrollmentSystem
                 </a>
                 <c:if test="${sessionScope.get('login') != null}">
+                    <est:
                         <fmt:message key="enrollmentsystem.greeting" bundle="${bundle}">
+                            <est:Greeting>
+
+                            </est:Greeting>
                             <fmt:param>${sessionScope.get('login')}</fmt:param>
                         </fmt:message>
                 </c:if>

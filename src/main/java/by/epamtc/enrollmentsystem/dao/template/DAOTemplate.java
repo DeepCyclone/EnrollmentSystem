@@ -4,6 +4,10 @@ import by.epamtc.enrollmentsystem.exception.DAOException;
 
 import java.util.List;
 
+
+/*
+ * An interface providing basic templates of supported methods
+ */
 public interface DAOTemplate<T> {
 
     List<T> getAll() throws DAOException;

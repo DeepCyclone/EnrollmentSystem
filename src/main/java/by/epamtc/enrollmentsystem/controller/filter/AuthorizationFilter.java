@@ -1,7 +1,10 @@
 package by.epamtc.enrollmentsystem.controller.filter;
 
+import by.epamtc.enrollmentsystem.controller.mapping.RequestMapping;
 import by.epamtc.enrollmentsystem.controller.mapping.SessionMapping;
 import by.epamtc.enrollmentsystem.controller.action.CommandType;
+import by.epamtc.enrollmentsystem.controller.routing.Router;
+import by.epamtc.enrollmentsystem.controller.routing.URLHolder;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -9,6 +12,14 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.*;
+
+
+/*
+ * This class contains conformance USER_TYPE to ALLOWED_ACTIONS.
+ * Also has routine to check if this user can do certain action
+ *
+ * @author Flexus
+ */
 
 public class AuthorizationFilter implements Filter {
 
@@ -34,12 +45,15 @@ public class AuthorizationFilter implements Filter {
                                                   CommandType.PRELOAD_WELCOMEPAGE,
                                                   CommandType.PRELOAD_ADMIN_PAGE,
                                                   CommandType.PRELOAD_USER_POPUP,
+                                                  CommandType.UPDATE_ENROLLMENT_STATUS,
+                                                  CommandType.START_ENROLLMENT,
                                                   CommandType.DELETE_USER)));
         allowedActionsForUsers.get(UserType.ADMIN_ROLE).addAll(commonCommands);
 
         allowedActionsForUsers.put(UserType.GUEST,
                 new ArrayList<>(Arrays.asList(CommandType.PRELOAD_WELCOMEPAGE,
-                                                  CommandType.AUTHORIZATION)));
+                                                  CommandType.AUTHORIZATION,
+                                                  CommandType.SIGN_UP)));
         allowedActionsForUsers.get(UserType.GUEST).addAll(commonCommands);
     }
 
@@ -50,7 +64,7 @@ public class AuthorizationFilter implements Filter {
         HttpServletResponse httpServletResponse = (HttpServletResponse) response;
         HttpSession session = httpServletRequest.getSession(false);
 
-        String action = httpServletRequest.getParameter("action");
+        String action = httpServletRequest.getParameter(RequestMapping.ACTION);
         CommandType commandType;
         try {
             commandType = CommandType.valueOf(action.toUpperCase());
@@ -72,8 +86,7 @@ public class AuthorizationFilter implements Filter {
                 return;
             }
         }
-
-        httpServletResponse.sendRedirect(httpServletRequest.getContextPath() + "/");//unauthorized access page
+        Router.redirect(httpServletResponse,httpServletRequest.getContextPath() + URLHolder.MAIN_PAGE);
     }
 
 }

@@ -1,6 +1,9 @@
 package by.epamtc.enrollmentsystem.controller.action.impl.commands;
 
 import by.epamtc.enrollmentsystem.controller.action.Command;
+import by.epamtc.enrollmentsystem.controller.mapping.RequestMapping;
+import by.epamtc.enrollmentsystem.controller.routing.Router;
+import by.epamtc.enrollmentsystem.controller.routing.URLHolder;
 import by.epamtc.enrollmentsystem.exception.ServiceException;
 import by.epamtc.enrollmentsystem.model.ApplicantEnrollment;
 import by.epamtc.enrollmentsystem.model.EducationForm;
@@ -23,14 +26,14 @@ import java.io.IOException;
 import java.util.Optional;
 
 public class EnrollmentStatusUpdateCommand implements Command {
-    private static Logger logger = LogManager.getLogger(EnrollmentStatusUpdateCommand.class);
+    private static final Logger LOGGER = LogManager.getLogger(EnrollmentStatusUpdateCommand.class);
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        System.out.println("request");
-        int userId = Integer.parseInt(request.getParameter("userId"));
-        String facultyName = request.getParameter("faculty");
-        String educationFormName = request.getParameter("educationForm");
-        String enrollmentStatusName = request.getParameter("enrollmentStatus");
+    public void execute(HttpServletRequest request, HttpServletResponse response) {
+
+        int userId = Integer.parseInt(request.getParameter(RequestMapping.UPDATE_USER_ID));
+        String facultyName = request.getParameter(RequestMapping.FACULTY);
+        String educationFormName = request.getParameter(RequestMapping.EDUCATION_FORM);
+        String enrollmentStatusName = request.getParameter(RequestMapping.ENROLLMENT_STATUS);
 
 
         ServiceProvider serviceProvider = ServiceProvider.getInstance();
@@ -43,8 +46,8 @@ public class EnrollmentStatusUpdateCommand implements Command {
         try {
 
             Optional<Faculty> faculty = facultyService.getByName(facultyName);
-            Optional<EducationForm> educationForm = educationFormService.getByName(facultyName);
-            Optional<EnrollmentStatus> enrollmentStatus = enrollmentStatusService.getByName(facultyName);
+            Optional<EducationForm> educationForm = educationFormService.getByName(educationFormName);
+            Optional<EnrollmentStatus> enrollmentStatus = enrollmentStatusService.getByName(enrollmentStatusName);
 
 
             long facultyId = faculty.get().getId();
@@ -59,8 +62,8 @@ public class EnrollmentStatusUpdateCommand implements Command {
             applicantEnrollmentService.updateEnrollmentStatusByUserId(applicantEnrollment);
         }
         catch (ServiceException e){
-            logger.log(Level.ERROR,e.getMessage());
-            //redirect
+            LOGGER.log(Level.ERROR,e.getMessage());
+            Router.redirect(response, URLHolder.MAIN_PAGE);
         }
     }
 }

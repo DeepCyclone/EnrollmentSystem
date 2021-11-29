@@ -10,7 +10,7 @@ import java.util.List;
 
 public class FacilityBuilder extends AbstractComposer<Facility> implements EntityBuilder<Facility> {
 
-    //архитектура такая, чтобы не передавать 3 параметра
+
     @Override
     public Facility singleObjectBuilder(ResultSet rs) throws SQLException {
        return super.singleObjectBuilder(rs,this);

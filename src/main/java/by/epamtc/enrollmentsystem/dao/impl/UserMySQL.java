@@ -19,6 +19,8 @@ public final class UserMySQL extends AbstractDAO<User> implements UserDAO {
     private static final String GET_BY_LOGIN = "SELECT * FROM "+ SchemaMapping.user +
                                               " WHERE " + UserMapping.login  +  " = ?";
     private static final String INSERT_INTO = "INSERT INTO " + SchemaMapping.user +
+                                              "(" + UserMapping.login + "," + UserMapping.password +
+                                                 "," + UserMapping.email + "," + UserMapping.roleId + ")" +
                                              " VALUES (?,?,?,?)";
 
     @Override

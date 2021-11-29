@@ -6,6 +6,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
+/*
+ * This filter loads selected locale from cookie and sets it as session attribute
+ * @author Flexus
+ */
 public class LocalizationFilter implements Filter {
 
     @Override

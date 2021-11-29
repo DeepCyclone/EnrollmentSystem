@@ -2,6 +2,9 @@ package by.epamtc.enrollmentsystem.controller.action.impl.commands;
 
 import by.epamtc.enrollmentsystem.controller.mapping.RequestMapping;
 import by.epamtc.enrollmentsystem.controller.action.Command;
+import by.epamtc.enrollmentsystem.controller.routing.Router;
+import by.epamtc.enrollmentsystem.controller.routing.URLHolder;
+import by.epamtc.enrollmentsystem.exception.ServiceException;
 import by.epamtc.enrollmentsystem.model.Facilitym2mUserInfo;
 import by.epamtc.enrollmentsystem.model.UserInfo;
 import by.epamtc.enrollmentsystem.service.template.FacilityService;
@@ -17,7 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 public class UpdateUserInfoCommand implements Command {
-    private static Logger logger = LogManager.getLogger(UpdateUserInfoCommand.class);
+    private static Logger LOGGER = LogManager.getLogger(UpdateUserInfoCommand.class);
 
     private static String GOLD_MEDAL = "Gold Medal";
     private static String ORPHAN = "Orphan";
@@ -34,7 +37,7 @@ public class UpdateUserInfoCommand implements Command {
         String orphan = request.getParameter(RequestMapping.FACILITY_ORPHAN);
         String goldMedal = request.getParameter(RequestMapping.FACILITY_GOLDMEDAL);
 
-        UserInfo ui = new UserInfo(id,name,surname,patronymic,photo,address,passport);//TODO nulls?
+        UserInfo ui = new UserInfo(id,name,surname,patronymic,photo,address,passport);
 
         try {
             ServiceProvider serviceProvider = ServiceProvider.getInstance();
@@ -61,17 +64,11 @@ public class UpdateUserInfoCommand implements Command {
             facilitym2mUserInfo.setFacilityId(facilityId);
             facilitym2mUserInfo.setUserInfoUserId(id);
             facilitym2mUserInfoService.insertInto(facilitym2mUserInfo);
-
-            response.sendRedirect("documents");
+            Router.redirect(response,URLHolder.DOCUMENTS);
         }
-        catch (Exception e){
-            logger.log(Level.ERROR,e.getMessage());
-            try {
-                response.sendRedirect(request.getContextPath());
-            }
-            catch (Exception ex){
-                logger.log(Level.ERROR,ex.getMessage());
-            }
+        catch (ServiceException e){
+            LOGGER.log(Level.ERROR,e.getMessage());
+            Router.redirect(response, URLHolder.MAIN_PAGE);
         }
     }
 }

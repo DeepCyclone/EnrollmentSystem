@@ -5,6 +5,11 @@ import by.epamtc.enrollmentsystem.controller.action.impl.commands.*;
 import java.util.HashMap;
 import java.util.Map;
 
+/*
+* This class contains an URL actions associated with java commands, that allows to call methods associated with request
+* @author Flexus
+*/
+
 public class CommandProvider {
     private static final Map<CommandType,Command> actions = new HashMap<>();
 
@@ -31,6 +36,9 @@ public class CommandProvider {
 
     private static volatile CommandProvider instance;
 
+    /*
+     * Double-checked singleton pattern provides an effective way to create single objects with thread-safety
+     */
     public static CommandProvider getInstance() {
         CommandProvider localInstance = instance;
         if (localInstance == null) {

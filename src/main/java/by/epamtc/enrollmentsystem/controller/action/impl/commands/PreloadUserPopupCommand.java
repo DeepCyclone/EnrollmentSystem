@@ -2,6 +2,9 @@ package by.epamtc.enrollmentsystem.controller.action.impl.commands;
 
 
 import by.epamtc.enrollmentsystem.controller.action.Command;
+import by.epamtc.enrollmentsystem.controller.mapping.RequestMapping;
+import by.epamtc.enrollmentsystem.controller.routing.Router;
+import by.epamtc.enrollmentsystem.controller.routing.URLHolder;
 import by.epamtc.enrollmentsystem.exception.ServiceException;
 import by.epamtc.enrollmentsystem.model.User;
 import by.epamtc.enrollmentsystem.model.dto.MarkValue;
@@ -25,19 +28,20 @@ import java.util.List;
 import java.util.Optional;
 
 public class PreloadUserPopupCommand implements Command {
-    private static Logger logger = LogManager.getLogger(PreloadUserPopupCommand.class);
+    private static Logger LOGGER = LogManager.getLogger(PreloadUserPopupCommand.class);
     public void execute(HttpServletRequest request, HttpServletResponse response) {
         try {
             ServiceProvider provider = ServiceProvider.getInstance();
-            long userID = Long.parseLong(request.getParameter("userID"));
+            long userID = Long.parseLong(request.getParameter(RequestMapping.SELECTED_USER_ID));
             List<MarkValue> marksValues = provider.getResultService().retrieveResultByUserId(userID);
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
             String json = gson.toJson(marksValues);
-//            response.setContentType("application/json; charset=UTF-8");
+            response.setContentType("text/json;charset=UTF-8");
             response.getWriter().write(json);
         }
         catch (ServiceException | IOException e){
-            logger.log(Level.ERROR,e.getMessage());
+            LOGGER.log(Level.ERROR,e.getMessage());
+            Router.redirect(response, URLHolder.MAIN_PAGE);
         }
     }
 }

@@ -12,6 +12,11 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
+/*
+ * A generic class created to reduce duplicating code and create a unified way to build entities
+ * @author Flexus
+ */
+
 public class QueryExecutor<T> {
 
     protected List<T> executeSelectQuery(String query, EntityBuilder<T> builder ,Object... params) throws DAOException {

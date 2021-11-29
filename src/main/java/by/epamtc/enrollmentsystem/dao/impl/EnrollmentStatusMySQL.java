@@ -58,6 +58,6 @@ public final class EnrollmentStatusMySQL extends AbstractDAO<EnrollmentStatus> i
 
     @Override
     public Optional<EnrollmentStatus> getByName(String name) throws DAOException {
-        return Optional.empty();
+        return super.getByName(tableName,EnrollmentStatusMapping.name,name,new EnrollmentStatusBuilder());
     }
 }

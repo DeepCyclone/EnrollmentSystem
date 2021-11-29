@@ -3,9 +3,10 @@
 <taglib>
     <tlib-version>1.0</tlib-version>
     <short-name>est</short-name>
+    <uri>greetingTag</uri>
 
     <tag>
-        <name>Hello</name>
+        <name>Greeting</name>
         <tag-class>by.epamtc.enrollmentsystem.tag.EnrollmentTag</tag-class>
         <body-content>empty</body-content>
     </tag>

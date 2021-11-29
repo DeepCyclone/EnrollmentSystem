@@ -3,6 +3,11 @@ package by.epamtc.enrollmentsystem.dao;
 import by.epamtc.enrollmentsystem.controller.action.CommandProvider;
 import by.epamtc.enrollmentsystem.dao.impl.*;
 
+/*
+ * This class is a provider of different data sources
+ * Also singleton pattern was applied to this class
+ */
+
 public final class DAOProvider {
     private final EducationFormMySQL educationFormMySQL = new EducationFormMySQL();
     private final EnrollmentStatusMySQL enrollmentStatusMySQL = new EnrollmentStatusMySQL();

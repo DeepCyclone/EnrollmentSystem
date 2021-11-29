@@ -12,6 +12,12 @@ import java.sql.*;
 import java.util.List;
 import java.util.Optional;
 
+/*
+ * Basic and auxiliary class at the same time.
+ * Provides a full implementation of methods, contains queries
+ * A class that extends this class may don't worry about nuances of queries when any method called
+ */
+
 public abstract class AbstractDAO<T> extends QueryExecutor<T> implements DAOTemplate<T> {
 
     private static final String SELECT_ALL = "SELECT * FROM ";
@@ -69,7 +75,7 @@ public abstract class AbstractDAO<T> extends QueryExecutor<T> implements DAOTemp
             throw new DAOException(e.getMessage(),e);
         }
         finally {
-            if(conn != null) {//TODO не оч
+            if(conn != null) {
                 ConnectionPool.getInstance().closeConnection(conn, stmt, rs);
             }
         }

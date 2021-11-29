@@ -1,6 +1,8 @@
 package by.epamtc.enrollmentsystem.controller.action.impl.commands;
 
 import by.epamtc.enrollmentsystem.controller.action.Command;
+import by.epamtc.enrollmentsystem.controller.routing.Router;
+import by.epamtc.enrollmentsystem.controller.routing.URLHolder;
 import by.epamtc.enrollmentsystem.dao.DAOProvider;
 import by.epamtc.enrollmentsystem.exception.ServiceException;
 import by.epamtc.enrollmentsystem.service.ServiceProvider;
@@ -18,21 +20,22 @@ import java.util.List;
 import java.util.Map;
 
 public class PreloadFacultiesPageCommand implements Command {
-    private static Logger logger = LogManager.getLogger(PreloadFacultiesPageCommand.class);
+    private static final Logger LOGGER = LogManager.getLogger(PreloadFacultiesPageCommand.class);
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        response.setContentType("text/plain; charset=UTF-8");
+    public void execute(HttpServletRequest request, HttpServletResponse response) {
         ServiceProvider serviceProvider = ServiceProvider.getInstance();
         Map<String, List<String>> facSub = null;
         Subjectm2mFacultyService service = serviceProvider.getSubjectm2mFacultyService();
         try {
             facSub = service.getFacultiesCorrespondingToSubjects();
+            Gson gson = new Gson();
+            String json = gson.toJson(facSub);
+            response.setContentType("text/json;charset=UTF-8");
+            response.getWriter().write(json);
         }
-        catch (ServiceException exception){
-            logger.log(Level.ERROR,exception.getMessage());
+        catch (ServiceException | IOException exception){
+            LOGGER.log(Level.ERROR,exception.getMessage());
+            Router.redirect(response, URLHolder.MAIN_PAGE);
         }
-        Gson gson = new Gson();
-        String json = gson.toJson(facSub);
-        response.getWriter().write(json);
     }
 }

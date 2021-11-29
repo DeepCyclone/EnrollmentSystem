@@ -10,7 +10,7 @@ import java.util.List;
 
 public class SystemInformationBuilder extends AbstractComposer<SystemInformation> implements EntityBuilder<SystemInformation> {
 
-    //архитектура такая, чтобы не передавать 3 параметра
+
     @Override
     public SystemInformation singleObjectBuilder(ResultSet rs) throws SQLException {
        return super.singleObjectBuilder(rs,this);

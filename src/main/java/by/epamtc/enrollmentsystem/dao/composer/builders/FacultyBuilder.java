@@ -9,7 +9,7 @@ import java.util.List;
 
 public class FacultyBuilder extends AbstractComposer<Faculty> implements EntityBuilder<Faculty> {
 
-    //архитектура такая, чтобы не передавать 3 параметра
+
     @Override
     public Faculty singleObjectBuilder(ResultSet rs) throws SQLException {
        return super.singleObjectBuilder(rs,this);

@@ -7,6 +7,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/*
+    A basic interface to implement Command pattern
+    @see Command
+ */
+
 public interface Command {
     void execute(HttpServletRequest request, HttpServletResponse response);
 }
