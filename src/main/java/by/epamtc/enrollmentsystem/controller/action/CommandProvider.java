@@ -1,6 +1,6 @@
 package by.epamtc.enrollmentsystem.controller.action;
 
-import by.epamtc.enrollmentsystem.controller.action.impl.commands.*;
+import by.epamtc.enrollmentsystem.controller.action.impl.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -25,6 +25,8 @@ public class CommandProvider {
         actions.put(CommandType.PRELOAD_FACULTIES_PAGE,new PreloadFacultiesPageCommand());
         actions.put(CommandType.PRELOAD_ADMIN_PAGE,new PreloadAdminPanelCommand());
         actions.put(CommandType.PRELOAD_SELECTED_FACULTIES,new PreloadSelectedFacultiesCommand());
+        actions.put(CommandType.PRELOAD_FACULTIES,new PreloadFacultiesCommand());
+        actions.put(CommandType.PRELOAD_ABOUTUS_PAGE,new AboutUsPreloaderCommand());
         actions.put(CommandType.PRELOAD_FACILITIES_TAB,new PreloadFacilitiesTabCommand());
         actions.put(CommandType.CHANGE_LANGUAGE,new LanguageChangerCommand());
         actions.put(CommandType.UPDATE_ENROLLMENT_STATUS,new EnrollmentStatusUpdateCommand());
@@ -62,5 +64,9 @@ public class CommandProvider {
             command = actions.get(CommandType.EMPTY);
         }
         return command;
+    }
+
+    public void addCommand(CommandType type,Command command){
+        actions.put(type,command);
     }
 }

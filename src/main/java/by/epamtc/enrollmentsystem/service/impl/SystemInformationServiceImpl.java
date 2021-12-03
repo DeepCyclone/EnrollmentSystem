@@ -8,6 +8,7 @@ import by.epamtc.enrollmentsystem.model.SystemInformation;
 import by.epamtc.enrollmentsystem.service.template.SystemInformationService;
 
 import java.util.Optional;
+import java.util.concurrent.locks.Lock;
 
 public class SystemInformationServiceImpl implements SystemInformationService {
     @Override

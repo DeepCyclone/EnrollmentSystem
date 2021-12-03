@@ -4,11 +4,9 @@ package by.epamtc.enrollmentsystem.service;
 import by.epamtc.enrollmentsystem.service.impl.*;
 import by.epamtc.enrollmentsystem.service.template.*;
 import by.epamtc.enrollmentsystem.service.util.EnrollmentService;
-import by.epamtc.enrollmentsystem.service.util.StudyingInfoUpdater;
 
 public class ServiceProvider {
 
-    private final StudyingInfoUpdater studyingInfoUpdater = new StudyingInfoUpdater();
     private final UserService userService = new UserServiceImpl();
     private final Facilitym2mUserInfoService facilitym2mUserInfoService = new Facilitym2mUserInfoServiceImpl();
     private final Subjectm2mFacultyService subjectm2mFacultyService = new Subjectm2mFacultyServiceImpl();
@@ -42,10 +40,6 @@ public class ServiceProvider {
         return localInstance;
     }
 
-
-    public StudyingInfoUpdater getStudyingInfoUpdater() {
-        return studyingInfoUpdater;
-    }
 
     public UserService getUserService() {
         return userService;

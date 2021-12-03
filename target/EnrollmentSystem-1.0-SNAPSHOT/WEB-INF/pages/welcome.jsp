@@ -23,7 +23,6 @@
 </head>
 <body>
 <jsp:include page="/WEB-INF/pages/header.jsp"/>
-<c:out value="${requestScope.get('description')}"/>
 <div class = "enrollmenttable">
     <table class = "table table-bordered border-primary">
         <caption style="caption-side: top">
@@ -33,7 +32,6 @@
             <th><fmt:message key="enrollmentsystem.facultyColumn" bundle="${bundle}"/>
             <th><fmt:message key="enrollmentsystem.budgPlaces" bundle="${bundle}"/>
             <th><fmt:message key="enrollmentsystem.payablePlaces" bundle="${bundle}"/>
-            <th><fmt:message key="enrollmentsystem.facultyDescription" bundle="${bundle}"/>
             <th><fmt:message key="enrollmentsystem.totalRequestsBudg" bundle="${bundle}"/>
             <th><fmt:message key="enrollmentsystem.totalRequestsPaid" bundle="${bundle}"/>
         </tr>
@@ -42,7 +40,6 @@
                 <td>${faculty.name}</td>
                 <td>${faculty.budgetAdmissionPlan}</td>
                 <td>${faculty.paidAdmissionPlan}</td>
-                <td>${faculty.description}</td>
                 <td>${requestScope.get("totalRequestsBudg").get(faculty.name)}</td>
                 <td>${requestScope.get("totalRequestsPaid").get(faculty.name)}</td>
                 <tr></tr>

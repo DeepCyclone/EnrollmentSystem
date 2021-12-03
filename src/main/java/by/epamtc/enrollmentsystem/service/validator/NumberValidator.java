@@ -1,14 +1,14 @@
 package by.epamtc.enrollmentsystem.service.validator;
 
+import org.apache.commons.lang3.StringUtils;
+
+import java.util.regex.Pattern;
+
 public class NumberValidator {
+    public static final Pattern PATTERN = Pattern.compile("^\\d+$");
+
     public static boolean isInteger(String number){
-        boolean isNumber = true;
-        for(int i = 0;i<number.length();++i){
-            isNumber = Character.isDigit(number.charAt(i));
-            if(!isNumber){
-                break;
-            }
-        }
-        return isNumber;
+
+        return number != null && PATTERN.matcher(number).matches();
     }
 }

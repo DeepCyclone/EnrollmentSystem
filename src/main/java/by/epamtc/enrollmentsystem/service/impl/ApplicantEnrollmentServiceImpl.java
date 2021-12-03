@@ -50,7 +50,7 @@ public class ApplicantEnrollmentServiceImpl implements ApplicantEnrollmentServic
             dao.updateEducationForm(userId,facultyId,educationFormId);
         }
         catch (DAOException exception){
-            throw new ServiceException(exception.getMessage(),exception);
+            throw new ServiceException(exception);//TODO only throwable
         }
     }
 
@@ -120,8 +120,7 @@ public class ApplicantEnrollmentServiceImpl implements ApplicantEnrollmentServic
     public int getUserRequestsAmount(long facultyID,long educationFormID) throws ServiceException{
         try {
             ApplicantEnrollmentDAO dao = DAOProvider.getInstance().getApplicantEnrollmentDAO();
-            int requests = dao.getUserRequestsAmount(facultyID,educationFormID);
-            return requests;
+            return dao.getUserRequestsAmount(facultyID,educationFormID);
         }
         catch (DAOException exception){
             throw new ServiceException(exception.getMessage(),exception);

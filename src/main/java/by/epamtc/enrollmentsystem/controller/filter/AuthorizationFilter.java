@@ -28,6 +28,8 @@ public class AuthorizationFilter implements Filter {
     @Override
     public void init(FilterConfig filterConfig){
         List<CommandType> commonCommands = Arrays.asList(CommandType.PRELOAD_WELCOMEPAGE,
+                                                         CommandType.PRELOAD_FACULTIES,
+                                                         CommandType.PRELOAD_ABOUTUS_PAGE,
                                                          CommandType.CHANGE_LANGUAGE);
 
         allowedActionsForUsers.put(UserType.APPLICANT_ROLE,
@@ -41,7 +43,7 @@ public class AuthorizationFilter implements Filter {
         allowedActionsForUsers.get(UserType.APPLICANT_ROLE).addAll(commonCommands);
 
         allowedActionsForUsers.put(UserType.ADMIN_ROLE,
-                new ArrayList<>(Arrays.asList(CommandType.LOGOUT,
+                                    new ArrayList<>(Arrays.asList(CommandType.LOGOUT,
                                                   CommandType.PRELOAD_WELCOMEPAGE,
                                                   CommandType.PRELOAD_ADMIN_PAGE,
                                                   CommandType.PRELOAD_USER_POPUP,
@@ -51,7 +53,7 @@ public class AuthorizationFilter implements Filter {
         allowedActionsForUsers.get(UserType.ADMIN_ROLE).addAll(commonCommands);
 
         allowedActionsForUsers.put(UserType.GUEST,
-                new ArrayList<>(Arrays.asList(CommandType.PRELOAD_WELCOMEPAGE,
+                                    new ArrayList<>(Arrays.asList(CommandType.PRELOAD_WELCOMEPAGE,
                                                   CommandType.AUTHORIZATION,
                                                   CommandType.SIGN_UP)));
         allowedActionsForUsers.get(UserType.GUEST).addAll(commonCommands);

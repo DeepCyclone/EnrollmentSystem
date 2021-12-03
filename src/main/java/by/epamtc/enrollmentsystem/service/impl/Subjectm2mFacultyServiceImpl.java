@@ -13,7 +13,7 @@ public class Subjectm2mFacultyServiceImpl implements Subjectm2mFacultyService {
     @Override
     public Map<String, List<String>> getFacultiesCorrespondingToSubjects() throws ServiceException {
         try {
-            Subjectm2mFacultyDAO dao = DAOProvider.getInstance().getSubjectm2mFacultyMySQL();
+            Subjectm2mFacultyDAO dao = DAOProvider.getInstance().getSubjectm2mFacultyDAO();
             return dao.getFacultiesCorrespondingToSubjects();
         }
         catch (DAOException exception){

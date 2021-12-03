@@ -17,7 +17,7 @@ public class Facilitym2mUserInfoServiceImpl implements Facilitym2mUserInfoServic
     public List<String> getUserFacilitiesNames(long userId) throws ServiceException {
         try {
             DAOProvider daoProvider = DAOProvider.getInstance();
-            Facilitym2mUserInfoDAO facilitym2mUserInfoDAO = daoProvider.getFacilitym2mUserInfoMySQL();
+            Facilitym2mUserInfoDAO facilitym2mUserInfoDAO = daoProvider.getFacilitym2mUserInfoMyDAO();
             FacilityDAO facilityDAO = daoProvider.getFacilityDAO();
             List<Facilitym2mUserInfo> userFacilities = facilitym2mUserInfoDAO.getByUserId(userId);
             List<String> userFacilitiesNames = new ArrayList<>();
@@ -35,7 +35,7 @@ public class Facilitym2mUserInfoServiceImpl implements Facilitym2mUserInfoServic
     @Override
     public int insertInto(Facilitym2mUserInfo data) throws ServiceException {
         try{
-            Facilitym2mUserInfoDAO dao = DAOProvider.getInstance().getFacilitym2mUserInfoMySQL();
+            Facilitym2mUserInfoDAO dao = DAOProvider.getInstance().getFacilitym2mUserInfoMyDAO();
             dao.insertInto(data);
         }
         catch (DAOException exception){

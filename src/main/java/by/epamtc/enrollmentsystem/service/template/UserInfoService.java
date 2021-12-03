@@ -6,7 +6,7 @@ import by.epamtc.enrollmentsystem.model.UserInfo;
 import java.util.Optional;
 
 public interface UserInfoService extends Identifiable<UserInfo>{
-    boolean hasNoteWithId(int id) throws ServiceException;
+    boolean hasNoteWithId(long id) throws ServiceException;
 
     void updateRowByID(UserInfo ui) throws ServiceException;
 

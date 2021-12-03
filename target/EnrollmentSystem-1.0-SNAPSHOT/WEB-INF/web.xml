@@ -66,6 +66,24 @@
         <servlet-name>welcomePage</servlet-name>
         <url-pattern>/welcome</url-pattern>
     </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>facultiesPage</servlet-name>
+        <jsp-file>/WEB-INF/pages/faculties.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>facultiesPage</servlet-name>
+        <url-pattern>/faculties</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>aboutUsPage</servlet-name>
+        <jsp-file>/WEB-INF/pages/aboutUs.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>aboutUsPage</servlet-name>
+        <url-pattern>/aboutUs</url-pattern>
+    </servlet-mapping>
 
     <filter>
         <filter-name>Authentication</filter-name>
@@ -114,8 +132,6 @@
     <listener>
         <listener-class>by.epamtc.enrollmentsystem.controller.listener.ControllerListener</listener-class>
     </listener>
-
-
 
     <error-page>
         <error-code>404</error-code>

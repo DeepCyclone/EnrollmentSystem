@@ -11,7 +11,7 @@ import java.util.Optional;
 
 public class UserInfoServiceImpl implements UserInfoService {
     @Override
-    public boolean hasNoteWithId(int id) throws ServiceException {
+    public boolean hasNoteWithId(long id) throws ServiceException {
         try {
             UserInfoDAO dao = DAOProvider.getInstance().getUserInfoDAO();
             return dao.getByID(id).isPresent();

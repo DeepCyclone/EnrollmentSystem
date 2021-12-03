@@ -6,6 +6,10 @@ import by.epamtc.enrollmentsystem.dao.impl.ApplicantEnrollmentMySQL;
 import by.epamtc.enrollmentsystem.dao.impl.EducationFormMySQL;
 import by.epamtc.enrollmentsystem.dao.impl.FacultyMySQL;
 import by.epamtc.enrollmentsystem.dao.impl.ResultMySQL;
+import by.epamtc.enrollmentsystem.dao.template.ApplicantEnrollmentDAO;
+import by.epamtc.enrollmentsystem.dao.template.EducationFormDAO;
+import by.epamtc.enrollmentsystem.dao.template.FacultyDAO;
+import by.epamtc.enrollmentsystem.dao.template.ResultDAO;
 import by.epamtc.enrollmentsystem.exception.DAOException;
 import by.epamtc.enrollmentsystem.exception.ServiceException;
 import by.epamtc.enrollmentsystem.model.ApplicantEnrollment;
@@ -56,7 +60,7 @@ public class MarksAndFacultiesUpdater {
 
     private static void updateDatabaseMarks(List<Result> marks,long userID) throws DAOException {
         DAOProvider daoProvider = DAOProvider.getInstance();
-        ResultMySQL resultMySQL = daoProvider.getResultDAO();
+        ResultDAO resultMySQL = daoProvider.getResultDAO();
         resultMySQL.deleteByUserID(userID);
         for(Result res:marks){
             resultMySQL.insertInto(res);
@@ -65,9 +69,9 @@ public class MarksAndFacultiesUpdater {
 
     private static void updateDatabaseFacultiesEducationForms(Map<String,List<String>> facultiesEducationForms,long userId) throws DAOException {
         DAOProvider daoProvider = DAOProvider.getInstance();
-        FacultyMySQL facultyMySQL = daoProvider.getFacultyDAO();
-        EducationFormMySQL educationFormMySQL = daoProvider.getEducationFormDAO();
-        ApplicantEnrollmentMySQL applicantEnrollmentMySQL = daoProvider.getApplicantEnrollmentDAO();
+        FacultyDAO facultyMySQL = daoProvider.getFacultyDAO();
+        EducationFormDAO educationFormMySQL = daoProvider.getEducationFormDAO();
+        ApplicantEnrollmentDAO applicantEnrollmentMySQL = daoProvider.getApplicantEnrollmentDAO();
         applicantEnrollmentMySQL.deleteFacultiesByUserId(userId);
         for(Map.Entry<String,List<String>> entry:facultiesEducationForms.entrySet()){
             if(entry.getValue() != null) {

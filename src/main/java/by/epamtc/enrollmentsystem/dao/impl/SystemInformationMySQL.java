@@ -1,5 +1,6 @@
 package by.epamtc.enrollmentsystem.dao.impl;
 
+import by.epamtc.enrollmentsystem.dao.composer.builders.SystemInformationBuilder;
 import by.epamtc.enrollmentsystem.dao.mapping.SchemaMapping;
 import by.epamtc.enrollmentsystem.dao.template.SystemInformationDAO;
 import by.epamtc.enrollmentsystem.exception.DAOException;
@@ -57,6 +58,6 @@ public final class SystemInformationMySQL extends AbstractDAO<SystemInformation>
 
     @Override
     public Optional<SystemInformation> getByName(String name) throws DAOException {
-        return Optional.empty();
+        return super.getByName(SchemaMapping.system_information,SystemInformationMapping.name,name,new SystemInformationBuilder());
     }
 }

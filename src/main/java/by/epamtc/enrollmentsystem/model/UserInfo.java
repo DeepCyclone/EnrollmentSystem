@@ -17,7 +17,7 @@ public class UserInfo implements Serializable {
     public UserInfo() {
     }
 
-    public UserInfo(int id,String name, String surname, String patronymic, String photoPath, String address, String passport) {
+    public UserInfo(long id,String name, String surname, String patronymic, String photoPath, String address, String passport) {
         this.id = id;
         this.name = name;
         this.surname = surname;

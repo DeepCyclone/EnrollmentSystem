@@ -143,7 +143,7 @@ public final class ApplicantEnrollmentMySQL extends AbstractDAO<ApplicantEnrollm
     }
 
     @Override
-    public Optional<ApplicantEnrollment> getByFacultyAndUserIds(long userId, long facultyId) throws DAOException {//TODO скорее всего это бизнес логика - перенести. В бизнес-логике просто чекнуть IsPresent
+    public Optional<ApplicantEnrollment> getByFacultyAndUserIds(long userId, long facultyId) throws DAOException {
         return executeSingleResultQuery(GET_BY_FACULTY_AND_USER_ID,new ApplicantEnrollmentBuilder(),userId,facultyId);
     }
 

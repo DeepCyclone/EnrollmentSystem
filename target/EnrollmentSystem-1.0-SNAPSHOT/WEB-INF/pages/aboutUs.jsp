@@ -1,4 +1,5 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <fmt:setLocale value="${sessionScope.locale}" scope="session"/>
@@ -11,24 +12,7 @@
 </head>
 <body>
 <jsp:include page="/WEB-INF/pages/header.jsp"/>
-<form action="controller" method="post">
-    <label for="login">
-        <fmt:message key="enrollmentsystem.loginField" bundle="${bundle}"/>
-    </label>
-    <input id="login" name= "login" type="text"/>
-    <label for="e-mail">
-        <fmt:message key="enrollmentsystem.emailField" bundle="${bundle}"/>
-    </label>
-    <input id="e-mail" name= "email" type="email"/>
-    <label for="passwd">
-        <fmt:message key="enrollmentsystem.passwordField" bundle="${bundle}"/>
-    </label>
-    <input id="passwd" name= "password" type="password"/>
-    <input name= "action" value="sign_up" type="hidden">
-
-    <input type="submit">
-    <fmt:message key="enrollmentsystem.submittingButton" bundle="${bundle}"/>
-</form>
+    <c:out value="${requestScope.get('aboutUsMsg1')}"/>
 <jsp:include page="/WEB-INF/pages/footer.jsp"/>
 </body>
 </html>
