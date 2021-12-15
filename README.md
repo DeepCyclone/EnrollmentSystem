@@ -19,4 +19,4 @@ MVC-based web-app created with Java and some JS insertions
   - 
 
 ## Database schema
-  ![Schema](/database/schema.png)
+  ![Schema](/database/base.png)
