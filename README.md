@@ -2,7 +2,7 @@
 
 ## Purposes
 - Provide a comfortable way to be enrolled without any routine with documents
-- Make enrollment process as much simple as it could be
+- Make enrollment process as simple as possible
 
 ## Logic
   Appicant enter results then a system automatically generated a list of available subject.
