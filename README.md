@@ -9,11 +9,6 @@
   Actor select education form and priority of available faculties and saves data.
   Then administrator should approve this requests and run the system.
 
-## App structure
-
-MVC-based web-app created with Java.
-Also added JS logic to render some pages dynamically and do some client-based fields validity check
-
 ## Available roles
 
 - Admin
