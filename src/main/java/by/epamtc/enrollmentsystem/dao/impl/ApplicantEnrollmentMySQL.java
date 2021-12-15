@@ -125,18 +125,17 @@ public final class ApplicantEnrollmentMySQL extends AbstractDAO<ApplicantEnrollm
             stmt.setLong(1,userId);
             rs = stmt.executeQuery();
             StringifiedApplicantEnrollment enrollment = new StringifiedApplicantEnrollment();
-            Map<String,Map<String,Integer>> info = null;
+            Map<String,String> formsStatuses = new HashMap<>();
             while (rs.next()){
                 String facultyName = rs.getString(FacultyMapping.name);
-                if(enrollment == null || !enrollment.getFacultyName().equals(facultyName)) {
+                if(!Objects.equals(enrollment.getFacultyName(),facultyName)){
                     enrollment = new StringifiedApplicantEnrollment();
                     enrollment.setFacultyName(facultyName);
-                    info = new HashMap<>();
-                    enrollment.setFacultyInfo(info);
+                    formsStatuses = new HashMap<>();
+                    enrollment.setEducationFormStatuses(formsStatuses);
                     elements.add(enrollment);
                 }
-                enrollment.getFacultyInfo().put(rs.getString(EducationFormMapping.name),
-                                                        rs.getString(EnrollmentStatusMapping.name));
+                enrollment.getEducationFormStatuses().put(rs.getString(EducationFormMapping.name), rs.getString(EnrollmentStatusMapping.name));
             }
         }
         catch (SQLException | PoolException exception){

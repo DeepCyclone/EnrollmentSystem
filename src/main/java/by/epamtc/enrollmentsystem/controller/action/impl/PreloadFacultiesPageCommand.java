@@ -31,7 +31,7 @@ public class PreloadFacultiesPageCommand implements Command {
             response.setContentType("text/json;charset=UTF-8");
             response.getWriter().write(json);
         }
-        catch (ServiceException | IOException exce0ption){
+        catch (ServiceException | IOException exception){
             LOGGER.log(Level.ERROR,exception.getMessage());
             Router.redirect(response, URLHolder.MAIN_PAGE);
         }

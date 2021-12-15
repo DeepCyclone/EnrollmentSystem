@@ -8,17 +8,15 @@ import java.util.Map;
 public class StringifiedApplicantEnrollment {
 
     private String facultyName;
-    private Map<String,Integer> educationFormPriorityMap;
-    private Map<String,String> educationStatusesMap;
+    private Map<String,String> educationFormStatuses;
 
     public StringifiedApplicantEnrollment() {
     }
 
-    public StringifiedApplicantEnrollment(String facultyName,Map<String,Map<String,Integer>> facultyInfo) {
+    public StringifiedApplicantEnrollment(String facultyName, Map<String, String> educationFormStatuses) {
         this.facultyName = facultyName;
-        this.facultyInfo = facultyInfo;
+        this.educationFormStatuses = educationFormStatuses;
     }
-
 
     public String getFacultyName() {
         return facultyName;
@@ -28,11 +26,11 @@ public class StringifiedApplicantEnrollment {
         this.facultyName = facultyName;
     }
 
-    public Map<String,Map<String,Integer>> getFacultyInfo() {
-        return facultyInfo;
+    public Map<String, String> getEducationFormStatuses() {
+        return educationFormStatuses;
     }
 
-    public void setFacultyInfo(Map<String,Map<String,Integer>> facultyInfo) {
-        this.facultyInfo = facultyInfo;
+    public void setEducationFormStatuses(Map<String, String> educationFormStatuses) {
+        this.educationFormStatuses = educationFormStatuses;
     }
 }
