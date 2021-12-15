@@ -1,0 +1,4 @@
+INSERT INTO enrollmentsystem.user_info (ui_u_id, ui_name, ui_surname, ui_patronymic, ui_photo, ui_address, ui_passport) VALUES (14, null, null, null, null, null, null);
+INSERT INTO enrollmentsystem.user_info (ui_u_id, ui_name, ui_surname, ui_patronymic, ui_photo, ui_address, ui_passport) VALUES (17, 'Петро', 'Петрович', 'Петров', null, 'Hokkaido pref.', 'AXY2');
+INSERT INTO enrollmentsystem.user_info (ui_u_id, ui_name, ui_surname, ui_patronymic, ui_photo, ui_address, ui_passport) VALUES (23, null, null, null, null, null, null);
+INSERT INTO enrollmentsystem.user_info (ui_u_id, ui_name, ui_surname, ui_patronymic, ui_photo, ui_address, ui_passport) VALUES (18, null, null, null, null, null, null);
