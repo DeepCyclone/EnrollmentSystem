@@ -5,18 +5,28 @@
 - Make enrollment process as much simple as it could be
 
 ## Logic
+  Appicant enter results then a system automatically generated a list of available subject.
+  Actor select education form and priority of available faculties and saves data.
+  Then administrator should approve this requests and run the system.
 
 ## App structure
 
-MVC-based web-app created with Java and some JS insertions
+MVC-based web-app created with Java.
+Also added JS logic to render some pages dynamically and do some client-based fields validity check
 
 ## Available roles
 
-- ADMIN
-  - 
+- Admin
+  - Change applicant statuses
+  - Delete accounts
+  - View results
+  - Run an enrollment system
 
-- APPLICANT
-  - 
+- Applicant
+  - Select faculties corresponding to enterred results
+  - Select education forms and priorites of faculties
+  - Obtain an information about statuses of enrollment on each faculty
+
 
 ## Database schema
   ![Schema](/database/base.png)
