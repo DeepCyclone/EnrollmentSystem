@@ -8,7 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-public class Facilitym2mUserInfoBuilder extends AbstractComposer<Facilitym2mUserInfo> implements EntityBuilder<Facilitym2mUserInfo> {
+public final class Facilitym2mUserInfoBuilder extends AbstractComposer<Facilitym2mUserInfo> implements EntityBuilder<Facilitym2mUserInfo> {
 
 
     @Override

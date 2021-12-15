@@ -61,9 +61,7 @@ public class EnrollmentStatusUpdateCommand implements Command {
                 applicantEnrollment.setUserId(userId);
                 applicantEnrollmentService.updateEnrollmentStatusByUserId(applicantEnrollment);
             }
-            else{
-                Router.redirect(response,URLHolder.ADMIN_PAGE_PRELOADER);
-            }
+            Router.redirect(response,request.getContextPath() + URLHolder.ADMIN_PAGE_PRELOADER);
         }
         catch (ServiceException e){
             LOGGER.log(Level.ERROR,e.getMessage());

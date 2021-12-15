@@ -30,6 +30,7 @@ public class AuthorizationFilter implements Filter {
         List<CommandType> commonCommands = Arrays.asList(CommandType.PRELOAD_WELCOMEPAGE,
                                                          CommandType.PRELOAD_FACULTIES,
                                                          CommandType.PRELOAD_ABOUTUS_PAGE,
+                                                         CommandType.EMPTY,
                                                          CommandType.CHANGE_LANGUAGE);
 
         allowedActionsForUsers.put(UserType.APPLICANT_ROLE,
@@ -54,7 +55,7 @@ public class AuthorizationFilter implements Filter {
 
         allowedActionsForUsers.put(UserType.GUEST,
                                     new ArrayList<>(Arrays.asList(CommandType.PRELOAD_WELCOMEPAGE,
-                                                  CommandType.AUTHORIZATION,
+                                                  CommandType.AUTHENTICATION,
                                                   CommandType.SIGN_UP)));
         allowedActionsForUsers.get(UserType.GUEST).addAll(commonCommands);
     }
@@ -74,19 +75,25 @@ public class AuthorizationFilter implements Filter {
         catch (IllegalArgumentException exception) {
             commandType = CommandType.EMPTY;
         }
-        Object role = session.getAttribute(SessionMapping.ROLE);
 
-        long roleID = UserType.GUEST;
+        if(session!=null) {
+            Object role = session.getAttribute(SessionMapping.ROLE);
 
-        if(role != null){
-            roleID = (long) role;
-        }
+            long roleID = UserType.GUEST;
 
-        if(allowedActionsForUsers.containsKey(roleID)){
-            if(allowedActionsForUsers.get(roleID).contains(commandType)){
-                chain.doFilter(request,response);
-                return;
+            if (role != null) {
+                roleID = (long) role;
             }
+
+            if (allowedActionsForUsers.containsKey(roleID)) {
+                if (allowedActionsForUsers.get(roleID).contains(commandType)) {
+                    chain.doFilter(request, response);
+                    return;
+                }
+            }
+        }
+        else {
+            chain.doFilter(request,response);
         }
         Router.redirect(httpServletResponse,httpServletRequest.getContextPath() + URLHolder.MAIN_PAGE);
     }

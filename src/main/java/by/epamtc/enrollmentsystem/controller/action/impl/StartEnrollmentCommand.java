@@ -7,7 +7,7 @@ import by.epamtc.enrollmentsystem.controller.routing.URLHolder;
 import by.epamtc.enrollmentsystem.exception.ServiceException;
 import by.epamtc.enrollmentsystem.controller.filter.UserType;
 import by.epamtc.enrollmentsystem.service.ServiceProvider;
-import by.epamtc.enrollmentsystem.service.util.EnrollmentService;
+import by.epamtc.enrollmentsystem.service.impl.EnrollmentService;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -30,7 +30,7 @@ public class StartEnrollmentCommand implements Command {
         ServiceProvider provider = ServiceProvider.getInstance();
         EnrollmentService service = provider.getEnrollmentService();
         service.makeEnrollment();
-        response.sendRedirect(request.getContextPath() + URLHolder.ADMIN_PAGE_PRELOADER);
+        Router.redirect(response,request.getContextPath() + URLHolder.ADMIN_PAGE_PRELOADER);
         }
         catch (ServiceException | IOException exception){
             LOGGER.log(Level.ERROR,exception.getMessage());

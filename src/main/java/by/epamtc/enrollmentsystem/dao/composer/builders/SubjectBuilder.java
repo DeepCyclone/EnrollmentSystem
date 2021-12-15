@@ -8,7 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-public class SubjectBuilder extends AbstractComposer<Subject> implements EntityBuilder<Subject> {
+public final class SubjectBuilder extends AbstractComposer<Subject> implements EntityBuilder<Subject> {
 
     @Override
     public Subject singleObjectBuilder(ResultSet rs) throws SQLException {

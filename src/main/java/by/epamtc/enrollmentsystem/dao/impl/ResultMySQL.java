@@ -1,6 +1,9 @@
 package by.epamtc.enrollmentsystem.dao.impl;
 
+import by.epamtc.enrollmentsystem.dao.QueryExecutor;
+import by.epamtc.enrollmentsystem.dao.composer.builders.MarkValueBuilder;
 import by.epamtc.enrollmentsystem.dao.composer.builders.ResultBuilder;
+import by.epamtc.enrollmentsystem.dao.composer.builders.UserResultByFacultyBuilder;
 import by.epamtc.enrollmentsystem.dao.connectionpool.ConnectionPool;
 import by.epamtc.enrollmentsystem.dao.connectionpool.PoolException;
 import by.epamtc.enrollmentsystem.dao.mapping.SchemaMapping;
@@ -24,6 +27,12 @@ import java.util.List;
 import java.util.Optional;
 
 public final class ResultMySQL extends AbstractDAO<Result> implements ResultDAO {
+
+    private static final String TABLE_NAME = SchemaMapping.result;
+
+    public ResultMySQL(QueryExecutor<Result> executor) {
+        super(executor);
+    }
 
     private static final String GET_APPLICANT_MARKS = "SELECT s_id,s_name,r_value FROM result LEFT JOIN (SELECT s_id,s_name FROM subject) as result ON result.r_s_id = s_id WHERE r_ui_u_id = ?";
     private static final String UPDATE_USER_RESULT = "UPDATE "+ SchemaMapping.result +
@@ -63,7 +72,7 @@ public final class ResultMySQL extends AbstractDAO<Result> implements ResultDAO 
 
     @Override
     public void insertInto(Result object) throws DAOException {
-        executeInsertQuery(INSERT_INTO,object.getSubjectId(),object.getUserInfoUserId(),object.getResultValue());
+        executor.executeInsertQuery(INSERT_INTO,object.getSubjectId(),object.getUserInfoUserId(),object.getResultValue());
     }
 
     @Override
@@ -92,38 +101,14 @@ public final class ResultMySQL extends AbstractDAO<Result> implements ResultDAO 
     }
 
     @Override
-    public List<MarkValue> retrieveResultsByUserId(long userID) throws DAOException {//TODO это куда-то перенести
-        Connection conn = null;
-        PreparedStatement stmt = null;
-        ResultSet rs = null;
-        List<MarkValue> mv = null;
-        try{
-            conn = ConnectionPool.getInstance().getConnection();
-            stmt = conn.prepareStatement(GET_APPLICANT_MARKS);
-            stmt.setLong(1,userID);
-            rs = stmt.executeQuery();
-            mv = new ArrayList<>();
-            while(rs.next()) {
-                int subjectId = rs.getInt(SubjectMapping.id);
-                String subjectName = rs.getString(SubjectMapping.name);
-                int resultValue = rs.getInt(ResultMapping.resultValue);
-                mv.add(new MarkValue(subjectId,subjectName,resultValue));
-            }
-        }
-        catch (SQLException | PoolException exception){
-            throw new DAOException(exception.getMessage(),exception);
-        }
-        finally {
-            if(conn !=null){
-                ConnectionPool.getInstance().closeConnection(conn,stmt,rs);
-            }
-        }
-        return mv;
+    public List<MarkValue> retrieveResultsByUserId(long userID) throws DAOException {
+        QueryExecutor<MarkValue> executorLocal = new QueryExecutor<MarkValue>(new MarkValueBuilder());
+        return executorLocal.executeSelectQuery(GET_APPLICANT_MARKS,userID);
     }
 
     @Override
     public void updateUserResult(Result res) throws DAOException {
-        executeUpdateQuery(UPDATE_USER_RESULT,res.getResultValue(),res.getUserInfoUserId(),res.getSubjectId());
+        executor.executeUpdateQuery(UPDATE_USER_RESULT,res.getResultValue(),res.getUserInfoUserId(),res.getSubjectId());
     }
 
     @Override
@@ -155,37 +140,13 @@ public final class ResultMySQL extends AbstractDAO<Result> implements ResultDAO 
 
     @Override
     public List<UserResultByFaculty> getUserResultByFacultyAndEduForm(long educationFormId) throws DAOException {
-        Connection conn = null;
-        PreparedStatement stmt = null;
-        ResultSet rs = null;
-        List<UserResultByFaculty> userResults = new LinkedList<>();
-        try{
-            conn = ConnectionPool.getInstance().getConnection();
-            stmt = conn.prepareStatement(GET_TOTAL_USER_RESULTS_BY_FACULTY_AND_EDUCATION_FORM);
-            stmt.setLong(1,educationFormId);
-            rs = stmt.executeQuery();
-            while(rs.next()) {
-                UserResultByFaculty result = new UserResultByFaculty();
-                result.setUserId(rs.getInt(ApplicantEnrollmentMapping.userId));
-                result.setFacultyId(rs.getInt(ApplicantEnrollmentMapping.facultyId));
-                result.setResult(rs.getInt(3));//TODO отметить сумму в запросе через AS
-                userResults.add(result);
-            }
-        }
-        catch (SQLException | PoolException exception){
-            throw new DAOException(exception.getMessage(),exception);
-        }
-        finally {
-            if(conn !=null){
-                ConnectionPool.getInstance().closeConnection(conn,stmt);
-            }
-        }
-        return userResults;
+        QueryExecutor<UserResultByFaculty> executorLocal = new QueryExecutor<UserResultByFaculty>(new UserResultByFacultyBuilder());
+        return executorLocal.executeSelectQuery(GET_TOTAL_USER_RESULTS_BY_FACULTY_AND_EDUCATION_FORM,educationFormId);
     }
 
     @Override
     public int getResultValueBySubjectName(String subjectName,long userId) throws DAOException {
-        Optional<Result> result = executeSingleResultQuery(GET_RESULT_BY_USER_ID_AND_SUBJECT_NAME, new ResultBuilder(), subjectName,userId);//TODO return
+        Optional<Result> result = executor.executeSingleResultQuery(GET_RESULT_BY_USER_ID_AND_SUBJECT_NAME, subjectName,userId);
         int resValue = 0;
         if(result.isPresent()){
             resValue = result.get().getResultValue();
@@ -195,7 +156,7 @@ public final class ResultMySQL extends AbstractDAO<Result> implements ResultDAO 
 
     @Override
     public void deleteByUserID(long userID) throws DAOException {
-        executeUpdateQuery(DELETE_BY_USER_ID,userID);
+        executor.executeUpdateQuery(DELETE_BY_USER_ID,userID);
     }
 
     @Override

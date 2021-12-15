@@ -9,8 +9,9 @@
 
 <nav>
     <div class="nav nav-tabs" id="nav-tab" role="tablist">
-        <button class="nav-link active" id="nav-personal-tab" data-bs-toggle="tab" data-bs-target="#nav-personal" type="button" role="tab" aria-controls="nav-personal" aria-selected="true">Personal data</button>
-        <button class="nav-link" id="nav-faculties-tab" data-bs-toggle="tab" data-bs-target="#nav-faculties" type="button" role="tab" aria-controls="nav-faculties" aria-selected="false">Faculties</button>
+        <button class="nav-link active" id="nav-personal-tab" data-bs-toggle="tab" data-bs-target="#nav-personal" type="button" role="tab" aria-controls="nav-personal" aria-selected="true"><fmt:message key="enrollmentsystem.personalData" bundle="${bundle}"/></button>
+        <button class="nav-link" id="nav-faculties-tab" data-bs-toggle="tab" data-bs-target="#nav-faculties" type="button" role="tab" aria-controls="nav-faculties" aria-selected="false"><fmt:message key="enrollmentsystem.faculties" bundle="${bundle}"/></button>
+        <button class="nav-link" id="nav-results-tab" data-bs-toggle="tab" data-bs-target="#nav-results" type="button" role="tab" aria-controls="nav-results" aria-selected="false"><fmt:message key="enrollmentsystem.results" bundle="${bundle}"/></button>
     </div>
 </nav>
 
@@ -66,42 +67,42 @@
 
                 <div>
                     <label for = "schoolCertificate"><fmt:message key="enrollmentsystem.schoolCertificate" bundle="${bundle}"/></label>
-                    <input class = "mark-cell" type="text" oninput="{marksSelectorListener(this)}" value="${requestScope.get('schoolCertificate')}" name="mark:schoolCertificate" id = "schoolCertificate" max= "10" min = "4">
+                    <input class = "mark-cell" type="text" oninput="{marksSelectorListener(this)}" value="${requestScope.get('schoolCertificate')}" name="mark:schoolCertificate" id = "schoolCertificate" max= "10" min = "4" size="1">
                 </div>
 
                 <div>
                     <label for = "Biology"><fmt:message key="enrollmentsystem.biologyMark" bundle="${bundle}"/></label>
-                    <input class = "mark-cell" type="text" oninput="{marksSelectorListener(this)}" value="${requestScope.get('biologyMark')}" name="mark:Biology" id = "Biology" max= "100" min = "7">
+                    <input class = "mark-cell" type="text" oninput="{marksSelectorListener(this)}" value="${requestScope.get('biologyMark')}" name="mark:Biology" id = "Biology" size="1">
                 </div>
 
                 <div>
                 <label for = "English"><fmt:message key="enrollmentsystem.englishMark" bundle="${bundle}"/></label>
-                <input class = "mark-cell" type="text" oninput="{marksSelectorListener(this)}" value="${requestScope.get('englishMark')}" name="mark:English" id = "English" max= "100" min = "7">
+                <input class = "mark-cell" type="text" oninput="{marksSelectorListener(this)}" value="${requestScope.get('englishMark')}" name="mark:English" id = "English" size="1">
                 </div>
 
                 <div>
                 <label for = "Geography"><fmt:message key="enrollmentsystem.geographyMark" bundle="${bundle}"/></label>
-                <input class = "mark-cell" type="text" oninput="{marksSelectorListener(this)}" value="${requestScope.get('geographyMark')}" name="mark:Geography" id = "Geography" max= "100" min = "7">
+                <input class = "mark-cell" type="text" oninput="{marksSelectorListener(this)}" value="${requestScope.get('geographyMark')}" name="mark:Geography" id = "Geography" size="1">
                 </div>
 
                 <div>
                 <label for = "Mathematics"><fmt:message key="enrollmentsystem.mathematicsMark" bundle="${bundle}"/></label>
-                <input class = "mark-cell" type="text" oninput="{marksSelectorListener(this)}" value="${requestScope.get('mathematicsMark')}" name="mark:Mathematics" id = "Mathematics" max= "100" min = "7">
+                <input class = "mark-cell" type="text" oninput="{marksSelectorListener(this)}" value="${requestScope.get('mathematicsMark')}" name="mark:Mathematics" id = "Mathematics" size="1">
                 </div>
 
                 <div>
                 <label for = "Russian"><fmt:message key="enrollmentsystem.russianMark" bundle="${bundle}"/></label>
-                <input class = "mark-cell" type="text" oninput="{marksSelectorListener(this)}" value="${requestScope.get('russianMark')}" name="mark:Russian" id = "Russian" max= "100" min = "7">
+                <input class = "mark-cell" type="text" oninput="{marksSelectorListener(this)}" value="${requestScope.get('russianMark')}" name="mark:Russian" id = "Russian" size="1">
                 </div>
 
                 <div>
                 <label for = "Physics"><fmt:message key="enrollmentsystem.physicsMark" bundle="${bundle}"/></label>
-                <input class = "mark-cell" type="text" oninput="{marksSelectorListener(this)}" value="${requestScope.get('physicsMark')}" name="mark:Physics" id = "Physics" max= "100" min = "7">
+                <input class = "mark-cell" type="text" oninput="{marksSelectorListener(this)}" value="${requestScope.get('physicsMark')}" name="mark:Physics" id = "Physics" size="1">
                 </div>
 
                 <div>
                 <label for = "Chemistry"><fmt:message key="enrollmentsystem.chemistryMark" bundle="${bundle}"/></label>
-                <input class = "mark-cell" type="text" oninput="{marksSelectorListener(this)}" value="${requestScope.get('chemistryMark')}" name="mark:Chemistry" id = "Chemistry" max= "100" min = "7">
+                <input class = "mark-cell" type="text" oninput="{marksSelectorListener(this)}" value="${requestScope.get('chemistryMark')}" name="mark:Chemistry" id = "Chemistry" size="1">
                 </div>
 
 
@@ -112,9 +113,17 @@
             <input type="submit" value="<fmt:message key="enrollmentsystem.submittingButton" bundle="${bundle}"/>"/>
         </form>
     </div>
+    <div class="tab-pane fade" id="nav-results" role="tabpanel" aria-labelledby="nav-results-tab" onclick="preloadFacultiesWithStatuses()">
+        <table id = "enrollment-statuses">
+            <tbody>
+            <tr>
+                <th><fmt:message key="enrollmentsystem.facultyWithForm" bundle="${bundle}"/>"/></th>
+                <th><fmt:message key="enrollmentsystem.status" bundle="${bundle}"/>"/></th>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
-
-<c:out value="Статус: ${requestScope.get('enrollmentStatus')}"/>
 
 
 

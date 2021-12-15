@@ -36,7 +36,7 @@
     </label>
     <input type = "password" name = "password" id = "password" minlength="4" maxlength="10">
     <br>
-    <input type="hidden" name="action" value="authorization">
+    <input type="hidden" name="action" value="authentication">
     <input type="submit" value="Log in">
 </form>
     <c:if test="${requestScope.get('invalidCredentials') eq 'true'}">

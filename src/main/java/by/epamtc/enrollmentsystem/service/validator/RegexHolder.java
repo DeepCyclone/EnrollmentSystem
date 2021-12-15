@@ -8,4 +8,5 @@ public final class RegexHolder {
     public static final String EMAIL_REGEX = "([\\w.-]+)@([a-zA-Z]+)([\\.])([a-zA-Z]{2,6})";
     public static final String TESTING_MARK_REGEX = "^$|[7-9]|[1-9][\\d]|100";
     public static final String CERTIFICATE_MARK_REGEX = "^$|[4-9]|10";
+    public static final String PRIORITY_REGEX = "\\d+";
 }

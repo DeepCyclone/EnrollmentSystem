@@ -38,17 +38,26 @@ public class PreloadUserInfoCommand implements Command {
             else {
                 userInfo = ui.get();
             }
-            request.setAttribute(RequestMapping.USER_INFO,userInfo);
-            request.setAttribute(RequestMapping.BIOLOGY_MARK,resultService.getResultValueBySubjectName("Biology",id));
-            request.setAttribute(RequestMapping.CHEMISTRY_MARK,resultService.getResultValueBySubjectName("Chemistry",id));
-            request.setAttribute(RequestMapping.MATHEMATICS_MARK,resultService.getResultValueBySubjectName("Mathematics",id));
-            request.setAttribute(RequestMapping.PHYSICS_MARK,resultService.getResultValueBySubjectName("Physics",id));
-            request.setAttribute(RequestMapping.ENGLISH_MARK,resultService.getResultValueBySubjectName("English",id));
-            request.setAttribute(RequestMapping.RUSSIAN_MARK,resultService.getResultValueBySubjectName("Russian",id));
-            request.setAttribute(RequestMapping.GEOGRAPHY_MARK,resultService.getResultValueBySubjectName("Geography",id));
-            request.setAttribute(RequestMapping.SCHOOL_CERTIFICATE,resultService.getResultValueBySubjectName("schoolCertificate",id));
+            request.setAttribute(RequestMapping.USER_INFO,
+                    userInfo);
+            request.setAttribute(RequestMapping.BIOLOGY_MARK,
+                    resultService.getResultValueBySubjectName("Biology",id));
+            request.setAttribute(RequestMapping.CHEMISTRY_MARK,
+                    resultService.getResultValueBySubjectName("Chemistry",id));
+            request.setAttribute(RequestMapping.MATHEMATICS_MARK,
+                    resultService.getResultValueBySubjectName("Mathematics",id));
+            request.setAttribute(RequestMapping.PHYSICS_MARK,
+                    resultService.getResultValueBySubjectName("Physics",id));
+            request.setAttribute(RequestMapping.ENGLISH_MARK,
+                    resultService.getResultValueBySubjectName("English",id));
+            request.setAttribute(RequestMapping.RUSSIAN_MARK,
+                    resultService.getResultValueBySubjectName("Russian",id));
+            request.setAttribute(RequestMapping.GEOGRAPHY_MARK,
+                    resultService.getResultValueBySubjectName("Geography",id));
+            request.setAttribute(RequestMapping.SCHOOL_CERTIFICATE,
+                    resultService.getResultValueBySubjectName("schoolCertificate",id));
 
-            Router.forward(request,response,URLHolder.DOCUMENTS);
+            Router.forwardWithSavingURL(request,response,URLHolder.DOCUMENTS);
         }
         catch (ServiceException e){
             LOGGER.log(Level.ERROR,e.getMessage());

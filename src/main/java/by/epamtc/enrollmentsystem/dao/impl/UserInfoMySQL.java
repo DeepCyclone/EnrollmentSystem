@@ -1,5 +1,6 @@
 package by.epamtc.enrollmentsystem.dao.impl;
 
+import by.epamtc.enrollmentsystem.dao.QueryExecutor;
 import by.epamtc.enrollmentsystem.dao.mapping.fields.UserInfoMapping;
 import by.epamtc.enrollmentsystem.dao.mapping.SchemaMapping;
 import by.epamtc.enrollmentsystem.dao.template.UserInfoDAO;
@@ -12,7 +13,13 @@ import java.util.List;
 import java.util.Optional;
 
 public final class UserInfoMySQL extends AbstractDAO<UserInfo> implements UserInfoDAO {
-    private static final String tableName = SchemaMapping.user_info;
+
+    public UserInfoMySQL(QueryExecutor<UserInfo> executor) {
+        super(executor);
+    }
+
+
+    private static final String TABLE_NAME = SchemaMapping.user_info;
 
     private static final String INSERT_INTO = "INSERT INTO " + SchemaMapping.user_info +
                                              " VALUES (?,?,?,?,?,?,?)";
@@ -28,18 +35,18 @@ public final class UserInfoMySQL extends AbstractDAO<UserInfo> implements UserIn
 
     @Override
     public List<UserInfo> getAll() throws DAOException {
-        return super.getAll(tableName,new UserInfoBuilder());
+        return super.getAll(TABLE_NAME);
     }
 
     @Override
     public Optional<UserInfo> getByID(long id) throws DAOException {
         String idFieldName = UserInfoMapping.userId;
-        return super.getByID(tableName,idFieldName,id,new UserInfoBuilder());
+        return super.getByID(TABLE_NAME,idFieldName,id);
     }
 
     @Override
     public void insertInto(UserInfo object) throws DAOException {
-        executeInsertQuery(INSERT_INTO,object.getId(),object.getName(),
+        executor.executeInsertQuery(INSERT_INTO,object.getId(),object.getName(),
                         object.getSurname(),object.getPatronymic(),object.getPhotoPath(),
                         object.getAddress(),object.getPassport());
     }
@@ -61,7 +68,7 @@ public final class UserInfoMySQL extends AbstractDAO<UserInfo> implements UserIn
 
     @Override
     public void updateRowByID(UserInfo note) throws DAOException {
-        executeUpdateQuery(UPDATE_NOTE,note.getName(),note.getSurname(),note.getPatronymic(),
+        executor.executeUpdateQuery(UPDATE_NOTE,note.getName(),note.getSurname(),note.getPatronymic(),
                         note.getPhotoPath(),note.getAddress(),note.getPassport(),note.getId());
     }
 
@@ -72,6 +79,6 @@ public final class UserInfoMySQL extends AbstractDAO<UserInfo> implements UserIn
 
     @Override
     public Optional<UserInfo> getByUserName(String userName) throws DAOException {
-        return executeSingleResultQuery(GET_BY_USERNAME,new UserInfoBuilder(),userName);
+        return executor.executeSingleResultQuery(GET_BY_USERNAME,userName);
     }
 }

@@ -1,5 +1,6 @@
 package by.epamtc.enrollmentsystem.dao.impl;
 
+import by.epamtc.enrollmentsystem.dao.QueryExecutor;
 import by.epamtc.enrollmentsystem.dao.composer.builders.SystemInformationBuilder;
 import by.epamtc.enrollmentsystem.dao.mapping.SchemaMapping;
 import by.epamtc.enrollmentsystem.dao.template.SystemInformationDAO;
@@ -12,6 +13,13 @@ import java.util.List;
 import java.util.Optional;
 
 public final class SystemInformationMySQL extends AbstractDAO<SystemInformation> implements SystemInformationDAO {
+
+    public SystemInformationMySQL(QueryExecutor<SystemInformation> executor) {
+        super(executor);
+    }
+
+
+    private static final String TABLE_NAME = SchemaMapping.system_information;
     private static final String GET_BY_NAME = "SELECT * FROM " + SchemaMapping.system_information +
                                               " WHERE " + SystemInformationMapping.name +  "= ?";
 
@@ -58,6 +66,6 @@ public final class SystemInformationMySQL extends AbstractDAO<SystemInformation>
 
     @Override
     public Optional<SystemInformation> getByName(String name) throws DAOException {
-        return super.getByName(SchemaMapping.system_information,SystemInformationMapping.name,name,new SystemInformationBuilder());
+        return super.getByName(TABLE_NAME,SystemInformationMapping.name,name);
     }
 }

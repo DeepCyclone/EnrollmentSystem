@@ -21,6 +21,7 @@ function changeUserStatus(userId,faculty,educationForm,status){
         $.post('controller', {action:"UPDATE_ENROLLMENT_STATUS",userId:userId,faculty:faculty,educationForm:educationForm,enrollmentStatus:status},function (){
                 console.log("success");
         });
+        window.location.reload();
 }
 
 function preloadUserPopup(userID) {

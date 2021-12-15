@@ -1,5 +1,8 @@
 package by.epamtc.enrollmentsystem.dao.impl;
 
+import by.epamtc.enrollmentsystem.dao.QueryExecutor;
+import by.epamtc.enrollmentsystem.dao.composer.builders.EntityBuilder;
+import by.epamtc.enrollmentsystem.dao.composer.builders.IntegerBuilder;
 import by.epamtc.enrollmentsystem.dao.connectionpool.ConnectionPool;
 import by.epamtc.enrollmentsystem.dao.connectionpool.PoolException;
 import by.epamtc.enrollmentsystem.dao.mapping.SchemaMapping;
@@ -21,10 +24,14 @@ import java.util.*;
 
 public final class ApplicantEnrollmentMySQL extends AbstractDAO<ApplicantEnrollment> implements ApplicantEnrollmentDAO {
 
-    private static final String tableName = SchemaMapping.applicant_enrollment;
+    public ApplicantEnrollmentMySQL(QueryExecutor<ApplicantEnrollment> executor){
+        super(executor);
+    }
+
+    private static final String TABLE_NAME = SchemaMapping.applicant_enrollment;
 
     private static final String INSERT_INTO = "INSERT INTO " + SchemaMapping.applicant_enrollment +
-                                              " VALUES (?,?,?,?)";
+                                              " VALUES (?,?,?,?,?)";
 
     private static final String UPDATE_EDUCATION_FORM = "UPDATE " + SchemaMapping.applicant_enrollment +
                                                         " SET " + ApplicantEnrollmentMapping.educationFormId + " = ?" +
@@ -47,7 +54,7 @@ public final class ApplicantEnrollmentMySQL extends AbstractDAO<ApplicantEnrollm
                                                         " AND " + ApplicantEnrollmentMapping.facultyId + " = ?" +
                                                         " AND " + ApplicantEnrollmentMapping.educationFormId + " = ?";
 
-    private static final String GET_STRINGIFIED_USER_RESULT = "SELECT f_name,e_form_name,es_name FROM applicant_enrollment " +
+    private static final String GET_STRINGIFIED_USER_RESULT = "SELECT f_name,e_form_name,es_name,ae_priority FROM applicant_enrollment " +
                                                              " JOIN education_form ef on ef.e_form_id = applicant_enrollment.ae_ef_id" +
                                                              " JOIN enrollment_status es on es.es_id = applicant_enrollment.ae_es_id" +
                                                              " JOIN faculty f on applicant_enrollment.ae_f_id = f.f_id" +
@@ -61,13 +68,13 @@ public final class ApplicantEnrollmentMySQL extends AbstractDAO<ApplicantEnrollm
 
     @Override
     public List<ApplicantEnrollment> getAll() throws DAOException {
-        return super.getAll(tableName,new ApplicantEnrollmentBuilder());
+        return super.getAll(TABLE_NAME);
     }
 
     @Override
     public void insertInto(ApplicantEnrollment object) throws DAOException {
-        executeInsertQuery(INSERT_INTO,object.getUserId(),object.getFacultyId(),
-                        object.getEducationFormId(),object.getEnrollmentStatusId());
+        executor.executeInsertQuery(INSERT_INTO,object.getUserId(),object.getFacultyId(),
+                        object.getEducationFormId(),object.getEnrollmentStatusId(),object.getPriority());
     }
 
     @Override
@@ -82,27 +89,27 @@ public final class ApplicantEnrollmentMySQL extends AbstractDAO<ApplicantEnrollm
 
     @Override
     public List<ApplicantEnrollment> getEntitiesRange(int from, int offset) throws DAOException {
-        return super.getEntitiesRange(tableName,from,offset,new ApplicantEnrollmentBuilder());
+        return super.getEntitiesRange(TABLE_NAME,from,offset);
     }
 
     @Override
     public void updateEducationForm(long userId, long facultyId,long educationFormId) throws DAOException {
-        executeUpdateQuery(UPDATE_EDUCATION_FORM,educationFormId,userId,facultyId);
+        executor.executeUpdateQuery(UPDATE_EDUCATION_FORM,educationFormId,userId,facultyId);
     }
 
     @Override
     public void deleteFacultiesByUserId(long userId) throws DAOException {
-        executeUpdateQuery(DELETE_FACULTIES_BY_USER_ID,userId);
+        executor.executeUpdateQuery(DELETE_FACULTIES_BY_USER_ID,userId);
     }
 
     @Override
     public List<ApplicantEnrollment> getByUserId(long userId) throws DAOException {
-        return executeSelectQuery(GET_TABLE_INFO_BY_USER_ID,new ApplicantEnrollmentBuilder(),userId);
+        return executor.executeSelectQuery(GET_TABLE_INFO_BY_USER_ID,userId);
     }
 
     @Override
     public void updateEnrollmentStatusByUserId(ApplicantEnrollment note) throws DAOException {
-        executeUpdateQuery(UPDATE_ENROLLMENT_STATUS,note.getEnrollmentStatusId(),note.getUserId(),
+       executor.executeUpdateQuery(UPDATE_ENROLLMENT_STATUS,note.getEnrollmentStatusId(),note.getUserId(),
                 note.getFacultyId(),note.getEducationFormId());
     }
 
@@ -118,17 +125,18 @@ public final class ApplicantEnrollmentMySQL extends AbstractDAO<ApplicantEnrollm
             stmt.setLong(1,userId);
             rs = stmt.executeQuery();
             StringifiedApplicantEnrollment enrollment = new StringifiedApplicantEnrollment();
-            Map<String,String> formsStatuses = new HashMap<>();
+            Map<String,Map<String,Integer>> info = null;
             while (rs.next()){
                 String facultyName = rs.getString(FacultyMapping.name);
-                if(!Objects.equals(enrollment.getFacultyName(),facultyName)){
+                if(enrollment == null || !enrollment.getFacultyName().equals(facultyName)) {
                     enrollment = new StringifiedApplicantEnrollment();
                     enrollment.setFacultyName(facultyName);
-                    formsStatuses = new HashMap<>();
-                    enrollment.setEducationFormStatuses(formsStatuses);
+                    info = new HashMap<>();
+                    enrollment.setFacultyInfo(info);
                     elements.add(enrollment);
                 }
-                enrollment.getEducationFormStatuses().put(rs.getString(EducationFormMapping.name), rs.getString(EnrollmentStatusMapping.name));
+                enrollment.getFacultyInfo().put(rs.getString(EducationFormMapping.name),
+                                                        rs.getString(EnrollmentStatusMapping.name));
             }
         }
         catch (SQLException | PoolException exception){
@@ -144,32 +152,17 @@ public final class ApplicantEnrollmentMySQL extends AbstractDAO<ApplicantEnrollm
 
     @Override
     public Optional<ApplicantEnrollment> getByFacultyAndUserIds(long userId, long facultyId) throws DAOException {
-        return executeSingleResultQuery(GET_BY_FACULTY_AND_USER_ID,new ApplicantEnrollmentBuilder(),userId,facultyId);
+        return executor.executeSingleResultQuery(GET_BY_FACULTY_AND_USER_ID,userId,facultyId);
     }
 
     @Override
     public int getUserRequestsAmount(long facultyID,long educationFormID) throws DAOException{
-        Connection conn = null;
-        PreparedStatement stmt = null;
-        ResultSet rs = null;
-        int requests = 0;
-        try{
-            conn = ConnectionPool.getInstance().getConnection();
-            stmt = conn.prepareStatement(GET_USER_REQUESTS_AMOUNT);
-            stmt.setLong(1,educationFormID);
-            stmt.setLong(2,facultyID);
-            rs = stmt.executeQuery();
-            rs.next();
-            requests = rs.getInt(1);
-
-        } catch (SQLException | PoolException exception) {
-
+        QueryExecutor<Integer> executorLocal = new QueryExecutor<>(new IntegerBuilder());
+        Optional<Integer> result = executorLocal.executeSingleResultQuery(GET_USER_REQUESTS_AMOUNT,educationFormID,facultyID);
+        int res = 0;
+        if(result.isPresent()){
+            res = result.get();
         }
-        finally {
-            if(conn!=null){
-                ConnectionPool.getInstance().closeConnection(conn,stmt,rs);
-            }
-        }
-        return requests;
+        return res;
     }
 }

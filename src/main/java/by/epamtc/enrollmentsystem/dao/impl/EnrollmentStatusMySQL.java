@@ -1,5 +1,6 @@
 package by.epamtc.enrollmentsystem.dao.impl;
 
+import by.epamtc.enrollmentsystem.dao.QueryExecutor;
 import by.epamtc.enrollmentsystem.dao.mapping.SchemaMapping;
 import by.epamtc.enrollmentsystem.dao.mapping.fields.EnrollmentStatusMapping;
 import by.epamtc.enrollmentsystem.dao.template.EnrollmentStatusDAO;
@@ -13,17 +14,21 @@ import java.util.Optional;
 
 public final class EnrollmentStatusMySQL extends AbstractDAO<EnrollmentStatus> implements EnrollmentStatusDAO {
 
-    private static final String tableName = SchemaMapping.enrollment_status;
+    public EnrollmentStatusMySQL(QueryExecutor<EnrollmentStatus> executor) {
+        super(executor);
+    }
+
+    private static final String TABLE_NAME = SchemaMapping.enrollment_status;
 
     @Override
     public List<EnrollmentStatus> getAll() throws DAOException {
-        return super.getAll(tableName,new EnrollmentStatusBuilder());
+        return super.getAll(TABLE_NAME);
     }
 
     @Override
     public Optional<EnrollmentStatus> getByID(long id) throws DAOException {
         String idField = EnrollmentStatusMapping.id;
-        return super.getByID(tableName,idField,id,new EnrollmentStatusBuilder());
+        return super.getByID(TABLE_NAME,idField,id);
     }
 
     @Override
@@ -58,6 +63,6 @@ public final class EnrollmentStatusMySQL extends AbstractDAO<EnrollmentStatus> i
 
     @Override
     public Optional<EnrollmentStatus> getByName(String name) throws DAOException {
-        return super.getByName(tableName,EnrollmentStatusMapping.name,name,new EnrollmentStatusBuilder());
+        return super.getByName(TABLE_NAME,EnrollmentStatusMapping.name,name);
     }
 }

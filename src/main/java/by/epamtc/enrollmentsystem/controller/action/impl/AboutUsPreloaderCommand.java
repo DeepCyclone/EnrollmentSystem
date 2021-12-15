@@ -24,7 +24,7 @@ public class AboutUsPreloaderCommand implements Command {
             SystemInformationService service = ServiceProvider.getInstance().getSystemInformationService();
             Optional<SystemInformation> information = service.getByName(RequestMapping.ABOUT_US_MSG1);
             information.ifPresent(systemInformation -> request.setAttribute(RequestMapping.ABOUT_US_MSG1, systemInformation.getValue()));
-            Router.forward(request,response,URLHolder.ABOUT_US);
+            Router.forwardWithSavingURL(request,response,URLHolder.ABOUT_US);
         }
         catch (ServiceException e){
             LOGGER.log(Level.ERROR,e.getMessage());

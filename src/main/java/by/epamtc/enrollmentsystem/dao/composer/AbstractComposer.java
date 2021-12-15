@@ -7,9 +7,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class AbstractComposer<T> implements ClassesComposer<T> {
+public abstract class AbstractComposer<T> {
 
-    @Override
     public T singleObjectBuilder(ResultSet rs, EntityBuilder<T> builder) throws SQLException {
         T entity = null;
         while (rs.next()) {
@@ -18,7 +17,6 @@ public abstract class AbstractComposer<T> implements ClassesComposer<T> {
         return entity;
     }
 
-    @Override
     public List<T> buildObjectsList(ResultSet rs,EntityBuilder<T> builder) throws SQLException {
         List<T> entities = new ArrayList<>();
         while (rs.next()){

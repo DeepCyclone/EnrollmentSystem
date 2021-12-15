@@ -26,7 +26,7 @@ public class SignupCommand implements Command {
 
         UserService service = ServiceProvider.getInstance().getUserService();
         if(!service.isValidData(username,email,password)){
-            return;
+            Router.redirect(response, request.getContextPath() + URLHolder.MAIN_PAGE);
         }
 
         byte[] encodedPassword = PasswordCodec.generateEncodedPassword(password);

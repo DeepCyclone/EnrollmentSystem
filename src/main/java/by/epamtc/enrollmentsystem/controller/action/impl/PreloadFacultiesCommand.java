@@ -30,7 +30,7 @@ public class PreloadFacultiesCommand implements Command {
             FacultyService service = ServiceProvider.getInstance().getFacultyService();
             List<Faculty> faculties = service.getAll();
             request.setAttribute(RequestMapping.FACULTIES_LIST,faculties);
-            Router.forward(request,response,URLHolder.FACULTIES);
+            Router.forwardWithSavingURL(request,response,URLHolder.FACULTIES);
         }
         catch (ServiceException e){
             LOGGER.log(Level.ERROR,e.getMessage());

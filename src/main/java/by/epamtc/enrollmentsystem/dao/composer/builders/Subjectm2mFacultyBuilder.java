@@ -7,7 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-public class Subjectm2mFacultyBuilder extends AbstractComposer<Subjectm2mFaculty> implements EntityBuilder<Subjectm2mFaculty> {
+public final class Subjectm2mFacultyBuilder extends AbstractComposer<Subjectm2mFaculty> implements EntityBuilder<Subjectm2mFaculty> {
 
 
     @Override

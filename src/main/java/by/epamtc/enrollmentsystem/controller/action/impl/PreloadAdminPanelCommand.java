@@ -36,12 +36,12 @@ public class PreloadAdminPanelCommand implements Command {
             String currentPage = request.getParameter(RequestMapping.PAGE);
             int totalPages = (usersNumber / RECORDS_PER_PAGE) + 1;//всего кнопок
             // задание параметров выборки из БД
-            int usersRangeStart = DEFAULT_PAGE;
+            int usersRangeStart = 0;
             int usersRangeEnd;
             int pageNum = DEFAULT_PAGE;
             int records = RECORDS_PER_PAGE;
-            if (currentPage != null && NumberValidator.isInteger(currentPage)) {
-                pageNum = Integer.parseInt(currentPage);//TODO а если параметр не int
+            if (NumberValidator.isInteger(currentPage)) {
+                pageNum = Integer.parseInt(currentPage);
                 if(pageNum > totalPages){
                     pageNum = totalPages;
                 }
@@ -70,7 +70,7 @@ public class PreloadAdminPanelCommand implements Command {
 
             request.setAttribute(RequestMapping.USERS, userStyledToAdminPanelList);
 
-            Router.forward(request,response, URLHolder.DOCUMENTS);
+            Router.forwardWithSavingURL(request,response, URLHolder.DOCUMENTS);
         }
         catch (ServiceException e){
             LOGGER.log(Level.ERROR,e.getMessage());

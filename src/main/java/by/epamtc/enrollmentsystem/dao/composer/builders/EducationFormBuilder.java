@@ -8,7 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-public class EducationFormBuilder extends AbstractComposer<EducationForm> implements EntityBuilder<EducationForm> {
+public final class EducationFormBuilder extends AbstractComposer<EducationForm> implements EntityBuilder<EducationForm> {
 
     @Override
     public EducationForm singleObjectBuilder(ResultSet rs) throws SQLException {

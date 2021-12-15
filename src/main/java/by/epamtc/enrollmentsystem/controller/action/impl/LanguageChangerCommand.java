@@ -24,6 +24,6 @@ public class LanguageChangerCommand implements Command {
         String requestURL = request.getRequestURL().toString();
         String reqParams = request.getQueryString();
         String fullURL = requestURL + "?" + reqParams;
-        Router.forward(request,response,fullURL);
+        Router.redirectToLastPage(request,response);
     }
 }

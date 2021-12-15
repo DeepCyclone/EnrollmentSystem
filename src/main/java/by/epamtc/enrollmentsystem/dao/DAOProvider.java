@@ -1,8 +1,10 @@
 package by.epamtc.enrollmentsystem.dao;
 
 import by.epamtc.enrollmentsystem.controller.action.CommandProvider;
+import by.epamtc.enrollmentsystem.dao.composer.builders.*;
 import by.epamtc.enrollmentsystem.dao.impl.*;
 import by.epamtc.enrollmentsystem.dao.template.*;
+import by.epamtc.enrollmentsystem.model.ApplicantEnrollment;
 
 /*
  * This class is a provider of different data sources
@@ -10,19 +12,19 @@ import by.epamtc.enrollmentsystem.dao.template.*;
  */
 
 public final class DAOProvider {
-    private EducationFormDAO educationFormInstance = new EducationFormMySQL();//TODO non-final + setter + interface ref
-    private EnrollmentStatusDAO enrollmentStatusInstance = new EnrollmentStatusMySQL();
-    private FacultyDAO facultyInstance = new FacultyMySQL();
-    private FacilityDAO facilityInstance = new FacilityMySQL();
-    private RoleDAO roleInstance = new RoleMySQL();
-    private SubjectDAO subjectInstance = new SubjectMySQL();
-    private SystemInformationDAO systemInformationInstance = new SystemInformationMySQL();
-    private UserDAO userInstance = new UserMySQL();
-    private UserInfoDAO userInfoInstance = new UserInfoMySQL();
-    private ResultDAO resultInstance = new ResultMySQL();
-    private Subjectm2mFacultyDAO subjectm2mFacultyInstance = new Subjectm2mFacultyMySQL();
-    private ApplicantEnrollmentDAO applicantEnrollmentInstance = new ApplicantEnrollmentMySQL();
-    private Facilitym2mUserInfoDAO facilitym2mUserInfoMyInstance = new Facilitym2mUserInfoMySQL();
+    private EducationFormDAO educationFormInstance = new EducationFormMySQL(new QueryExecutor<>(new EducationFormBuilder()));
+    private EnrollmentStatusDAO enrollmentStatusInstance = new EnrollmentStatusMySQL(new QueryExecutor<>(new EnrollmentStatusBuilder()));
+    private FacultyDAO facultyInstance = new FacultyMySQL(new QueryExecutor<>(new FacultyBuilder()));
+    private FacilityDAO facilityInstance = new FacilityMySQL(new QueryExecutor<>(new FacilityBuilder()));
+    private RoleDAO roleInstance = new RoleMySQL(new QueryExecutor<>(new RoleBuilder()));
+    private SubjectDAO subjectInstance = new SubjectMySQL(new QueryExecutor<>(new SubjectBuilder()));
+    private SystemInformationDAO systemInformationInstance = new SystemInformationMySQL(new QueryExecutor<>(new SystemInformationBuilder()));
+    private UserDAO userInstance = new UserMySQL(new QueryExecutor<>(new UserBuilder()));
+    private UserInfoDAO userInfoInstance = new UserInfoMySQL(new QueryExecutor<>(new UserInfoBuilder()));
+    private ResultDAO resultInstance = new ResultMySQL(new QueryExecutor<>(new ResultBuilder()));
+    private Subjectm2mFacultyDAO subjectm2mFacultyInstance = new Subjectm2mFacultyMySQL(new QueryExecutor<>(new Subjectm2mFacultyBuilder()));
+    private ApplicantEnrollmentDAO applicantEnrollmentInstance = new ApplicantEnrollmentMySQL(new QueryExecutor<>(new ApplicantEnrollmentBuilder()));
+    private Facilitym2mUserInfoDAO facilitym2mUserInfoMyInstance = new Facilitym2mUserInfoMySQL(new QueryExecutor<>(new Facilitym2mUserInfoBuilder()));
 
     public EducationFormDAO getEducationFormDAO() {
         return educationFormInstance;

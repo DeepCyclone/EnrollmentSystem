@@ -8,6 +8,5 @@
 <c:redirect url="/controller">
     <c:param name="action" value="preload_welcomePage"/>
 </c:redirect>
-<%--<jsp:include page="/controller?action=preload_welcomePage"/>//TODO вариант без смены ссылки--%>
 </body>
 </html>

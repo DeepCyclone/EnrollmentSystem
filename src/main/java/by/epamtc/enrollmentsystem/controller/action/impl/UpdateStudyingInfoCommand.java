@@ -4,7 +4,7 @@ import by.epamtc.enrollmentsystem.controller.action.Command;
 import by.epamtc.enrollmentsystem.controller.routing.Router;
 import by.epamtc.enrollmentsystem.controller.routing.URLHolder;
 import by.epamtc.enrollmentsystem.exception.ServiceException;
-import by.epamtc.enrollmentsystem.service.util.MarksAndFacultiesUpdater;
+import by.epamtc.enrollmentsystem.service.impl.MarksAndFacultiesUpdater;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

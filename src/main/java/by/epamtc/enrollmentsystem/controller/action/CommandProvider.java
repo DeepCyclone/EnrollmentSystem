@@ -15,11 +15,10 @@ public class CommandProvider {
 
     private CommandProvider(){
         actions.put(CommandType.SIGN_UP,new SignupCommand());
-        actions.put(CommandType.AUTHORIZATION,new AuthenticationCommand());
+        actions.put(CommandType.AUTHENTICATION,new AuthenticationCommand());
         actions.put(CommandType.LOGOUT,new LogoutCommand());
         actions.put(CommandType.UPDATE_INFO,new UpdateUserInfoCommand());
         actions.put(CommandType.UPDATE_STUDYING_INFO,new UpdateStudyingInfoCommand());
-        actions.put(CommandType.GET_USER_PROFILES,new GetUserProfilesCommand());
         actions.put(CommandType.PRELOAD_WELCOMEPAGE,new PreloadWelcomePageCommand());
         actions.put(CommandType.PRELOAD_USERINFO_PAGE,new PreloadUserInfoCommand());
         actions.put(CommandType.PRELOAD_FACULTIES_PAGE,new PreloadFacultiesPageCommand());

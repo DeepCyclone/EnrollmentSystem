@@ -1,5 +1,6 @@
 package by.epamtc.enrollmentsystem.dao.impl;
 
+import by.epamtc.enrollmentsystem.dao.QueryExecutor;
 import by.epamtc.enrollmentsystem.dao.mapping.fields.UserMapping;
 import by.epamtc.enrollmentsystem.dao.mapping.SchemaMapping;
 import by.epamtc.enrollmentsystem.dao.template.UserDAO;
@@ -14,6 +15,10 @@ import java.util.Optional;
 
 public final class UserMySQL extends AbstractDAO<User> implements UserDAO {
 
+    public UserMySQL(QueryExecutor<User> executor) {
+        super(executor);
+    }
+
     private static final String TABLE_NAME = SchemaMapping.user;
 
     private static final String GET_BY_LOGIN = "SELECT * FROM "+ SchemaMapping.user +
@@ -27,12 +32,12 @@ public final class UserMySQL extends AbstractDAO<User> implements UserDAO {
     public Optional<User> getByID(long id) throws DAOException {
         String tableName = SchemaMapping.user;
         String idFieldName = UserMapping.id;
-        return super.getByID(tableName,idFieldName,id,new UserBuilder());
+        return super.getByID(tableName,idFieldName,id);
     }
 
     @Override
     public void insertInto(User object) throws DAOException {
-        executeInsertQuery(INSERT_INTO,object.getLogin(),new String(object.getPassword(), StandardCharsets.UTF_8),
+        executor.executeInsertQuery(INSERT_INTO,object.getLogin(),new String(object.getPassword(), StandardCharsets.UTF_8),
                         object.getEmail(),object.getRoleId());
     }
 
@@ -44,7 +49,7 @@ public final class UserMySQL extends AbstractDAO<User> implements UserDAO {
 
     @Override
     public Optional<User> getByLogin(String login) throws DAOException {
-        return executeSingleResultQuery(GET_BY_LOGIN,new UserBuilder(),login);
+        return executor.executeSingleResultQuery(GET_BY_LOGIN,login);
     }
 
     @Override
@@ -54,12 +59,12 @@ public final class UserMySQL extends AbstractDAO<User> implements UserDAO {
 
     @Override
     public List<User> getEntitiesRange(int from, int offset) throws DAOException {
-       return super.getEntitiesRange(TABLE_NAME,from,offset,new UserBuilder());
+       return super.getEntitiesRange(TABLE_NAME,from,offset);
     }
 
     @Override
     public List<User> getAll() throws DAOException {
-        return super.getAll(TABLE_NAME,new UserBuilder());
+        return super.getAll(TABLE_NAME);
     }
 
     @Override

@@ -8,7 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-public class SystemInformationBuilder extends AbstractComposer<SystemInformation> implements EntityBuilder<SystemInformation> {
+public final class SystemInformationBuilder extends AbstractComposer<SystemInformation> implements EntityBuilder<SystemInformation> {
 
 
     @Override

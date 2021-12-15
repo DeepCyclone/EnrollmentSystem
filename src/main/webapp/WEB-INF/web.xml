@@ -85,6 +85,15 @@
         <url-pattern>/aboutUs</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>pageNotFound</servlet-name>
+        <jsp-file>/WEB-INF/pages/error/notFound.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>pageNotFound</servlet-name>
+        <url-pattern>/notFound</url-pattern>
+    </servlet-mapping>
+
     <filter>
         <filter-name>Authentication</filter-name>
         <filter-class>by.epamtc.enrollmentsystem.controller.filter.AuthorizationFilter</filter-class>
@@ -132,11 +141,6 @@
     <listener>
         <listener-class>by.epamtc.enrollmentsystem.controller.listener.ControllerListener</listener-class>
     </listener>
-
-    <error-page>
-        <error-code>404</error-code>
-        <location>/WEB-INF/pages/error/notFound.jsp</location>
-    </error-page>
 
     <error-page>
         <error-code>500</error-code>

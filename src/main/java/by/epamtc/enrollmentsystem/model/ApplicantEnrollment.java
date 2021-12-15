@@ -9,12 +9,14 @@ public class ApplicantEnrollment implements Serializable {
     private long facultyId;
     private long educationFormId;
     private long enrollmentStatusId;
+    private int priority;
 
-    public ApplicantEnrollment(long userId, long facultyId, long educationFormId, long enrollmentStatusId) {
+    public ApplicantEnrollment(long userId, long facultyId, long educationFormId, long enrollmentStatusId,int priority) {
         this.userId = userId;
         this.facultyId = facultyId;
         this.educationFormId = educationFormId;
         this.enrollmentStatusId = enrollmentStatusId;
+        this.priority = priority;
     }
 
     public ApplicantEnrollment() {
@@ -52,6 +54,14 @@ public class ApplicantEnrollment implements Serializable {
         this.enrollmentStatusId = enrollmentStatusId;
     }
 
+    public int getPriority() {
+        return priority;
+    }
+
+    public void setPriority(int priority) {
+        this.priority = priority;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -59,7 +69,8 @@ public class ApplicantEnrollment implements Serializable {
         ApplicantEnrollment that = (ApplicantEnrollment) o;
         return userId == that.userId && facultyId == that.facultyId &&
                 educationFormId == that.educationFormId &&
-                enrollmentStatusId == that.enrollmentStatusId;
+                enrollmentStatusId == that.enrollmentStatusId &&
+                priority == that.priority;
     }
 
     @Override
@@ -70,6 +81,7 @@ public class ApplicantEnrollment implements Serializable {
         result = prime * result + (int) facultyId;
         result = prime * result + (int) educationFormId;
         result = prime * result + (int) enrollmentStatusId;
+        result = prime * result + priority;
         return result;
     }
 
@@ -81,6 +93,7 @@ public class ApplicantEnrollment implements Serializable {
         result.append("faculty ID:").append(facultyId).append("\n");
         result.append("education form ID:").append(educationFormId).append("\n");
         result.append("enrollment status ID:").append(enrollmentStatusId).append("\n");
+        result.append("priority:").append(priority).append("\n");
         return result.toString();
     }
 }

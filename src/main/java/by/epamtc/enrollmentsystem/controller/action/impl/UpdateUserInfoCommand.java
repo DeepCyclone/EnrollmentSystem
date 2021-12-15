@@ -60,11 +60,12 @@ public class UpdateUserInfoCommand implements Command {
             if("on".equals(orphan)){
                 facilityId = facilityService.getByName(ORPHAN).get().getId();
             }
-
-            facilitym2mUserInfo.setFacilityId(facilityId);
-            facilitym2mUserInfo.setUserInfoUserId(id);
-            facilitym2mUserInfoService.insertInto(facilitym2mUserInfo);
-            Router.redirect(response,URLHolder.DOCUMENTS);
+            if(facilityId != 0L) {
+                facilitym2mUserInfo.setFacilityId(facilityId);
+                facilitym2mUserInfo.setUserInfoUserId(id);
+                facilitym2mUserInfoService.insertInto(facilitym2mUserInfo);
+            }
+            Router.redirectToLastPage(request, response);
         }
         catch (ServiceException e){
             LOGGER.log(Level.ERROR,e.getMessage());

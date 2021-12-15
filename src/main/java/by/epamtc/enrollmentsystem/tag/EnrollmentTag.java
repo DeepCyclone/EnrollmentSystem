@@ -21,7 +21,6 @@ public class EnrollmentTag extends TagSupport {
         }
 
         return super.doStartTag();
-//        return SKIP_BODY;
     }
 
     public int doEndTag() {

@@ -22,8 +22,6 @@
             <th><fmt:message key="enrollmentsystem.name" bundle="${bundle}"/></th>
             <th><fmt:message key="enrollmentsystem.patronymic" bundle="${bundle}"/></th>
             <th><fmt:message key="enrollmentsystem.facultyColumn" bundle="${bundle}"/></th>
-            <th><fmt:message key="enrollmentsystem.educationForm" bundle="${bundle}"/></th>
-            <th><fmt:message key="enrollmentsystem.enrollmentStatus" bundle="${bundle}"/></th>
         </tr>
         <c:forEach var="user" items="${requestScope.get('users')}">
 
@@ -43,60 +41,39 @@
             <td>
                 <c:forEach var = "info" items="${user.enrollmentInfo}">
                     ${info.facultyName}
-                    <c:forEach var = "i" begin="1" end="${info.educationFormStatuses.size()}">
-                        <p>
-                            &#8291;</p>
-                    </c:forEach>
-                </c:forEach>
-            </td>
-
-            <td>
-                <c:forEach var = "info" items="${user.enrollmentInfo}">
                     <c:forEach var = "form" items="${info.educationFormStatuses}">
-                        <p>
-                                ${form.key}
-                                    &#8291;
-                        </p>
-                    </c:forEach>
-                    <br>
-                </c:forEach>
-            </td>
-
-            <td>
-                <c:forEach var = "info" items="${user.enrollmentInfo}">
-                    <c:forEach var = "form" items="${info.educationFormStatuses}">
-                                ${form.value}
-                            <div class="btn-group">
-                                <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <fmt:message key="enrollmentsystem.changeStatus" bundle="${bundle}"/>
-                                </button>
-                                <ul class="dropdown-menu">
-                                    <li>
-                                        <input type="button" onclick="parseAndSendUserStatus(this)" class="btn-check btn-sm" name="${user.id}:${info.facultyName}:Заявление подано" id="${user.id}:${info.facultyName}:1" autocomplete="off" value="${form.key}:Заявление подано">
-                                        <label class="btn btn-outline-danger btn-sm" for="${user.id}:${info.facultyName}:1">
-                                            <fmt:message key="enrollmentsystem.inProgress" bundle="${bundle}"/>
-                                        </label>
-                                    </li>
-                                    <li>
-                                        <input type="button" onclick="parseAndSendUserStatus(this)" class="btn-check btn-sm" name="${user.id}:${info.facultyName}:Зачислен" id="${user.id}:${info.facultyName}:2" autocomplete="off" value="${form.key}:Зачислен">
-                                        <label class="btn btn-outline-danger btn-sm" for="${user.id}:${info.facultyName}:2">
-                                            <fmt:message key="enrollmentsystem.enrolled" bundle="${bundle}"/>
-                                        </label>
-                                    </li>
-                                    <li>
-                                        <input type="button" onclick="parseAndSendUserStatus(this)" class="btn-check" name="${user.id}:${info.facultyName}:Отклонено" id="${user.id}:${info.facultyName}:3" autocomplete="off" value="${form.key}:Отклонено">
-                                        <label class="btn btn-outline-danger btn-sm" for="${user.id}:${info.facultyName}:3">
-                                            <fmt:message key="enrollmentsystem.declined" bundle="${bundle}"/>
-                                        </label>
-                                    </li>
-                                    <li>
-                                        <input type="button" onclick="parseAndSendUserStatus(this)" class="btn-check" name="${user.id}:${info.facultyName}:Документы приняты" id="${user.id}:${info.facultyName}:4" autocomplete="off" value="${form.key}:Документы приняты">
-                                        <label class="btn btn-outline-danger btn-sm" for="${user.id}:${info.facultyName}:4">
-                                            <fmt:message key="enrollmentsystem.accepted" bundle="${bundle}"/>
-                                        </label>
-                                    </li>
-                                </ul>
-                            </div>
+                        ${form.key}:${form.value}
+                        <div class="btn-group">
+                            <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <fmt:message key="enrollmentsystem.changeStatus" bundle="${bundle}"/>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <input type="button" onclick="parseAndSendUserStatus(this)" class="btn-check btn-sm" name="${user.id}:${info.facultyName}:Заявление подано" id="${user.id}:${info.facultyName}:1" autocomplete="off" value="${form.key}:Заявление подано">
+                                    <label class="btn btn-outline-danger btn-sm" for="${user.id}:${info.facultyName}:1">
+                                        <fmt:message key="enrollmentsystem.inProgress" bundle="${bundle}"/>
+                                    </label>
+                                </li>
+                                <li>
+                                    <input type="button" onclick="parseAndSendUserStatus(this)" class="btn-check btn-sm" name="${user.id}:${info.facultyName}:Зачислен" id="${user.id}:${info.facultyName}:2" autocomplete="off" value="${form.key}:Зачислен">
+                                    <label class="btn btn-outline-danger btn-sm" for="${user.id}:${info.facultyName}:2">
+                                        <fmt:message key="enrollmentsystem.enrolled" bundle="${bundle}"/>
+                                    </label>
+                                </li>
+                                <li>
+                                    <input type="button" onclick="parseAndSendUserStatus(this)" class="btn-check" name="${user.id}:${info.facultyName}:Отклонено" id="${user.id}:${info.facultyName}:3" autocomplete="off" value="${form.key}:Отклонено">
+                                    <label class="btn btn-outline-danger btn-sm" for="${user.id}:${info.facultyName}:3">
+                                        <fmt:message key="enrollmentsystem.declined" bundle="${bundle}"/>
+                                    </label>
+                                </li>
+                                <li>
+                                    <input type="button" onclick="parseAndSendUserStatus(this)" class="btn-check" name="${user.id}:${info.facultyName}:Документы приняты" id="${user.id}:${info.facultyName}:4" autocomplete="off" value="${form.key}:Документы приняты">
+                                    <label class="btn btn-outline-danger btn-sm" for="${user.id}:${info.facultyName}:4">
+                                        <fmt:message key="enrollmentsystem.accepted" bundle="${bundle}"/>
+                                    </label>
+                                </li>
+                            </ul>
+                        </div>
                         <br>
                     </c:forEach>
                 </c:forEach>

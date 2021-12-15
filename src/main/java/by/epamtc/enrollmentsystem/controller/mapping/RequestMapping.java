@@ -20,6 +20,7 @@ public final class RequestMapping {
     public static final String MARK_FIELD = "mark";
     public static final String FACULTY_FIELD = "Faculty";
     public static final String EDUCATION_FORM_FIELD = "e_form";
+    public static final String PRIORITY_FIELD = "Priority";
     public static final String BIOLOGY_MARK = "biologyMark";
     public static final String CHEMISTRY_MARK = "chemistryMark";
     public static final String MATHEMATICS_MARK = "mathematicsMark";

@@ -27,7 +27,7 @@ public class AuthenticationCommand implements Command {
             HttpSession httpSession = request.getSession(true);
             if (!CredentialsValidator.isCorrectCredentials(login, password)) {
                 request.setAttribute(RequestMapping.INVALID_CREDENTIALS, "true");
-                Router.forward(request,response, URLHolder.LOGIN_PAGE);
+                Router.forwardWithSavingURL(request,response, URLHolder.LOGIN_PAGE);
             }
             else {
                 httpSession.setAttribute(SessionMapping.USER_LOGIN, login);
@@ -37,7 +37,7 @@ public class AuthenticationCommand implements Command {
                 long roleId = user.get().getRoleId();
                 httpSession.setAttribute(SessionMapping.ROLE, roleId);
                 httpSession.setAttribute(SessionMapping.USER_ID,id);
-                Router.redirect(response,request.getContextPath());
+                Router.redirect(response,request.getContextPath() + URLHolder.MAIN_PAGE);
             }
         }
         catch (ServiceException e){

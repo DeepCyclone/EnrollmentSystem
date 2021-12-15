@@ -14,9 +14,9 @@ public interface EntityBuilder<T> {
     /*
      * Returns a single object, composed by @see composeObject
      */
-    public T singleObjectBuilder(ResultSet rs,EntityBuilder<T> builder) throws SQLException;
+    public T singleObjectBuilder(ResultSet rs) throws SQLException;
     /*
      * Returns a list of objects, composed by @see composeObject
      */
-    public List<T> buildObjectsList(ResultSet rs,EntityBuilder<T> builder) throws SQLException;
+    public List<T> buildObjectsList(ResultSet rs) throws SQLException;
 }

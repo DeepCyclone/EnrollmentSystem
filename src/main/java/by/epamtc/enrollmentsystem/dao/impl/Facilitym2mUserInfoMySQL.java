@@ -1,5 +1,7 @@
 package by.epamtc.enrollmentsystem.dao.impl;
 
+import by.epamtc.enrollmentsystem.dao.QueryExecutor;
+import by.epamtc.enrollmentsystem.dao.composer.builders.StringBuilder;
 import by.epamtc.enrollmentsystem.dao.connectionpool.ConnectionPool;
 import by.epamtc.enrollmentsystem.dao.connectionpool.PoolException;
 import by.epamtc.enrollmentsystem.dao.mapping.SchemaMapping;
@@ -13,10 +15,15 @@ import by.epamtc.enrollmentsystem.dao.composer.builders.Facilitym2mUserInfoBuild
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public final class Facilitym2mUserInfoMySQL extends AbstractDAO<Facilitym2mUserInfo> implements Facilitym2mUserInfoDAO {
 
-    private static final String tableName = SchemaMapping.facility_m2m_user_info;
+    public Facilitym2mUserInfoMySQL(QueryExecutor<Facilitym2mUserInfo> executor) {
+        super(executor);
+    }
+
+    private static final String TABLE_NAME = SchemaMapping.facility_m2m_user_info;
 
     private static final String INSERT_INTO = "INSERT INTO " + SchemaMapping.facility_m2m_user_info + " VALUES(?,?)";
 
@@ -31,12 +38,12 @@ public final class Facilitym2mUserInfoMySQL extends AbstractDAO<Facilitym2mUserI
 
     @Override
     public List<Facilitym2mUserInfo> getAll() throws DAOException {
-        return super.getAll(tableName,new Facilitym2mUserInfoBuilder());
+        return super.getAll(TABLE_NAME);
     }
 
     @Override
     public void insertInto(Facilitym2mUserInfo object) throws DAOException {
-        executeInsertQuery(INSERT_INTO,object.getFacilityId(),object.getUserInfoUserId());
+        executor.executeInsertQuery(INSERT_INTO,object.getFacilityId(),object.getUserInfoUserId());
     }
 
     @Override
@@ -56,33 +63,14 @@ public final class Facilitym2mUserInfoMySQL extends AbstractDAO<Facilitym2mUserI
     }
 
     @Override
-    public List<String> getUserFacilitiesNames(long userId) throws DAOException {//TODO починить + сервис
-        Connection conn = null;
-        PreparedStatement stmt = null;
-        ResultSet rs = null;
-        List<String> existingFacilitiesNames = null;
-        try{
-            conn = ConnectionPool.getInstance().getConnection();
-            conn.prepareStatement(GET_USER_FACILITIES_NAMES);
-            stmt.setLong(1,userId);
-            rs = stmt.executeQuery();
-            existingFacilitiesNames = new ArrayList<>();
-            while(rs.next()) {
-                existingFacilitiesNames.add(rs.getString(FacilityMapping.name));
-            }
-        }
-        catch (SQLException | PoolException e){
-            throw new DAOException(e.getMessage(),e);
-        }
-        finally {
-            ConnectionPool.getInstance().closeConnection(conn,stmt);
-        }
-        return existingFacilitiesNames;
+    public List<String> getUserFacilitiesNames(long userId) throws DAOException {
+        QueryExecutor<String> executorLocal = new QueryExecutor<String>(new StringBuilder());
+        return executorLocal.executeSelectQuery(GET_USER_FACILITIES_NAMES,userId);
     }
 
     @Override
     public List<Facilitym2mUserInfo> getByUserId(long userId) throws DAOException {
-        return executeSelectQuery(GET_BY_USER_ID,new Facilitym2mUserInfoBuilder(),userId);
+        return executor.executeSelectQuery(GET_BY_USER_ID,userId);
     }
 
 }

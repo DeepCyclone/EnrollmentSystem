@@ -31,7 +31,6 @@ public class PreloadWelcomePageCommand implements Command {
     private static final int DEFAULT_PAGE = 1;
     private static final int RECORDS_PER_PAGE = 5;
     private static final int BUTTONS = 3;
-    private static final String WELCOME_PAGE_INFO = "welcome_page";
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) {
             ServiceProvider serviceProvider = ServiceProvider.getInstance();
@@ -44,15 +43,11 @@ public class PreloadWelcomePageCommand implements Command {
             List<Faculty> faculties = null;
             try {
                 int facultiesNumber = 0;
-                Optional<SystemInformation> welcomePageInfo = systemInformationService.getByName(WELCOME_PAGE_INFO);
-                if(welcomePageInfo.isPresent()) {
-                    description = welcomePageInfo.get().getValue();
-                }
                 facultiesNumber = facultyService.getFacultiesNumber();
                 String currentPage = request.getParameter(RequestMapping.PAGE);
                 int totalPages = (facultiesNumber / RECORDS_PER_PAGE) + 1;
 
-                int facultiesRangeStart = DEFAULT_PAGE;
+                int facultiesRangeStart = 0;
                 int facultiesRangeEnd;
                 int pageNum = DEFAULT_PAGE;
                 int records = RECORDS_PER_PAGE;
@@ -87,10 +82,9 @@ public class PreloadWelcomePageCommand implements Command {
                 request.setAttribute(RequestMapping.FACULTIES_LIST, faculties);
                 request.setAttribute(RequestMapping.TOTAL_REQUESTS_BUDGET,totalRequestsBudg);
                 request.setAttribute(RequestMapping.TOTAL_REQUESTS_PAID,totalRequestsPaid);
-                request.setAttribute(RequestMapping.DESCRIPTION, description);
-                request.getRequestDispatcher(URLHolder.WELCOME_PAGE).forward(request,response);
+                Router.forwardWithSavingURL(request, response,URLHolder.WELCOME_PAGE);
             }
-            catch (ServiceException | IOException | ServletException exception){
+            catch (ServiceException exception){
                 LOGGER.log(Level.ERROR,exception.getMessage());
                 Router.redirect(response, request.getContextPath() + URLHolder.MAIN_PAGE);
             }

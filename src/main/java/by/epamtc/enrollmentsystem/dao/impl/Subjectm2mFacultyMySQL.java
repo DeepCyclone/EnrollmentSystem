@@ -1,7 +1,9 @@
 package by.epamtc.enrollmentsystem.dao.impl;
 
+import by.epamtc.enrollmentsystem.dao.QueryExecutor;
 import by.epamtc.enrollmentsystem.dao.connectionpool.ConnectionPool;
 import by.epamtc.enrollmentsystem.dao.connectionpool.PoolException;
+import by.epamtc.enrollmentsystem.dao.mapping.SchemaMapping;
 import by.epamtc.enrollmentsystem.dao.mapping.fields.FacultyMapping;
 import by.epamtc.enrollmentsystem.dao.mapping.fields.SubjectMapping;
 import by.epamtc.enrollmentsystem.dao.template.Subjectm2mFacultyDAO;
@@ -13,6 +15,12 @@ import java.sql.*;
 import java.util.*;
 
 public final class Subjectm2mFacultyMySQL extends AbstractDAO<Subjectm2mFaculty> implements Subjectm2mFacultyDAO {
+
+    private static final String TABLE_NAME = SchemaMapping.subject_m2m_faculty;
+
+    public Subjectm2mFacultyMySQL(QueryExecutor<Subjectm2mFaculty> executor) {
+        super(executor);
+    }
 
     private static final String GET_FACULTIES_CORRESPONDING_TO_SUBJECTS = "SELECT f_name,s_name FROM subject " +
                                                                           "JOIN subject_m2m_faculty ON s_id = smf_s_id " +

@@ -1,5 +1,6 @@
 package by.epamtc.enrollmentsystem.dao.impl;
 
+import by.epamtc.enrollmentsystem.dao.QueryExecutor;
 import by.epamtc.enrollmentsystem.dao.mapping.SchemaMapping;
 import by.epamtc.enrollmentsystem.dao.mapping.fields.EducationFormMapping;
 import by.epamtc.enrollmentsystem.dao.template.EducationFormDAO;
@@ -13,7 +14,9 @@ import java.util.Optional;
 
 public final class EducationFormMySQL extends AbstractDAO<EducationForm> implements EducationFormDAO {
 
-    private static final String tableName = SchemaMapping.education_form;
+    public EducationFormMySQL(QueryExecutor<EducationForm> executor){super(executor);}
+
+    private static final String TABLE_NAME = SchemaMapping.education_form;
 
     private static final String UPDATE_RECORD_BY_ID = " UPDATE " + SchemaMapping.education_form +
                                                       " SET " + EducationFormMapping.name  + " = ? " +
@@ -40,7 +43,7 @@ public final class EducationFormMySQL extends AbstractDAO<EducationForm> impleme
 
     @Override
     public void updateRowByID(EducationForm note) throws DAOException {
-        executeUpdateQuery(UPDATE_RECORD_BY_ID,note.getName(),note.getId());
+        executor.executeUpdateQuery(UPDATE_RECORD_BY_ID,note.getName(),note.getId());
     }
 
     @Override
@@ -50,17 +53,17 @@ public final class EducationFormMySQL extends AbstractDAO<EducationForm> impleme
 
     @Override
     public List<EducationForm> getAll() throws DAOException {
-        return super.getAll(tableName,new EducationFormBuilder());
+        return super.getAll(TABLE_NAME);
     }
 
     @Override
     public Optional<EducationForm> getByID(long id) throws DAOException {
         String idFieldName = EducationFormMapping.id;
-        return super.getByID(tableName,idFieldName,id,new EducationFormBuilder());
+        return super.getByID(TABLE_NAME,idFieldName,id);
     }
 
     @Override
     public Optional<EducationForm> getByName(String name) throws DAOException {
-        return super.getByName(tableName,EducationFormMapping.name,name,new EducationFormBuilder());
+        return super.getByName(TABLE_NAME,EducationFormMapping.name,name);
     }
 }

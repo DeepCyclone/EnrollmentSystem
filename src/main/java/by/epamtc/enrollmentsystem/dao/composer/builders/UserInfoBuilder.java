@@ -1,13 +1,14 @@
 package by.epamtc.enrollmentsystem.dao.composer.builders;
 
 import by.epamtc.enrollmentsystem.dao.composer.AbstractComposer;
+import by.epamtc.enrollmentsystem.dao.mapping.fields.UserInfoMapping;
 import by.epamtc.enrollmentsystem.model.UserInfo;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-public class UserInfoBuilder extends AbstractComposer<UserInfo> implements EntityBuilder<UserInfo> {
+public final class UserInfoBuilder extends AbstractComposer<UserInfo> implements EntityBuilder<UserInfo> {
 
 
     @Override
@@ -23,13 +24,13 @@ public class UserInfoBuilder extends AbstractComposer<UserInfo> implements Entit
     @Override
     public UserInfo composeObject(ResultSet rs) throws SQLException {
         UserInfo ui = new UserInfo();
-        ui.setId(rs.getLong(1));
-        ui.setName(rs.getString(2));
-        ui.setSurname(rs.getString(3));
-        ui.setPatronymic(rs.getString(4));
-        ui.setPhotoPath(rs.getString(5));
-        ui.setAddress(rs.getString(6));
-        ui.setPassport(rs.getString(7));
+        ui.setId(rs.getLong(UserInfoMapping.userId));
+        ui.setName(rs.getString(UserInfoMapping.name));
+        ui.setSurname(rs.getString(UserInfoMapping.surname));
+        ui.setPatronymic(rs.getString(UserInfoMapping.patronymic));
+        ui.setPhotoPath(rs.getString(UserInfoMapping.photoAddress));
+        ui.setAddress(rs.getString(UserInfoMapping.address));
+        ui.setPassport(rs.getString(UserInfoMapping.passport));
         return ui;
     }
 }

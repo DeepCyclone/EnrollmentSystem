@@ -1,5 +1,6 @@
 package by.epamtc.enrollmentsystem.dao.impl;
 
+import by.epamtc.enrollmentsystem.dao.QueryExecutor;
 import by.epamtc.enrollmentsystem.dao.mapping.fields.FacultyMapping;
 import by.epamtc.enrollmentsystem.dao.mapping.SchemaMapping;
 import by.epamtc.enrollmentsystem.dao.template.FacultyDAO;
@@ -13,12 +14,16 @@ import java.util.Optional;
 
 public final class FacultyMySQL extends AbstractDAO<Faculty> implements FacultyDAO {
 
-    private static final String tableName = SchemaMapping.faculty;
+    public FacultyMySQL(QueryExecutor<Faculty> executor) {
+        super(executor);
+    }
+
+    private static final String TABLE_NAME = SchemaMapping.faculty;
 
     @Override
     public Optional<Faculty> getByID(long id) throws DAOException {
         String idFieldName = FacultyMapping.id;
-        return super.getByID(tableName,idFieldName,id,new FacultyBuilder());
+        return super.getByID(TABLE_NAME,idFieldName,id);
     }
 
     @Override
@@ -43,21 +48,21 @@ public final class FacultyMySQL extends AbstractDAO<Faculty> implements FacultyD
 
     @Override
     public List<Faculty> getEntitiesRange(int from, int offset) throws DAOException {
-        return super.getEntitiesRange(tableName,from,offset,new FacultyBuilder());
+        return super.getEntitiesRange(TABLE_NAME,from,offset);
     }
 
     @Override
     public List<Faculty> getAll() throws DAOException {
-        return super.getAll(tableName,new FacultyBuilder());
+        return super.getAll(TABLE_NAME);
     }
 
     @Override
     public int getNumberOfRecords() throws DAOException {
-     return super.getNumberOfRecords(tableName);
+     return super.getNumberOfRecords(TABLE_NAME);
     }
 
     @Override
     public Optional<Faculty> getByName(String name) throws DAOException {
-        return super.getByName(tableName,FacultyMapping.name,name,new FacultyBuilder());
+        return super.getByName(TABLE_NAME,FacultyMapping.name,name);
     }
 }

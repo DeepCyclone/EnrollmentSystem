@@ -1,5 +1,7 @@
 package by.epamtc.enrollmentsystem.dao.impl;
 
+import by.epamtc.enrollmentsystem.dao.QueryExecutor;
+import by.epamtc.enrollmentsystem.dao.mapping.SchemaMapping;
 import by.epamtc.enrollmentsystem.dao.template.RoleDAO;
 import by.epamtc.enrollmentsystem.exception.DAOException;
 import by.epamtc.enrollmentsystem.exception.ServiceException;
@@ -9,6 +11,12 @@ import java.util.List;
 import java.util.Optional;
 
 public final class RoleMySQL extends AbstractDAO<Role> implements RoleDAO {
+
+    private static final String TABLE_NAME = SchemaMapping.role;
+
+    public RoleMySQL(QueryExecutor<Role> executor) {
+        super(executor);
+    }
 
     @Override
     public List<Role> getAll() throws DAOException {

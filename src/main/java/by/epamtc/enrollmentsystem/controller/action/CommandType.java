@@ -2,7 +2,7 @@ package by.epamtc.enrollmentsystem.controller.action;
 
 public enum CommandType {
     SIGN_UP,
-    AUTHORIZATION,
+    AUTHENTICATION,
     LOGOUT,
     UPDATE_INFO,
     UPDATE_STUDYING_INFO,

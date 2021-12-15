@@ -1,6 +1,7 @@
 package by.epamtc.enrollmentsystem.dao.composer.builders;
 
 import by.epamtc.enrollmentsystem.dao.composer.AbstractComposer;
+import by.epamtc.enrollmentsystem.dao.mapping.fields.UserMapping;
 import by.epamtc.enrollmentsystem.model.User;
 
 import java.nio.charset.StandardCharsets;
@@ -8,7 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-public class UserBuilder extends AbstractComposer<User> implements EntityBuilder<User> {
+public final class UserBuilder extends AbstractComposer<User> implements EntityBuilder<User> {
 
 
     @Override
@@ -24,11 +25,11 @@ public class UserBuilder extends AbstractComposer<User> implements EntityBuilder
     @Override
     public User composeObject(ResultSet rs) throws SQLException {
         User user = new User();
-        user.setId(rs.getLong(1));
-        user.setLogin(rs.getString(2));
-        user.setPassword(rs.getString(3).getBytes(StandardCharsets.UTF_8));
-        user.setEmail(rs.getString(4));
-        user.setRoleId(rs.getLong(5));
+        user.setId(rs.getLong(UserMapping.id));
+        user.setLogin(rs.getString(UserMapping.login));
+        user.setPassword(rs.getString(UserMapping.password).getBytes(StandardCharsets.UTF_8));
+        user.setEmail(rs.getString(UserMapping.email));
+        user.setRoleId(rs.getLong(UserMapping.roleId));
         return user;
     }
 }

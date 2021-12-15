@@ -8,7 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-public class EnrollmentStatusBuilder extends AbstractComposer<EnrollmentStatus> implements EntityBuilder<EnrollmentStatus> {
+public final class EnrollmentStatusBuilder extends AbstractComposer<EnrollmentStatus> implements EntityBuilder<EnrollmentStatus> {
 
 
     @Override

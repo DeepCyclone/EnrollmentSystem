@@ -7,7 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-public class RoleBuilder extends AbstractComposer<Role> implements EntityBuilder<Role> {
+public final class RoleBuilder extends AbstractComposer<Role> implements EntityBuilder<Role> {
 
 
     @Override
