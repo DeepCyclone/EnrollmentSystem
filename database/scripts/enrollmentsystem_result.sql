@@ -1,0 +1,12 @@
+INSERT INTO enrollmentsystem.result (r_s_id, r_ui_u_id, r_value) VALUES (1, 17, 9);
+INSERT INTO enrollmentsystem.result (r_s_id, r_ui_u_id, r_value) VALUES (1, 18, 29);
+INSERT INTO enrollmentsystem.result (r_s_id, r_ui_u_id, r_value) VALUES (1, 23, 55);
+INSERT INTO enrollmentsystem.result (r_s_id, r_ui_u_id, r_value) VALUES (2, 17, 12);
+INSERT INTO enrollmentsystem.result (r_s_id, r_ui_u_id, r_value) VALUES (2, 18, 75);
+INSERT INTO enrollmentsystem.result (r_s_id, r_ui_u_id, r_value) VALUES (2, 23, 88);
+INSERT INTO enrollmentsystem.result (r_s_id, r_ui_u_id, r_value) VALUES (6, 17, 9);
+INSERT INTO enrollmentsystem.result (r_s_id, r_ui_u_id, r_value) VALUES (6, 18, 34);
+INSERT INTO enrollmentsystem.result (r_s_id, r_ui_u_id, r_value) VALUES (6, 23, 77);
+INSERT INTO enrollmentsystem.result (r_s_id, r_ui_u_id, r_value) VALUES (8, 17, 10);
+INSERT INTO enrollmentsystem.result (r_s_id, r_ui_u_id, r_value) VALUES (8, 18, 10);
+INSERT INTO enrollmentsystem.result (r_s_id, r_ui_u_id, r_value) VALUES (8, 23, 10);

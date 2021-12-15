@@ -1,0 +1,1 @@
+INSERT INTO enrollmentsystem.system_information (si_id, si_name, si_value) VALUES (1, 'aboutUsMsg1', 'Поступая в наш университет, Вы можете подать заявление на несколько факультетов и быть счастливым');
