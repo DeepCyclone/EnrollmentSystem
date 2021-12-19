@@ -8,6 +8,7 @@ import by.epamtc.enrollmentsystem.model.Faculty;
 import by.epamtc.enrollmentsystem.service.template.FacultyService;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public class FacultyServiceImpl implements FacultyService {
@@ -37,6 +38,17 @@ public class FacultyServiceImpl implements FacultyService {
         try {
             FacultyDAO dao = DAOProvider.getInstance().getFacultyDAO();
             return dao.getNumberOfRecords();
+        }
+        catch (DAOException exception){
+            throw new ServiceException();
+        }
+    }
+
+    @Override
+    public Map<Long, Integer> getAvailableSpacesForFaculties(int educationFormID) throws ServiceException {
+        try {
+            FacultyDAO dao = DAOProvider.getInstance().getFacultyDAO();
+            return dao.getAvailableSpacesForFaculties(educationFormID);
         }
         catch (DAOException exception){
             throw new ServiceException();

@@ -6,7 +6,7 @@ import by.epamtc.enrollmentsystem.exception.DAOException;
 import by.epamtc.enrollmentsystem.exception.ServiceException;
 import by.epamtc.enrollmentsystem.model.Result;
 import by.epamtc.enrollmentsystem.model.dto.MarkValue;
-import by.epamtc.enrollmentsystem.model.dto.UserResultByFaculty;
+import by.epamtc.enrollmentsystem.model.dto.UserTotalResultWithFaculty;
 import by.epamtc.enrollmentsystem.service.template.ResultService;
 
 import java.util.*;
@@ -38,10 +38,10 @@ public class ResultServiceImpl implements ResultService {
     }
 
     @Override
-    public List<UserResultByFaculty> getUserTotalResultByFaculty(long educationFormId) throws ServiceException {
+    public List<UserTotalResultWithFaculty> getUserTotalResultByFaculty(long educationFormId) throws ServiceException {
         try {
             ResultDAO dao = DAOProvider.getInstance().getResultDAO();
-            return dao.getUserResultByFacultyAndEduForm(educationFormId);
+            return dao.getUserTotalResults(educationFormId);
         } catch (DAOException exception) {
             throw new ServiceException(exception.getMessage(), exception);
         }

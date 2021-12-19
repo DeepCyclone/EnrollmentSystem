@@ -17,4 +17,5 @@ public interface ApplicantEnrollmentService {
     Set<StringifiedApplicantEnrollment> getStringifiedTable(long userId) throws ServiceException;
     int getUserRequestsAmount(long facultyID,long educationFormID) throws ServiceException;
     Map<String,Integer> buildRequestAmountDtos(long educationFormID,int from,int offset) throws ServiceException;
+    int getPriorityOfSelectedFaculty(long userID,long facultyID,long educationForm) throws ServiceException;
 }

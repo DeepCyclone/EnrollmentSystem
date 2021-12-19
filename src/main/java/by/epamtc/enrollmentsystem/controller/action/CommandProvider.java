@@ -31,6 +31,7 @@ public class CommandProvider {
         actions.put(CommandType.UPDATE_ENROLLMENT_STATUS,new EnrollmentStatusUpdateCommand());
         actions.put(CommandType.START_ENROLLMENT,new StartEnrollmentCommand());
         actions.put(CommandType.PRELOAD_USER_POPUP,new PreloadUserPopupCommand());
+        actions.put(CommandType.PRELOAD_PRIORITIES,new PrioritiesPreloaderCommand());
         actions.put(CommandType.DELETE_USER,new DeleteUserCommand());
         actions.put(CommandType.EMPTY,new EmptyCommand());
     }

@@ -117,6 +117,17 @@ public class ApplicantEnrollmentServiceImpl implements ApplicantEnrollmentServic
     }
 
     @Override
+    public int getPriorityOfSelectedFaculty(long userID, long facultyID, long educationForm) throws ServiceException {
+        try {
+            ApplicantEnrollmentDAO dao = DAOProvider.getInstance().getApplicantEnrollmentDAO();
+            return dao.getPriorityOfSelectedFaculty(userID,facultyID,educationForm);
+        }
+        catch (DAOException exception){
+            throw new ServiceException(exception.getMessage(),exception);
+        }
+    }
+
+    @Override
     public int getUserRequestsAmount(long facultyID,long educationFormID) throws ServiceException{
         try {
             ApplicantEnrollmentDAO dao = DAOProvider.getInstance().getApplicantEnrollmentDAO();

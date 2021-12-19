@@ -40,6 +40,7 @@ public class AuthorizationFilter implements Filter {
                                                   CommandType.PRELOAD_SELECTED_FACULTIES,
                                                   CommandType.UPDATE_STUDYING_INFO,
                                                   CommandType.UPDATE_INFO,
+                                                  CommandType.PRELOAD_PRIORITIES,
                                                   CommandType.LOGOUT)));
         allowedActionsForUsers.get(UserType.APPLICANT_ROLE).addAll(commonCommands);
 
@@ -65,7 +66,7 @@ public class AuthorizationFilter implements Filter {
                          FilterChain chain) throws ServletException, IOException {
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
         HttpServletResponse httpServletResponse = (HttpServletResponse) response;
-        HttpSession session = httpServletRequest.getSession(false);
+        HttpSession session = httpServletRequest.getSession(true);
 
         String action = httpServletRequest.getParameter(RequestMapping.ACTION);
         CommandType commandType;
@@ -76,26 +77,20 @@ public class AuthorizationFilter implements Filter {
             commandType = CommandType.EMPTY;
         }
 
-        if(session!=null) {
-            Object role = session.getAttribute(SessionMapping.ROLE);
+        long roleID = UserType.GUEST;
 
-            long roleID = UserType.GUEST;
+        if(session.getAttribute(SessionMapping.ROLE) != null){
+            roleID = (long) session.getAttribute(SessionMapping.ROLE);
+        }
 
-            if (role != null) {
-                roleID = (long) role;
-            }
-
-            if (allowedActionsForUsers.containsKey(roleID)) {
-                if (allowedActionsForUsers.get(roleID).contains(commandType)) {
-                    chain.doFilter(request, response);
-                    return;
-                }
+        if (allowedActionsForUsers.containsKey(roleID)) {
+            if (allowedActionsForUsers.get(roleID).contains(commandType)) {
+                chain.doFilter(request, response);
             }
         }
         else {
-            chain.doFilter(request,response);
+            Router.redirect(httpServletResponse, httpServletRequest.getContextPath() + URLHolder.MAIN_PAGE);
         }
-        Router.redirect(httpServletResponse,httpServletRequest.getContextPath() + URLHolder.MAIN_PAGE);
     }
 
 }

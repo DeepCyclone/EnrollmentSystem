@@ -61,6 +61,11 @@ public final class ApplicantEnrollmentMySQL extends AbstractDAO<ApplicantEnrollm
                                                              " JOIN user u on applicant_enrollment.ae_u_id = u.u_id" +
                                                              " WHERE ae_u_id = ?";
 
+    private static final String GET_PRIORITY_BY_SELECTED_FACULTY = "SELECT " + ApplicantEnrollmentMapping.priority + " FROM " +
+                                                                    SchemaMapping.applicant_enrollment + " WHERE " +
+                                                                    ApplicantEnrollmentMapping.facultyId + " = ? AND " + ApplicantEnrollmentMapping.educationFormId + " = ? " +
+                                                                    "AND " + ApplicantEnrollmentMapping.userId + " = ?";
+
 
     private static final String GET_USER_REQUESTS_AMOUNT = "SELECT COUNT(*) FROM " + SchemaMapping.applicant_enrollment +
                                                           " WHERE " + ApplicantEnrollmentMapping.educationFormId + " = ?" +
@@ -158,6 +163,17 @@ public final class ApplicantEnrollmentMySQL extends AbstractDAO<ApplicantEnrollm
     public int getUserRequestsAmount(long facultyID,long educationFormID) throws DAOException{
         QueryExecutor<Integer> executorLocal = new QueryExecutor<>(new IntegerBuilder());
         Optional<Integer> result = executorLocal.executeSingleResultQuery(GET_USER_REQUESTS_AMOUNT,educationFormID,facultyID);
+        int res = 0;
+        if(result.isPresent()){
+            res = result.get();
+        }
+        return res;
+    }
+
+    @Override
+    public int getPriorityOfSelectedFaculty(long userID, long facultyID, long educationForm) throws DAOException {
+        QueryExecutor<Integer> executorLocal = new QueryExecutor<>(new IntegerBuilder());
+        Optional<Integer> result = executorLocal.executeSingleResultQuery(GET_PRIORITY_BY_SELECTED_FACULTY,facultyID,educationForm,userID);
         int res = 0;
         if(result.isPresent()){
             res = result.get();

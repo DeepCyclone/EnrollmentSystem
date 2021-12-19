@@ -22,7 +22,6 @@ public class Router {
     private static final Logger LOG = LogManager.getLogger(Router.class);
     public static void redirect(HttpServletResponse response,String URL){
         try{
-
              response.sendRedirect(URL);
         }
         catch (IOException e){

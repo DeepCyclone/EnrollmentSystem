@@ -4,15 +4,6 @@ const facFormsMap = new Map;//факультет-формы обучения
 const facilities = new Set();
 let maxPriority;
 
-class PrioritiesHolder{
-    constructor(facultyName,educationForm,priority) {
-        this.facultyName = facultyName;
-        this.educationForm = educationForm;
-        this.priority = priority;
-    }
-
-}
-
 window.onload = function (){
     jQuery.ajaxSetup({async:false});
     preloadFacultiesMap();
@@ -22,6 +13,7 @@ window.onload = function (){
     facultiesAndFormsSetter();
     facilitiesStatusSetter();
     setMaxPriority();
+    preloadPriorities();
 }
 
 function facilitiesStatusPreloader(){
@@ -33,11 +25,15 @@ function facilitiesStatusPreloader(){
 }
 
 function preloadPriorities(){
-    $.get('controller', encodeURI('action=PRELOAD_PRIORITIES'), function (data) {
-        for(let value of data){
-            facilities.add(value);
-        }
-    }, "json");
+    let elements = document.getElementsByClassName("priority-selectors");
+    for(let element of elements) {
+        let nameFragments = element.name.split(":");
+        let educationForm = nameFragments[1];
+        let facultyName = nameFragments[2];
+        $.get('controller', {action:'PRELOAD_PRIORITIES',faculty:facultyName,educationForm:educationForm}, function (data) {
+            element.value = data;
+        }, "json");
+    }
 }
 
 function facilitiesStatusSetter(){// можно с помощью c:if и передачи каких-то флажков на страницу, но уже так
@@ -85,7 +81,10 @@ function preloadFacultiesAndForms(){
 
 function facultiesAndFormsSetter(){
     facFormsMap.forEach(function (value, key){
-        document.getElementById('Faculty:' + key).checked = true;
+        let element = document.getElementById('Faculty:' + key);
+        if(element != null) {
+            element.checked = true;
+        }
         for (let ind in value) {
             if(typeof value[ind] === "object"){
                 for(let a in value[ind]){
@@ -100,11 +99,18 @@ function facultiesAndFormsSetter(){
 }
 
 function checkboxSetter(key,value){
+    let element;
     if (value === "\u0411\u044e\u0434\u0436\u0435\u0442\u043d\u0430\u044f") {
-        document.getElementById('budgCheckbox:' + key).checked = true;
+        element = document.getElementById('budgCheckbox:' + key);
+        if(element!=null){
+        element.checked = true;
+        }
     }
     if (value === "\u041f\u043b\u0430\u0442\u043d\u0430\u044f") {
         document.getElementById('paidCheckbox:' + key).checked = true;
+        if(element!=null){
+            element.checked = true;
+        }
     }
 }
 
@@ -188,8 +194,8 @@ function buildAvailableFacultiesList(){
         }
         if (comparer === true) {
             inputCode = "<td><input type = 'checkbox' name = Faculty:" + key + " value = " + key + " id = 'Faculty:" + key + "'>";
-            priorityCodeBudg = "<td><input type = 'text' name = 'Priority:\u0411\u044e\u0434\u0436\u0435\u0442\u043d\u0430\u044f:" + key + "' size='1' onkeyup='priorityChecker(this)'></td>"
-            priorityCodePaid = "<td><input type = 'text' name = 'Priority:\u041f\u043b\u0430\u0442\u043d\u0430\u044f:" + key + "' size='1' onkeyup='priorityChecker(this)'></td>"
+            priorityCodeBudg = "<td><input type = 'text' class = 'priority-selectors' name = 'Priority:\u0411\u044e\u0434\u0436\u0435\u0442\u043d\u0430\u044f:" + key + "' size='1' onkeyup='priorityChecker(this)'></td>"
+            priorityCodePaid = "<td><input type = 'text' class = 'priority-selectors' name = 'Priority:\u041f\u043b\u0430\u0442\u043d\u0430\u044f:" + key + "' size='1' onkeyup='priorityChecker(this)'></td>"
             labelCode = "<label for=" + key + ">" + key + "</label></td>";
             budgButton = "<td><div class='form-check form-switch'>" +
                 "<input class='form-check-input' name = 'e_form:" + key + "' value = '\u0411\u044e\u0434\u0436\u0435\u0442\u043d\u0430\u044f' type='checkbox' id = 'budgCheckbox:" + key + "'>" +

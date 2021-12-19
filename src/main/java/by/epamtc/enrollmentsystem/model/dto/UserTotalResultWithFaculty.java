@@ -1,17 +1,19 @@
 package by.epamtc.enrollmentsystem.model.dto;
 
-public class UserResultByFaculty {
+public class UserTotalResultWithFaculty {
     private long userId;
     private long facultyId;
     private int result;
+    private int priority;
 
-    public UserResultByFaculty() {
+    public UserTotalResultWithFaculty() {
     }
 
-    public UserResultByFaculty(long userId, long facultyId, int result) {
+    public UserTotalResultWithFaculty(long userId, long facultyId, int result, int priority) {
         this.userId = userId;
         this.facultyId = facultyId;
         this.result = result;
+        this.priority = priority;
     }
 
     public long getUserId() {
@@ -36,5 +38,13 @@ public class UserResultByFaculty {
 
     public void setResult(int result) {
         this.result = result;
+    }
+
+    public int getPriority() {
+        return priority;
+    }
+
+    public void setPriority(int priority) {
+        this.priority = priority;
     }
 }

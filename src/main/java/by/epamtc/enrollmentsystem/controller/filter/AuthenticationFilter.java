@@ -20,9 +20,10 @@ public class AuthenticationFilter implements Filter {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         if(request.getSession(false) != null && request.getParameter(RequestMapping.USER_LOGIN) != null) {
             filterChain.doFilter(servletRequest, servletResponse);
-            return;
         }
-        HttpServletResponse response = (HttpServletResponse) servletResponse;
-        Router.redirect(response, URLHolder.LOGIN_PAGE);
+        else {
+            HttpServletResponse response = (HttpServletResponse) servletResponse;
+            Router.redirect(response, request.getContextPath()+URLHolder.LOGIN_PAGE);
+        }
     }
 }

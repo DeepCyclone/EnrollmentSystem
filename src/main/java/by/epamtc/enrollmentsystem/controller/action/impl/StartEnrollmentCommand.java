@@ -29,12 +29,12 @@ public class StartEnrollmentCommand implements Command {
         }
         ServiceProvider provider = ServiceProvider.getInstance();
         EnrollmentService service = provider.getEnrollmentService();
-        service.makeEnrollment();
+        service.processEnrollment();
         Router.redirect(response,request.getContextPath() + URLHolder.ADMIN_PAGE_PRELOADER);
         }
         catch (ServiceException | IOException exception){
             LOGGER.log(Level.ERROR,exception.getMessage());
-            Router.redirect(response, URLHolder.MAIN_PAGE);
+            Router.redirect(response, request.getContextPath() + URLHolder.MAIN_PAGE);
         }
     }
 }

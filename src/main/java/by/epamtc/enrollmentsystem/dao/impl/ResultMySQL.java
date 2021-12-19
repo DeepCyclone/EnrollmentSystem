@@ -2,27 +2,22 @@ package by.epamtc.enrollmentsystem.dao.impl;
 
 import by.epamtc.enrollmentsystem.dao.QueryExecutor;
 import by.epamtc.enrollmentsystem.dao.composer.builders.MarkValueBuilder;
-import by.epamtc.enrollmentsystem.dao.composer.builders.ResultBuilder;
-import by.epamtc.enrollmentsystem.dao.composer.builders.UserResultByFacultyBuilder;
+import by.epamtc.enrollmentsystem.dao.composer.builders.UserTotalResultWithFacultyBuilder;
 import by.epamtc.enrollmentsystem.dao.connectionpool.ConnectionPool;
 import by.epamtc.enrollmentsystem.dao.connectionpool.PoolException;
 import by.epamtc.enrollmentsystem.dao.mapping.SchemaMapping;
-import by.epamtc.enrollmentsystem.dao.mapping.fields.ApplicantEnrollmentMapping;
 import by.epamtc.enrollmentsystem.dao.mapping.fields.ResultMapping;
 import by.epamtc.enrollmentsystem.dao.mapping.fields.SubjectMapping;
 import by.epamtc.enrollmentsystem.dao.template.ResultDAO;
 import by.epamtc.enrollmentsystem.exception.DAOException;
-import by.epamtc.enrollmentsystem.exception.ServiceException;
 import by.epamtc.enrollmentsystem.model.Result;
 import by.epamtc.enrollmentsystem.model.dto.MarkValue;
-import by.epamtc.enrollmentsystem.model.dto.UserResultByFaculty;
+import by.epamtc.enrollmentsystem.model.dto.UserTotalResultWithFaculty;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
@@ -48,6 +43,13 @@ public final class ResultMySQL extends AbstractDAO<Result> implements ResultDAO 
                                                                                       " WHERE ae_ef_id = ?" +
                                                                                       " GROUP BY ae_f_id,ae_u_id" +
                                                                                       " ORDER BY SUM(r_value) DESC";
+
+    private static final String GET_TOTAL_USERS_RESULTS = "SELECT ae_u_id,ae_f_id,SUM(r_value),ae_priority FROM applicant_enrollment" +
+                                                         " JOIN subject_m2m_faculty on ae_f_id = smf_f_id" +
+                                                         " JOIN result ON ae_u_id = r_ui_u_id AND smf_s_id = r_s_id" +
+                                                         " WHERE ae_ef_id = ?" +
+                                                         " GROUP BY ae_u_id,ae_f_id";
+
     private static final String INSERT_INTO = "INSERT INTO " + SchemaMapping.result +
                                              " VALUES (?,?,?)";
 
@@ -102,7 +104,7 @@ public final class ResultMySQL extends AbstractDAO<Result> implements ResultDAO 
 
     @Override
     public List<MarkValue> retrieveResultsByUserId(long userID) throws DAOException {
-        QueryExecutor<MarkValue> executorLocal = new QueryExecutor<MarkValue>(new MarkValueBuilder());
+        QueryExecutor<MarkValue> executorLocal = new QueryExecutor<>(new MarkValueBuilder());
         return executorLocal.executeSelectQuery(GET_APPLICANT_MARKS,userID);
     }
 
@@ -115,7 +117,7 @@ public final class ResultMySQL extends AbstractDAO<Result> implements ResultDAO 
     public boolean userHasMarkOnSubject(long userId,long subjectId) throws DAOException {
         Connection conn = null;
         PreparedStatement stmt = null;
-        ResultSet rs = null;
+        ResultSet rs;
         boolean result = false;
         try{
             conn = ConnectionPool.getInstance().getConnection();
@@ -139,9 +141,9 @@ public final class ResultMySQL extends AbstractDAO<Result> implements ResultDAO 
     }
 
     @Override
-    public List<UserResultByFaculty> getUserResultByFacultyAndEduForm(long educationFormId) throws DAOException {
-        QueryExecutor<UserResultByFaculty> executorLocal = new QueryExecutor<UserResultByFaculty>(new UserResultByFacultyBuilder());
-        return executorLocal.executeSelectQuery(GET_TOTAL_USER_RESULTS_BY_FACULTY_AND_EDUCATION_FORM,educationFormId);
+    public List<UserTotalResultWithFaculty> getUserTotalResults(long educationFormId) throws DAOException {
+        QueryExecutor<UserTotalResultWithFaculty> executorLocal = new QueryExecutor<>(new UserTotalResultWithFacultyBuilder());
+        return executorLocal.executeSelectQuery(GET_TOTAL_USERS_RESULTS,educationFormId);
     }
 
     @Override
