@@ -1,9 +1,10 @@
 package by.epamtc.enrollmentsystem.model.dto;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Set;
 
-public class UserStyledToAdminPanel {
+public class UserStyledToAdminPanel implements Serializable {
     public UserStyledToAdminPanel(int id, String username, String name, String surname, String patronymic, Set<StringifiedApplicantEnrollment> enrollmentInfo) {
         this.id = id;
         this.username = username;

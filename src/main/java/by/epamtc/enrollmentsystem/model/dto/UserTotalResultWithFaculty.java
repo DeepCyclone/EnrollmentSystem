@@ -1,6 +1,8 @@
 package by.epamtc.enrollmentsystem.model.dto;
 
-public class UserTotalResultWithFaculty {
+import java.io.Serializable;
+
+public class UserTotalResultWithFaculty implements Serializable {
     private long userId;
     private long facultyId;
     private int result;

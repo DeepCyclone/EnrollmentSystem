@@ -2,10 +2,11 @@ package by.epamtc.enrollmentsystem.model.dto;
 
 import by.epamtc.enrollmentsystem.model.EducationForm;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
-public class StringifiedApplicantEnrollment {
+public class StringifiedApplicantEnrollment implements Serializable {
 
     private String facultyName;
     private Map<String,String> educationFormStatuses;

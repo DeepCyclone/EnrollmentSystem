@@ -1,6 +1,8 @@
 package by.epamtc.enrollmentsystem.model.dto;
 
-public class UserCredential {
+import java.io.Serializable;
+
+public class UserCredential implements Serializable {
 
     private String login;
     private String password;

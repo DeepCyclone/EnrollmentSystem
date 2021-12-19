@@ -1,6 +1,8 @@
 package by.epamtc.enrollmentsystem.model.dto;
 
-public class RequestAmount {
+import java.io.Serializable;
+
+public class RequestAmount implements Serializable {
     private long userId;
     private String facultyName;
     private long totalRequests;

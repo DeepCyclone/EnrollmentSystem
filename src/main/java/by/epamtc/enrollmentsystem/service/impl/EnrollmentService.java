@@ -100,5 +100,7 @@ public class EnrollmentService {
 
     }
 
+    private void declineAnotherRequestsOfUser(long userID,long educationFormID){
 
+    }
 }

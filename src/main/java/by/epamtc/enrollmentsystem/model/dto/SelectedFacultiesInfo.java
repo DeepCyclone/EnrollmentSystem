@@ -1,8 +1,9 @@
 package by.epamtc.enrollmentsystem.model.dto;
 
+import java.io.Serializable;
 import java.util.Map;
 
-public class SelectedFacultiesInfo {
+public class SelectedFacultiesInfo implements Serializable {
 
     private String facultyName;
     private Map<String,Integer> educationFormPriorityMap;
