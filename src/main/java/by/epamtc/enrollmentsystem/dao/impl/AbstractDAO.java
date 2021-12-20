@@ -63,7 +63,7 @@ public abstract class AbstractDAO<T> implements DAOTemplate<T> {
         return executor.executeSelectQuery(query,from,offset);
     }
 
-    protected final int getNumberOfRecords(String tableName) throws DAOException {//служебный метод, чтобы не считать элементы List
+    protected final int getNumberOfRecords(String tableName) throws DAOException {
 
         Connection conn = null;
         Statement stmt = null;

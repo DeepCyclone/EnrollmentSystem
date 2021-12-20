@@ -8,6 +8,7 @@ import by.epamtc.enrollmentsystem.controller.routing.URLHolder;
 import by.epamtc.enrollmentsystem.exception.ServiceException;
 import by.epamtc.enrollmentsystem.model.*;
 import by.epamtc.enrollmentsystem.service.ServiceProvider;
+import by.epamtc.enrollmentsystem.service.template.ApplicantEnrollmentService;
 import by.epamtc.enrollmentsystem.service.template.ResultService;
 import by.epamtc.enrollmentsystem.service.template.UserInfoService;
 import org.apache.logging.log4j.Level;
@@ -27,6 +28,7 @@ public class PreloadUserInfoCommand implements Command {
             long id = (long) session.getAttribute(SessionMapping.USER_ID);
             ServiceProvider serviceProvider = ServiceProvider.getInstance();
             UserInfoService userInfoService = serviceProvider.getUserInfoService();
+            ApplicantEnrollmentService applicantEnrollmentService = serviceProvider.getApplicantEnrollmentService();
             ResultService resultService = serviceProvider.getResultService();
             Optional<UserInfo> ui = userInfoService.getByID(id);
             UserInfo userInfo;
@@ -56,6 +58,8 @@ public class PreloadUserInfoCommand implements Command {
                     resultService.getResultValueBySubjectName("Geography",id));
             request.setAttribute(RequestMapping.SCHOOL_CERTIFICATE,
                     resultService.getResultValueBySubjectName("schoolCertificate",id));
+            request.setAttribute(RequestMapping.STATUSES_INFO,
+                    applicantEnrollmentService.getStringifiedTable(id));
 
             Router.forwardWithSavingURL(request,response,URLHolder.DOCUMENTS);
         }

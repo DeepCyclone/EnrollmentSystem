@@ -117,9 +117,21 @@
         <table id = "enrollment-statuses">
             <tbody>
             <tr>
-                <th><fmt:message key="enrollmentsystem.facultyWithForm" bundle="${bundle}"/>"/></th>
-                <th><fmt:message key="enrollmentsystem.status" bundle="${bundle}"/>"/></th>
+                <th><fmt:message key="enrollmentsystem.faculty" bundle="${bundle}"/></th>
+                <th><fmt:message key="enrollmentsystem.formWithStatus" bundle="${bundle}"/></th>
             </tr>
+            <c:forEach var="item" items="${requestScope.get('statusesInfo')}">
+                <tr>
+                    <td>
+                        ${item.facultyName}
+                    </td>
+                    <td>
+                        <c:forEach var = "statusItem" items="${item.educationFormStatuses}">
+                            ${statusItem.key}-${statusItem.value};
+                        </c:forEach>
+                    </td>
+                </tr>
+            </c:forEach>
             </tbody>
         </table>
     </div>

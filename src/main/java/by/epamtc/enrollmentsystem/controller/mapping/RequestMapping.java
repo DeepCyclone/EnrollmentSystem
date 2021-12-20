@@ -66,6 +66,7 @@ public final class RequestMapping {
 
     public static final String ABOUT_US_MSG1 = "aboutUsMsg1";
 
+    public static final String STATUSES_INFO = "statusesInfo";
 
 
 }

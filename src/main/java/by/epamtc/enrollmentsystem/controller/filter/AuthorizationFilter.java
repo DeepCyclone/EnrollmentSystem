@@ -87,9 +87,9 @@ public class AuthorizationFilter implements Filter {
             if (allowedActionsForUsers.get(roleID).contains(commandType)) {
                 chain.doFilter(request, response);
             }
-        }
-        else {
-            Router.redirect(httpServletResponse, httpServletRequest.getContextPath() + URLHolder.MAIN_PAGE);
+            else {
+                Router.redirect(httpServletResponse, httpServletRequest.getContextPath() + URLHolder.MAIN_PAGE);
+            }
         }
     }
 

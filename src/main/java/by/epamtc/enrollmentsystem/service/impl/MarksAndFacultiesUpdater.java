@@ -150,7 +150,9 @@ public class MarksAndFacultiesUpdater {
                 }
             }
             else if (field.equals(RequestMapping.EDUCATION_FORM_FIELD)) {
-                    infoEntity.getEducationFormPriorityMap().put(value[0],0);
+                for(String val:value) {
+                    infoEntity.getEducationFormPriorityMap().put(val, 0);
+                }
             }
             else if(field.equals(RequestMapping.PRIORITY_FIELD)){
                 if(infoEntity.getEducationFormPriorityMap().containsKey(keyParts[1]) &&

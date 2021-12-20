@@ -1,6 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%--<%@ taglib prefix="est" uri="greetingTag" %>--%>
+<%@ taglib prefix="IT" uri="IPTag" %>
 
 <fmt:setLocale value="${sessionScope.locale}" scope="session"/>
 <fmt:setBundle basename="localization.language" var = "bundle"/>
@@ -20,7 +20,7 @@
                         <fmt:message key="enrollmentsystem.greeting" bundle="${bundle}">
                             <fmt:param>${sessionScope.get('login')}</fmt:param>
                         </fmt:message>
-<%--                    <est:Greeting/>--%>
+                    <IT:IPInfo prefix="IP:"/>
                 </c:if>
             </li>
         </ul>

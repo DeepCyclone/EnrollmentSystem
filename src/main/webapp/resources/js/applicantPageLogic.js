@@ -107,7 +107,7 @@ function checkboxSetter(key,value){
         }
     }
     if (value === "\u041f\u043b\u0430\u0442\u043d\u0430\u044f") {
-        document.getElementById('paidCheckbox:' + key).checked = true;
+        element = document.getElementById('paidCheckbox:' + key);
         if(element!=null){
             element.checked = true;
         }
